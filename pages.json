@@ -1,0 +1,26 @@
+{
+	"pages": [ 
+		{
+			"path": "pages/login/login"
+		},
+		{
+			"path": "pages/xunjianHome/xunjianHome"
+		},
+		{
+			"path": "pages/condition/condition"
+		},
+		{
+			"path": "pages/taskNav/taskNav"
+		},
+		{
+			"path": "pages/daily/daily"
+		},
+		{
+			"path": "pages/currentTask/currentTask"
+		}
+	],
+	"globalStyle": {
+		"titleNView": false,
+		"navigationStyle":"custom"
+	}
+}

@@ -1,0 +1,42 @@
+@font-face {font-family: "eosfont";
+  src: url('https://at.alicdn.com/t/font_1136620_4timu24ccfw.ttf') format('truetype');
+}
+
+.eosfont {
+  font-family: "eosfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.eosyou:before {
+  content: "\e60b";
+}
+
+.eosicon--:before {
+  content: "\e768";
+}
+
+.eosshijian:before {
+  content: "\e60a";
+}
+
+.eoszuo:before {
+  content: "\ef07";
+}
+
+.eosjiahao:before {
+  content: "\e602";
+}
+
+.eosziyuanxhdpi:before {
+  content: "\e64c";
+}
+.eosvertical_line:before {
+  content: '\e63a';
+}
+.eosshuaxinzhongjieban:before {
+  content: '\e670';
+}
+
