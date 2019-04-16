@@ -36,7 +36,7 @@
                         </view>                
                     </view>  
                     <view class="tab">
-                        <text>呼叫调度中心</text>
+                        <text @click="call">呼叫调度中心</text>
                         <text>导航</text>
                         <text class="icon2 eosfont">&#xe63a;</text>
                     </view>  
@@ -61,6 +61,12 @@
 				uni.navigateBack({
 					delta: 1
 				});
+			},
+			call() {
+				//拨打电话
+				uni.makePhoneCall({
+					phoneNumber: '0335-8888888'
+				});				
 			}
         } 
 	}

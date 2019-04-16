@@ -7,12 +7,12 @@
             <text class="text4">我的功能</text>
             <view class="nav">
                 <view class="nav1"></view>
-                <view class="nav2"></view>
+                <view class="nav2" @click="GetLocation"></view>
                 <view class="nav3" @click="daily"></view>
                 <view class="nav4" @click="taskNav"></view>
                 <view class="nav5" @click="condition"></view>
             </view>
-            <view class="footer">调度中心：0335-8888888</view>
+            <view class="footer" @click="call">调度中心：0335-8888888</view>
         </view>
 	</view>
 </template>
@@ -42,6 +42,16 @@
 				uni.navigateTo({
 					url: '/pages/condition/condition'
 				})
+			},
+			call() {
+				//拨打电话
+				uni.makePhoneCall({
+					phoneNumber: '0335-8888888'
+				});
+			},
+			//获取位置
+			GetLocation() {
+
 			}
         }
 	}

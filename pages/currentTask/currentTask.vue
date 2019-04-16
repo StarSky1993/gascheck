@@ -8,19 +8,19 @@
             <text class="eosfont">&#xe670;</text>
         </view>
         <view class="list">
-            <view class="item">
-                <image></image>
-                <view>
-                    <view>环境学院教学楼402</view>
-                    <view>燃气问题描述燃气问题描述燃气问题描述燃气问题描述燃气问题描述燃气问题描述</view>
-                    <view>
-                        <text class="eosfont">&#xe60a;</text>
-                        <text>2019-04-26</text>
+            <view class="item" v-for="(item,index) in 3" :key="index">
+                <view class="img"></view>
+                <view class="content">
+                    <view class="title2">环境学院教学楼402</view>
+                    <view class="content2">燃气问题描述燃气问题描述燃气问题描述燃气问题描述燃气问题描述燃气问题描述</view>
+                    <view class="time-box">
+                        <text class="time_ico eosfont">&#xe60a;</text>
+                        <text class="time">2019-04-26</text>
                     </view>
                 </view>
             </view>
         </view>
-
+	
     </view>
 </template>
 
@@ -51,7 +51,7 @@ export default {
             padding: 0 21upx;
             position: absolute;
             box-sizing: border-box;
-            top: 0;
+            top: 50upx;
             left: 0;
             background: #fff;
             .goback {
@@ -60,6 +60,47 @@ export default {
         }
     }
     .list {
+		padding: 0 32upx;
+		padding-top: 146upx;
         background: #fbfbfb;
+		.item {
+			display: flex;
+			padding: 30upx 0;
+			border-bottom: 1upx solid #dbdbdb;
+			.img {
+				width: 175upx;
+				height: 133upx;
+				background: url("~@/static/images/currentTask/img.png");
+				background-size: 100% 100%;
+			}
+			.content {
+				margin-left: 15upx;
+				width: 475upx;
+				display: flex;
+				flex-direction: column;
+				.title2 {
+					font-size: 30upx;
+					font-weight: bold;
+				}
+				.content2 {
+					font-size: 24upx;
+					color: #888;
+					line-height: 30upx;
+				}
+				.time-box {
+					line-height: 20upx;
+					.time_ico {
+						top: 4upx;
+						font-size: 20upx;
+						color: #b4b4b4;
+					}
+					.time {
+						line-height: 20upx;
+						font-size: 20upx;
+						color: #b3b3b3;
+					}
+				}
+			}
+		}
     }
 </style>

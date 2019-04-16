@@ -21,6 +21,15 @@
 		onLoad() {
 
 		},
+		onShow() {
+			
+		},
+		onReady() {
+			
+		},
+		onHide() {
+			
+		},
 		methods: {
 			login() {
 				uni.navigateTo({
