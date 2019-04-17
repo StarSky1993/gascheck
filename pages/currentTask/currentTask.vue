@@ -20,7 +20,6 @@
                 </view>
             </view>
         </view>
-	
     </view>
 </template>
 
@@ -28,7 +27,7 @@
 export default {
     data() {
         return {
-
+			active: 2
         }
     },
     onLoad() {
