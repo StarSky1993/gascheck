@@ -1,5 +1,5 @@
 //高德坐标转百度（传入经度、纬度）
-const coordinate = function bd_encrypt(gg_lng, gg_lat) {
+export  function coordinate(gg_lng, gg_lat) {
     var X_PI = Math.PI * 3000.0 / 180.0;
     var x = gg_lng, y = gg_lat;
     var z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * X_PI);
@@ -10,7 +10,4 @@ const coordinate = function bd_encrypt(gg_lng, gg_lat) {
         bd_lat: bd_lat,
         bd_lng: bd_lng
     };
-}
-export default {
-	coordinate
 }

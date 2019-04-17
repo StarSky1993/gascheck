@@ -7,10 +7,7 @@
             <text class="text4">我的功能</text>
             <view class="nav">
                 <view class="nav1"></view>
-                <view class="nav2" @click="GetLocation">
-					<text>{{latitude}}</text>
-					<text>{{longitude}}</text>
-				</view>
+                <view class="nav2" @click="GetLocation"></view>
                 <view class="nav3" @click="daily"></view>
                 <view class="nav4" @click="taskNav"></view>
                 <view class="nav5" @click="condition"></view>
@@ -21,17 +18,18 @@
 </template>
 
 <script>
-import coordinate from '../../common/js/coordinate.js';
+import {coordinate} from '../../common/js/coordinate.js';
 var _self;
 	export default {
 		data() {
 			return {
-				latitude: '',
-				longitude: ''
+				//定义经纬度坐标集合
+				coordinate: {},
+				
 			}
 		},
 		onLoad() {
-			console.log(coordinate)
+			
 		},
 		methods: {
             daily() {
@@ -62,9 +60,17 @@ var _self;
 				uni.getLocation({
 					type: 'gcj02',
 					success: function (res) {
-						_self.latitude = '当前位置的经度：' + res.latitude;
-						_self.longitude = '当前位置的纬度：' + res.longitude;
-						console.log(coordinate._self.latitude)
+						
+						//当前经度
+						console.log(res.latitude);
+						
+						//当前纬度
+						console.log(res.longitude);
+						
+						//调用coordinate.js方法,将经纬度传入
+						_self.coordinate = coordinate(res.latitude,res.longitude);
+												
+						console.log(_self.coordinate);
 					}
 				});				
 			}
