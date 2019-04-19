@@ -4,8 +4,8 @@
 			<a href="javascript:;">秦皇岛市北戴河区燃气公司</a>
 		</view>
 		<view class="form">
-			<text class="icon1 eosfont">&#xe768;</text><input type="number" maxlength="11" placeholder="请输入您的手机号" />
-			<text class="icon2 eosfont">&#xe64c;</text><input type="text" class="input2" placeholder="请输入密码" />
+			<text class="icon1 eosfont">&#xe768;</text><input type="number" v-model="username" maxlength="11" placeholder="请输入您的手机号" />
+			<text class="icon2 eosfont">&#xe64c;</text><input type="text" v-model="password" class="input2" placeholder="请输入密码" />
 			<button @click="login">登陆</button>
 		</view>
 	</view>
@@ -15,6 +15,47 @@
 	export default {
 		data() {
 			return {
+				username: '',
+				password: ''
+			}
+		},
+		methods: {
+			login() {
+				this.$axios(this.$api.LOGIN,{
+					username: this.username,
+					password: this.password
+				}).then(res => {
+					console.log(res);
+					if(res.data === 1) {
+						uni.navigateTo({
+							url: '/pages/xunjianHome/xunjianHome'
+						})
+					}else if(res.data === 2) {
+						uni.navigateTo({
+							url: '/pages/currentTask/currentTask'
+						})
+					}else if(res.data === 3) {
+						uni.navigateTo({
+							url: '/pages/condition/condition'
+						})
+					}else if(res.data === 0) {
+						uni.showToast({
+							title: '账号或密码错误！',
+							icon: 'none',						
+							duration: 2000
+						});						
+					}else {
+						uni.showToast({
+							title: '账号或密码错误！',
+							icon: 'none',
+							duration: 2000
+						});													
+					}
+					
+
+				},(error) => {
+					console.log(error);
+				})
 
 			}
 		},
@@ -29,13 +70,6 @@
 		},
 		onHide() {
 			
-		},
-		methods: {
-			login() {
-				uni.navigateTo({
-					url: '/pages/xunjianHome/xunjianHome'
-				})
-			}
 		}
 	}
 </script>

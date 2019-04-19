@@ -70,5 +70,18 @@
             "urlCheck" : false
         },
         "usingComponents" : true
+    },
+    "h5" : {
+        "devServer" : {
+            "port" : "",
+            "https" : false,
+            "proxy" : {
+                "/dpc" : {
+                    "target" : "http://ranqi.qhd58.net/api/jk/denglu",
+                    "changeOrigin" : true,
+                    "secure" : false
+                }
+            }
+        }
     }
 }
