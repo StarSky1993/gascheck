@@ -1,10 +1,10 @@
 <template>
-	<view class="condition">
+	<view class="securityList">
         <view class="container">
 			<text class="text0 eosfont" @click="goback">&#xef07;</text>
-            <text class="text1">任务导航</text>
+            <text class="text1">安检列表</text>
             <text class="text2">用户名：张三</text>
-            <text class="text3">部门：巡检部</text>
+            <text class="text3">部门：安检部</text>
 			<view class="row">
 				<text class="text4">匹配范围：200米</text>
 				<text class="text5">状态：在线</text>
@@ -15,7 +15,7 @@
 			</view>
         </view>	
 		<view class="form">
-            <view class="item" v-for="(item,index) in 6" :key="index">
+            <view class="item" v-for="(item,index) in 6" :key="index" @click="onItem">
                 <view class="inner">
                     <view class="title">
                         <view>编号：<text>#25</text></view>
@@ -24,7 +24,7 @@
                     <view class="info">
                         <view>
                             <text>任务内容：</text>
-                            <text class="huise">管道巡查</text>
+                            <text class="huise">定期安检</text>
                         </view>
                         <view>
                             <text>任务时间：</text>
@@ -37,7 +37,7 @@
                     </view>  
                     <view class="tab">
                         <text @click="call">呼叫调度中心</text>
-                        <text>导航</text>
+                        <text>入户次数: 0</text>
                         <text class="icon2 eosfont">&#xe63a;</text>
                     </view>  
                 </view>
@@ -66,13 +66,18 @@
 				//拨打电话
 				uni.makePhoneCall({
 					phoneNumber: '0335-8888888'
-				});				
+				});
+			},
+			onItem() {
+				uni.navigateTo({
+					url: '/pages/condition/condition2'
+				})
 			}
         } 
 	}
 </script>
 <style lang="scss" scoped>
-	.condition {
+	.securityList {
 		width: 100%;
 		height: 100%;
 		position: absolute;

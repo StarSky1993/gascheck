@@ -29,21 +29,39 @@ var _self;
 			}
 		},
 		onLoad() {
-			
+			_self = this;
+			//获取不到username
+			uni.getStorage({
+				key: 'username',
+				success: function (res) {
+					console.log(res.data)
+				}
+			});
+			this.$axios(this.$api.XUNJIANHOME,{
+				username: this.getname
+			}).then(res => {
+				
+				console.log(res);
+			}).catch(error => {
+				console.log(error);
+			})
 		},
 		methods: {
             daily() {
 				uni.navigateTo({
+					//查询日志
 					url: '/pages/daily/daily'
 				})                 
             },
             taskNav() {
 				uni.navigateTo({
+					//任务导航
 					url: '/pages/taskNav/taskNav'
 				})                
             },
 			condition() {
 				uni.navigateTo({
+					//查询情况
 					url: '/pages/condition/condition'
 				})
 			},

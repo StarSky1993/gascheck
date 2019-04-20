@@ -2,7 +2,7 @@
 	<view class="condition">
         <view class="container">
 			<text class="text0 eosfont" @click="goback">&#xef07;</text>
-            <text class="text1">巡检情况</text>
+            <text class="text1">巡查日志</text>
             <text class="text2">用户名：张三</text>
             <text class="text3">部门：巡检部</text>
 			<view class="row">

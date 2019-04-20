@@ -6,6 +6,10 @@ const API = {
 	LOGIN: {
 		url: Api + 'api/jk/denglu',
 		method: 'post'
+	},
+	XUNJIANHOME: {
+		url: Api + 'api/jk/index.html',
+		method: 'post'
 	}
 };
 

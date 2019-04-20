@@ -3,20 +3,29 @@
 		{
 			"path": "pages/login/login"
 		},
-		{
+		{	//巡检主页
 			"path": "pages/xunjianHome/xunjianHome"			
 		},
-		{
-			"path": "pages/condition/condition"			
-		},
-		{
-			"path": "pages/taskNav/taskNav"			
-		},
-		{
+		{	//巡查日志
 			"path": "pages/daily/daily"			
 		},
+		{	//任务导航 
+			"path": "pages/taskNav/taskNav"			
+		},
+		{	//巡查情况
+			"path": "pages/condition/condition"			
+		},
+		{	//安检列表
+			"path": "pages/securityList/securityList"	
+		},
+		{	//安检情况
+			"path": "pages/condition/condition2"
+		},
+		{	//维修工列表1
+			"path": "pages/Task/currentTask"
+		},
 		{
-			"path": "pages/currentTask/currentTask"			
+			"path": "pages/maintain/maintain"
 		}
 	],
 	"globalStyle": {

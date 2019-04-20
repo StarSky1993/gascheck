@@ -61,9 +61,7 @@
 				});
 			},
 			currentTask() {
-				uni.navigateTo({
-					url: '/pages/currentTask/currentTask'
-				})
+
 			}
         } 
 	}
