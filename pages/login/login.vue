@@ -22,60 +22,52 @@
 		},
 		methods: {
 			login() {
-				this.$axios(this.$api.LOGIN,{
-					username: this.username,
-					password: this.password
-				}).then(res => {
-					//存储用户id
-					uni.setStorage({
-						key: 'username',
-						data: this.username,
-						success: function () {
-							console.log('success');
-						}
-					});
-					if(res.data === 1) {
-						
-						uni.navigateTo({
-							//巡检主页
-							url: '/pages/xunjianHome/xunjianHome'
-						})
-					}else if(res.data === 2) {					
-						uni.navigateTo({
-							//安检列表
-							url: '/pages/securityList/securityList'
-						})
-					}else if(res.data === 3) {						
-						uni.navigateTo({
-							//维修工页面1
-							url: "/pages/Task/currentTask"
-						})
-					}else if(res.data === 0) {
-						uni.showToast({
-							title: '账号或密码错误！',
-							icon: 'none',						
-							duration: 2000
-						});						
-					}else {
-						uni.showToast({
-							title: '账号或密码错误！',
-							icon: 'none',
-							duration: 2000
-						});	
-						uni.removeStorage({
-							key: 'username',
-							success: function (res) {
-								console.log('移除成功！');
-							}
-						});
-
+				uni.request({
+					url: this.$api.LOGIN,
+					data: {
+						username: this.username,
+						password: this.password
+					},
+					header: {
+						'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
+					},
+					success: (res) => {						
+						if(res.data === 1) {							
+							uni.navigateTo({
+								//巡检主页
+								url: '/pages/xunjianHome/xunjianHome'
+							})
+						}else if(res.data === 2) {					
+							uni.navigateTo({
+								//安检列表
+								url: '/pages/securityList/securityList'
+							})
+						}else if(res.data === 3) {						
+							uni.navigateTo({
+								//维修工页面1
+								url: "/pages/Task/currentTask"
+							})
+						}else if(res.data === 0) {
+							uni.showToast({
+								title: '账号或密码错误！',
+								icon: 'none',						
+								duration: 2000
+							});						
+						}else {
+							uni.showToast({
+								title: '账号或密码错误！',
+								icon: 'none',
+								duration: 2000
+							});	
+// 							uni.removeStorage({
+// 								key: 'username',
+// 								success: function (res) {
+// 									console.log('移除成功！');
+// 								}
+// 							});						
+						}						
 					}
-					
-
-				},(error) => {
-					console.log(error);
-				})
-
+				});
 			}
 		},
 		onLoad() {

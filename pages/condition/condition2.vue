@@ -1,46 +1,50 @@
 <template>
-	<view class="condition" v-for="(item,index) in taskNav" :key="index">
+	<view class="condition">
         <view class="container">
 			<text class="text0 eosfont" @click="goback">&#xef07;</text>
-            <text class="text1">任务导航</text>
-            <text class="text2">用户名：{{item.ming}}</text>
+            <text class="text1">安检情况</text>
+            <text class="text2">用户名：张三</text>
             <text class="text3">部门：巡检部</text>
 			<view class="row">
 				<text class="text4">匹配范围：200米</text>
 				<text class="text5">状态：在线</text>
 			</view>
             <view class="row">
-				<text class="text4">经纬度：{{item.zuobiao}}</text>
+				<text class="text4">经度：118.35488</text>
+				<text class="text5">纬度：39.54865</text>
+				<text class="text12">更新</text>
 			</view>
         </view>	
 		<view class="form">
-            <view class="item">
-                <view class="inner">
-                    <view class="title">
-                        <view>编号：<text>#{{item.renwu_sb}}</text></view>
-                        <view>{{item.start}}</view>
-                    </view>
-                    <view class="info">
-                        <view>
-                            <text>任务内容：</text>
-                            <text class="huise">{{item.name}}</text>
-                        </view>
-                        <view>
-                            <text>任务时间：</text>
-                            <text class="huise">{{item.end}}</text>
-                        </view>
-                        <view>
-                            <text>任务地址：</text>
-                            <text class="huise">{{item.dizhi}}</text>
-                        </view>                
-                    </view>  
-                    <view class="tab">
-                        <text @click="call">呼叫调度中心</text>
-                        <text>导航</text>
-                        <text class="icon2 eosfont">&#xe63a;</text>
-                    </view>  
-                </view>
-            </view>
+			<picker>
+				<view class="uni-input">管道漏气：</view><text class="text7 eosfont">&#xe60b;</text>
+				<view class="uni-input">管道施工：</view><text class="text8 eosfont">&#xe60b;</text>
+				<view class="uni-input">阀门师维护：</view><text class="text9 eosfont">&#xe60b;</text>
+				<view class="uni-input">调压站箱维护：</view><text class="text10 eosfont">&#xe60b;</text>	
+				<view class="uni-input">其他：</view><text class="text11 eosfont">&#xe60b;</text>										
+			</picker>
+			<text class="text6">详细描述：</text>
+			<textarea placeholder-style="color:#F76260" placeholder="请输入具体内容"/>
+			<view class="upload">
+				<view>
+					<text class="center">远景:</text>
+					<view class="uploadImg"></view>
+				</view>
+				<view>
+					<text class="center">近景:</text>
+					<view class="uploadImg"></view>
+				</view>
+				<view>
+					<text class="center">特写:</text>
+					<view class="uploadImg"></view>
+				</view>
+				<view>
+					<text class="center ln">告知单:</text>
+					<view class="uploadImg"></view>
+				</view>
+				
+			</view>
+			<view class="btn" @click="currentTask">上传</view>
 		</view>		
 	</view>
 </template>
@@ -49,36 +53,11 @@
 	export default {
 		data() {
 			return {
-				taskNav: []
+
 			}
 		},
 		onLoad() {
-			//请求获取当前位置接口
-			uni.request({
-				url: "http://ranqi.qhd58.net/api/Jk/renwu_xun",
-				data: {
-					username: "1",
-					password: "1"
-				},
-				header: {
-					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
-				},
-				success: (res) => {	
-					this.taskNav = res.data;
-					uni.showToast({
-						title: ''+this.taskNav+'',
-						icon: "none",
-						duration: 1000
-					})
-				},
-				fail: (res) => {
-					uni.showToast({
-						title: "位置获取失败,请检查网络",
-						icon: "none",
-						duration: 2000
-					})
-				}
-			});
+
 		},
 		methods: {
 			goback() {
@@ -86,11 +65,8 @@
 					delta: 1
 				});
 			},
-			call() {
-				//拨打电话
-				uni.makePhoneCall({
-					phoneNumber: '0335-8888888'
-				});				
+			currentTask() {
+
 			}
         } 
 	}
@@ -138,72 +114,125 @@
             .row {
                 margin-top: 20upx;
                 font-size: 30upx;
-                color: #fff;
+				color: #fff;
+				position: relative;
 				.text4 {
 					margin-right: 92upx;
+				}
+				.text12 {
+					display: block;
+					width: 80upx;
+					height: 40upx;
+					line-height: 40upx;
+					border-radius: 10upx;
+					font-size: 20upx;
+					text-align: center;
+					color: #fff;
+					background: #22ac38;
+					position: absolute;
+					right: 0;
+					top: 0;
 				}
             }
 		}
 		.form {
 			width: 100%;
 			height: 65%;
+			padding: 0 44upx;
 			box-sizing: border-box;
 			border-radius: 30upx 30upx 0 0;
 			position: absolute;
 			bottom: 0;
 			left: 0;
 			background: #fff;
-            .item {
-                border-bottom: 4upx solid #dadada;
-                .inner {
-                    padding: 0 33upx;
-                    .title {
-                        height: 85upx;
-                        line-height: 85upx;
-                        display: flex;
-                        justify-content: space-between;
-                        font-size: 30upx;
-                        border-bottom: 1upx solid #c4c4c4;
-                        text {
-                            font-size: 28upx;
-                            color: red;
-                        }
-                        view {
-                            font-size: 22upx;
-                            color: #8f8f8f;
-                        }
-                    }
-                    .info {
-                        view {
-                            display: flex;
-                            justify-content: space-between;
-                            font-size: 24upx;
-                            height: 50upx;
-                            line-height: 50upx;
-                            .huise {
-                                color: #6d6d6d;
-                            }
-                        }
-                        border-bottom: 1upx solid #c4c4c4;
-                        padding-bottom: 10upx;
-                    }
-                    .tab {
-                        display: flex;
-                        justify-content: space-around;
-                        font-size: 24upx;
-                        color: #6e6e6e;
-                        height: 82upx;
-                        line-height: 82upx;
-                        position: relative;
-                    }
-                    .icon2 {
-                        position: absolute;
-                        left: 50%;
-                        top: 3upx;
-                        font-size: 22upx;
-                    }
-                }
-            }
+				
+			picker {
+				margin-top: 26upx;
+				.uni-input {
+					height: 60upx;
+					line-height: 60upx;
+					font-size: 30upx;
+					border-bottom: 2upx solid #f6f6fb;
+					position: relative;
+				}
+				text {
+					color: #000;
+					font-size: 30upx;
+					position: absolute;
+					right: 60upx;	
+				}
+				.text7 {
+					top: 40upx;	
+				}
+				.text8 {
+					top: 105upx;
+				}
+				.text9 {
+					top: 165upx;
+				}												
+				.text10 {
+					top: 225upx;
+				}
+				.text11 {
+					top: 285upx;
+				}
+			}
+			.text6 {
+				font-size: 30upx;	
+			}
+			textarea {
+				margin-top: 15upx;
+				width: 100%;
+				height: 120upx;
+				border: 3upx solid #f6f6fb;
+				font-size: 28upx;
+				padding: 10upx;
+				box-sizing: border-box;
+				margin-bottom: 40upx;
+			}
+			.upload {
+				display: flex;
+				flex-direction: column;
+				margin-top: 19upx;
+				
+				view {
+					display: flex;
+					margin-bottom: 36upx;
+					overflow: hidden;
+					.center {
+						display: block;
+						font-size: 30upx;
+						margin-bottom: 10upx;
+						margin-top: 10upx;
+						letter-spacing:20upx;
+					}
+					.ln {
+						letter-spacing: 9upx;
+					}
+					.uploadImg {
+						width: 164upx;
+						height: 164upx;
+						background: #f6f2ef url('~@/static/images/condition/add.png') center center no-repeat;
+						background-size: 46upx;
+						border-radius: 10upx;
+						border: 1upx dashed #bababa;
+					}
+				}
+
+			}
+			.btn {
+				width: 410upx;
+				height: 72upx;
+				margin: 0 auto;
+				margin-bottom: 30upx;
+				line-height: 72upx;
+				border-radius: 20upx;
+				background: #5497f7;
+				text-align: center;
+				color: #fff;
+				font-size: 30upx;
+			}
+
 		}
 	}
 </style>

@@ -1,18 +1,13 @@
-import {Api} from './env.js'
+import {ApiUrl} from './env.js'
 
-//用来存放所以接口地址
 const API = {
 	//登陆接口
-	LOGIN: {
-		url: Api + 'api/jk/denglu',
-		method: 'post'
-	},
-	XUNJIANHOME: {
-		url: Api + 'api/jk/index.html',
-		method: 'post'
-	}
-};
+    LOGIN: ApiUrl + 'api/jk/denglu',
+	//巡检首页接口
+    XUNJIANHOME: ApiUrl + 'api/jk/index',
+	//获取当前位置接口
+	CurrentLocation: ApiUrl + 'api/jk/caiji'
+}
 
-const APIS = {...API};
+export default API;
 
-export default APIS;

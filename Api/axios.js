@@ -1,40 +1,31 @@
-import {ApiUrl} from './env.js';
+import { ApiUrl } from './env.js';
+const axios = (opt) => {
+    opt = opt || {};
+    opt.url = opt.url || '';
+    opt.data = opt.data || null;
+    opt.method = opt.method || 'GET';
+    opt.header = opt.header || {
+        "Content-Type": "application/json"
+    };
+    opt.success = opt.success || function () {};
 
-const axios = (opt, data) => {
-	let httpServer = {
-		url: opt.url,
-		data: data,
-		method: opt.method,
-		header: opt.method == 'get'? {
-			'X-Requested-With': 'XMLHttpRequest',
-			"Accept": "application/json",
-			"Content-Type": "application/json; charset=UTF-8"
-		}:{
-			'X-Requested-With': 'XMLHttpRequest',
-			'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'	
-		},
-		dataType: 'json'
-	};
-	
-	let promise = new Promise((resolve,reject) => {
-		uni.showLoading({
-			title: '加载中'
-		})
-		uni.request(httpServer).then((res) => {
-			uni.hideLoading();
-			resolve(res[1]);
-		}).catch((response) => {
-			uni.hideLoading();
-			reject(response);
-			uni.showToast({
-				title: '请稍后重试'
-			})
-		})
-	})
-	return promise;
+    uni.request({
+        url: ApiUrl + opt.url,
+        data: opt.data,
+        method: opt.method,
+        header: opt.header,
+        dataType: 'json',
+        success: function (res) {
+            opt.success(res);
+        },
+        fail: function () {
+            uni.showToast({
+                title: '请稍后重试'
+            });
+        }
+    })
 }
 
-export default axios;
-
-
-
+export {
+    axios
+}

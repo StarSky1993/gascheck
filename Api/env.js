@@ -17,21 +17,21 @@
 // }
 // 
 
-let Api = '';
+let ApiUrl = '';
 
 if (process.env.NODE_ENV == 'development') {
 	//本地跨域代理接口
-    Api = '/dpc';
+    ApiUrl = '/dpc';
 }else if(process.env.NODE_ENV == 'production') {
 	//正式接口
-    Api = 'http://ranqi.qhd58.net/'
+    ApiUrl = 'http://ranqi.qhd58.net'
 }
 switch(uni.getSystemInfoSync().platform){
 	case 'android':
        console.log('运行Android上')
-	   Api = 'http://ranqi.qhd58.net/'
+	   ApiUrl = 'http://ranqi.qhd58.net/'
        break;
 }
 export {
-    Api//导出baseUrl
+    ApiUrl//导出baseUrl
 }

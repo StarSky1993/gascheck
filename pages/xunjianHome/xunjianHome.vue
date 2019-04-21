@@ -2,11 +2,11 @@
 	<view class="xunjianHome">
         <view class="container">
             <text class="text1">电子巡查管理系统</text>
-            <text class="text2">姓名：张三</text>
+            <text class="text2">姓名：{{name}}</text>
             <text class="text3">部门名称：巡检部</text>
             <text class="text4">我的功能</text>
             <view class="nav">
-                <view class="nav1"></view>
+                <view class="nav1" @click="GETPOST"></view>
                 <view class="nav2" @click="GetLocation"></view>
                 <view class="nav3" @click="daily"></view>
                 <view class="nav4" @click="taskNav"></view>
@@ -25,28 +25,73 @@ var _self;
 			return {
 				//定义经纬度坐标集合
 				coordinate: {},
-				
+				name: ''
 			}
 		},
 		onLoad() {
-			_self = this;
-			//获取不到username
-			uni.getStorage({
-				key: 'username',
-				success: function (res) {
-					console.log(res.data)
+			uni.showLoading({
+				title: '加载中'
+			})
+			uni.request({
+				url: this.$api.XUNJIANHOME,
+				method: "GET",
+				data: {
+					username: "1",
+					password: "1"
+				},
+				header: {
+					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
+				},
+				success: (res) => {
+					uni.hideLoading();
+					this.name = res.data.name;
 				}
 			});
-			this.$axios(this.$api.XUNJIANHOME,{
-				username: this.getname
-			}).then(res => {
-				
-				console.log(res);
-			}).catch(error => {
-				console.log(error);
-			})
 		},
 		methods: {
+			//获取位置
+			GetLocation() {
+				_self = this;
+				uni.getLocation({
+					type: 'gcj02',
+					success: function (res) {
+						//当前经度
+						console.log(res.latitude);
+						//当前纬度
+						console.log(res.longitude);						
+						//调用coordinate.js方法,将经纬度传入
+						_self.coordinate = coordinate(res.latitude,res.longitude);
+						//请求获取当前位置接口
+						uni.request({
+							url: "http://ranqi.qhd58.net/api/jk/caiji",
+							data: {
+								username: "1",
+								password: "1",
+								jing: _self.coordinate.bd_lat,
+								wei: _self.coordinate.bd_lng
+							},
+							header: {
+								'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
+							},
+							success: (res) => {								
+								uni.showToast({
+									title: ''+_self.coordinate.bd_lat+'',
+									icon: "none",
+									duration: 1000
+								})
+							},
+							fail: (res) => {
+								uni.showToast({
+									title: "位置获取失败,请检查网络",
+									icon: "none",
+									duration: 2000
+								})
+							}
+						});
+					}
+				});
+				
+			},
             daily() {
 				uni.navigateTo({
 					//查询日志
@@ -70,29 +115,9 @@ var _self;
 				uni.makePhoneCall({
 					phoneNumber: '0335-8888888'
 				});
-			},
-			//获取位置
-			GetLocation() {
-				_self = this;
-				
-				uni.getLocation({
-					type: 'gcj02',
-					success: function (res) {
-						
-						//当前经度
-						console.log(res.latitude);
-						
-						//当前纬度
-						console.log(res.longitude);
-						
-						//调用coordinate.js方法,将经纬度传入
-						_self.coordinate = coordinate(res.latitude,res.longitude);
-												
-						console.log(_self.coordinate);
-					}
-				});				
 			}
-        },
+
+        }
 		
 	}
 </script>

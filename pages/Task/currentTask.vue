@@ -33,6 +33,7 @@
 		        </view>
 		    </view>
 		</view>
+		<view class="hujiao">呼叫调度中心</view>
 		<view class="tab">
 			<view>
 				<text class="t1" :class="{active:index==1}" @click="index=1">当前任务</text>
@@ -89,15 +90,17 @@ export default {
             box-sizing: border-box;
             top: 50upx;
             left: 0;
-            background: #fff;
+            background: #ff9000;
+			color: #fff;
             .goback {
                 font-size: 30upx;
             }
         }
 		.list {
 			padding: 0 32upx;
-			padding-top: 146upx;
+			padding-top: 85upx;
 		    background: #fbfbfb;
+			border-top: 50upx solid #000;
 			.item {
 				display: flex;
 				padding: 30upx 0;
@@ -218,6 +221,23 @@ export default {
 					background-size: 56upx 45upx;					
 				}				
 			}
+		}
+		.hujiao {
+			position: fixed;
+			right: 60upx;
+			top: 50%;
+			margin-top: -50upx;
+			width: 100upx;
+			height: 100upx;
+			border-radius: 50%;
+			background: rgba(120,120,120,.5);
+			color: #fff;
+			font-size: 22upx;
+			line-height: 30upx;
+			text-align: center;
+			padding-top: 20upx;
+			box-sizing: border-box;
+			
 		}
     }
 

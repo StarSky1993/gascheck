@@ -74,14 +74,17 @@
     "h5" : {
         "devServer" : {
             "port" : "",
-            "https" : false,
+            "disableHostCheck" : true,
             "proxy" : {
                 "/dpc" : {
-                    "target" : "http://ranqi.qhd58.net/api/jk/denglu",
+                    "target" : "http://ranqi.qhd58.net",
                     "changeOrigin" : true,
                     "secure" : false
                 }
-            }
+            },
+            "https" : false
         }
     }
 }
+
+
