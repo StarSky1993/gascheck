@@ -3,40 +3,47 @@
         <view class="container">
 			<text class="text0 eosfont" @click="goback">&#xef07;</text>
             <text class="text1">巡检情况</text>
-            <text class="text2">用户名：张三</text>
+            <text class="text2">用户名：{{name}}</text>
             <text class="text3">部门：巡检部</text>
 			<view class="row">
 				<text class="text4">匹配范围：200米</text>
 				<text class="text5">状态：在线</text>
 			</view>
             <view class="row">
-				<text class="text4">经度：118.35488</text>
-				<text class="text5">纬度：39.54865</text>
-				<text class="text12">更新</text>
+				<text class="text4">经度：{{bd_lat}}</text>
+				<text class="text5">纬度：{{bd_lng}}</text>
 			</view>
         </view>	
 		<view class="form">
-			<picker>
-				<view class="uni-input">管道漏气：</view><text class="text7 eosfont">&#xe60b;</text>
-				<view class="uni-input">管道施工：</view><text class="text8 eosfont">&#xe60b;</text>
-				<view class="uni-input">阀门师维护：</view><text class="text9 eosfont">&#xe60b;</text>
-				<view class="uni-input">调压站箱维护：</view><text class="text10 eosfont">&#xe60b;</text>	
-				<view class="uni-input">其他：</view><text class="text11 eosfont">&#xe60b;</text>										
+			<picker @change="bindPickerChange" :value="index" :range="array">
+				<view class="uni-input">管道漏气：{{array[index]}}</view><text class="text7 eosfont">&#xe60b;</text>					
+			</picker>
+			<picker @change="bindPickerChange2" :value="index2" :range="array2">
+				<view class="uni-input">管道施工：{{array2[index2]}}</view><text class="text8 eosfont">&#xe60b;</text>					
+			</picker>
+			<picker @change="bindPickerChange3" :value="index3" :range="array3">
+				<view class="uni-input">阀门师维护：{{array3[index3]}}</view><text class="text9 eosfont">&#xe60b;</text>					
+			</picker>
+			<picker @change="bindPickerChange4" :value="index4" :range="array4">
+				<view class="uni-input">调压站箱维护：{{array4[index4]}}</view><text class="text10 eosfont">&#xe60b;</text>						
+			</picker>
+			<picker @change="bindPickerChange5" :value="index5" :range="array5">
+				<view class="uni-input">其他：{{array5[index5]}}</view><text class="text11 eosfont">&#xe60b;</text>					
 			</picker>
 			<text class="text6">详细描述：</text>
-			<textarea placeholder-style="color:#F76260" placeholder="请输入具体内容"/>
+			<textarea placeholder-style="color:#F76260" placeholder="请输入具体内容" v-model="contant" />
 			<view class="upload">
-				<view>
+				<view @click="jin">
 					<text class="center">近景</text>
-					<view class="uploadImg"></view>
+					<view class="uploadImg"><image :src="jinImg"></image></view>
 				</view>
-				<view>
+				<view @click="yuan">
 					<text class="center">远景</text>
-					<view class="uploadImg"></view>
+					<view class="uploadImg"><image :src="yuanImg"></image></view>
 				</view>
-				<view>
+				<view @click="te">
 					<text class="center">特写</text>
-					<view class="uploadImg"></view>
+					<view class="uploadImg"><image :src="teImg"></image></view>
 				</view>		
 			</view>
 			<view class="btn" @click="currentTask">上传</view>
@@ -45,14 +52,47 @@
 </template>
 
 <script>
+import robbyImageUpload from '../../components/robby-image-upload/robby-image-upload.vue'
+import { Base64 } from '../../js_sdk/js-md5/base64.js'
+var _self;
 	export default {
+		components: {
+			robbyImageUpload
+		},
 		data() {
 			return {
-
+				id: '',
+				name: '',
+				bd_lat: '',
+				bd_lng: '',
+				array: ['无', '微小', '中级', '严重'],
+				array2: ['无', '监管施工', '违章施工'],
+				array3: ['无', '丢失', '破损', '掩埋'],
+				array4: ['无', '老化', '漏气', '破损丢失'],
+				array5: ['无', '其他'],
+				index: 0,
+				index2: 0,
+				index3: 0,
+				index4: 0,
+				index5: 0,
+				jinImg: '',
+				yuanImg: '',
+				teImg: '',
+				contant: ''
 			}
 		},
-		onLoad() {
-
+		onLoad(options) {
+			_self = this;
+			_self.id = options.id;
+			_self.name = options.name;
+			_self.bd_lat = options.bd_lat;
+			_self.bd_lng = options.bd_lng;
+			uni.showToast({
+				title: `${_self.bd_lat}`,
+				icon: "none",
+				duration: 2000
+			})
+			_self.bd_lng = options.bd_lng;
 		},
 		methods: {
 			goback() {
@@ -60,9 +100,72 @@
 					delta: 1
 				});
 			},
-			currentTask() {
+			bindPickerChange: function(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value)
+				this.index = e.target.value;
+			},
+			bindPickerChange2: function(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value)
+				this.index2 = e.target.value;
+			},
+			bindPickerChange3: function(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value)
+				this.index3 = e.target.value;
+			},
+			bindPickerChange4: function(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value)
+				this.index4 = e.target.value;
+			},
+			bindPickerChange5: function(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value)
+				this.index5 = e.target.value;
+			},
+			jin() {
+				_self = this;
+				
 
-			}
+				
+			},
+			yuan() {
+				_self = this;
+			
+			},
+			te() {
+				_self = this;
+				
+			},
+			
+			currentTask() {
+				_self = this;
+				
+				uni.request({
+					url: 'http://ranqi.qhd58.net/api/jk/xunjian_qk',
+					method: "POST",
+					data: {
+						username: "1",
+						password: "1",
+						id: _self.id,
+						gdlq: 1,
+						gdsg: 1,
+						fmswh: 1,
+						tyzxwh: 1,
+						qita: 1,
+						yuan_img: Base64.encode(_self.yuanImg),
+						jin_img: Base64.encode(_self.jinImg),
+						texie_img: Base64.encode(_self.teImg)
+					},
+					header: {
+						'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
+					},
+					success: (res) => {
+						uni.hideLoading();
+						uni.showToast({
+							title: `%{res.jin_img}`
+						})
+
+					}
+				});
+			},
         } 
 	}
 </script>
@@ -111,22 +214,15 @@
                 font-size: 30upx;
 				color: #fff;
 				position: relative;
+				text {
+					display: inline-block;
+					width: 260upx;
+					overflow:hidden;
+					text-overflow:ellipsis;
+					white-space:nowrap;
+				}
 				.text4 {
 					margin-right: 92upx;
-				}
-				.text12 {
-					display: block;
-					width: 80upx;
-					height: 40upx;
-					line-height: 40upx;
-					border-radius: 10upx;
-					font-size: 20upx;
-					text-align: center;
-					color: #fff;
-					background: #22ac38;
-					position: absolute;
-					right: 0;
-					top: 0;
 				}
             }
 		}
@@ -159,16 +255,16 @@
 					top: 40upx;	
 				}
 				.text8 {
-					top: 105upx;
+					top: 125upx;
 				}
 				.text9 {
-					top: 165upx;
+					top: 205upx;
 				}												
 				.text10 {
-					top: 225upx;
+					top: 290upx;
 				}
 				.text11 {
-					top: 285upx;
+					top: 380upx;
 				}
 			}
 			.text6 {
@@ -200,6 +296,14 @@
 					background-size: 46upx;
 					border-radius: 10upx;
 					border: 1upx dashed #bababa;
+					position: relative;
+					image {
+						width: 164upx;
+						height: 164upx;
+						position: absolute;
+						left: 0;
+						top: 0;
+					}
 				}
 			}
 			.btn {

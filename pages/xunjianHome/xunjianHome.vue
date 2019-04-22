@@ -25,7 +25,7 @@ var _self;
 			return {
 				//定义经纬度坐标集合
 				coordinate: {},
-				name: ''
+				name: '账号'
 			}
 		},
 		onLoad() {
@@ -75,7 +75,7 @@ var _self;
 							},
 							success: (res) => {								
 								uni.showToast({
-									title: ''+_self.coordinate.bd_lat+'',
+									title: '位置采集成功!',
 									icon: "none",
 									duration: 1000
 								})
@@ -99,9 +99,10 @@ var _self;
 				})                 
             },
             taskNav() {
+				_self = this;
 				uni.navigateTo({
 					//任务导航
-					url: '/pages/taskNav/taskNav'
+					url: `/pages/taskNav/taskNav?name=${_self.name}`
 				})                
             },
 			condition() {

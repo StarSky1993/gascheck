@@ -1,20 +1,21 @@
 <template>
-	<view class="condition" v-for="(item,index) in taskNav" :key="index">
+	<view class="condition">
         <view class="container">
 			<text class="text0 eosfont" @click="goback">&#xef07;</text>
             <text class="text1">任务导航</text>
-            <text class="text2">用户名：{{item.ming}}</text>
+            <text class="text2">用户名：{{name}}</text>
             <text class="text3">部门：巡检部</text>
 			<view class="row">
 				<text class="text4">匹配范围：200米</text>
 				<text class="text5">状态：在线</text>
 			</view>
             <view class="row">
-				<text class="text4">经纬度：{{item.zuobiao}}</text>
+				<text class="text4">经度：{{coordinate.bd_lat}}</text>
+				<text class="text5">纬度：{{coordinate.bd_lng}}</text>
 			</view>
         </view>	
 		<view class="form">
-            <view class="item">
+            <view class="item" v-for="(item,index) in taskNav" :key="index" @click="onItem(item.id)">
                 <view class="inner">
                     <view class="title">
                         <view>编号：<text>#{{item.renwu_sb}}</text></view>
@@ -46,14 +47,33 @@
 </template>
 
 <script>
+import {coordinate} from '../../common/js/coordinate.js';
+var _self;
 	export default {
 		data() {
 			return {
-				taskNav: []
+				taskNav: [],
+				name: '',
+				coordinate: {}
 			}
 		},
-		onLoad() {
-			//请求获取当前位置接口
+		onLoad(options) {
+			uni.showLoading({
+				title: '加载中'
+			})
+			_self = this;
+			_self.name = options.name;
+			uni.getLocation({
+				type: 'gcj02',
+				success: function (res) {
+					//当前经度
+					console.log(res.latitude);
+					//当前纬度
+					console.log(res.longitude);						
+					//调用coordinate.js方法,将经纬度传入
+					_self.coordinate = coordinate(res.latitude,res.longitude);
+				}
+			});
 			uni.request({
 				url: "http://ranqi.qhd58.net/api/Jk/renwu_xun",
 				data: {
@@ -64,14 +84,11 @@
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 				},
 				success: (res) => {	
+					uni.hideLoading();
 					this.taskNav = res.data;
-					uni.showToast({
-						title: ''+this.taskNav+'',
-						icon: "none",
-						duration: 1000
-					})
 				},
 				fail: (res) => {
+					uni.hideLoading();
 					uni.showToast({
 						title: "位置获取失败,请检查网络",
 						icon: "none",
@@ -91,6 +108,17 @@
 				uni.makePhoneCall({
 					phoneNumber: '0335-8888888'
 				});				
+			},
+			onItem(id) {
+				_self = this;
+				uni.navigateTo({
+					url: `/pages/condition/condition?id=${id}&name=${_self.name}&bd_lat=${_self.coordinate.bd_lat}&bd_lng=${_self.coordinate.bd_lng}`
+				})
+				uni.showToast({
+					title: `${id}`,
+					icon: "none",
+					duration: 2000
+				})
 			}
         } 
 	}
@@ -139,6 +167,13 @@
                 margin-top: 20upx;
                 font-size: 30upx;
                 color: #fff;
+				text {
+					display: inline-block;
+					width: 260upx;
+					overflow:hidden;
+					text-overflow:ellipsis;
+					white-space:nowrap;
+				}
 				.text4 {
 					margin-right: 92upx;
 				}

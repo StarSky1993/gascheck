@@ -31,7 +31,8 @@
 					header: {
 						'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 					},
-					success: (res) => {						
+					success: (res) => {	
+						
 						if(res.data === 1) {							
 							uni.navigateTo({
 								//巡检主页
