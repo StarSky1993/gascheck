@@ -33,17 +33,17 @@
 			<text class="text6">详细描述：</text>
 			<textarea placeholder-style="color:#F76260" placeholder="请输入具体内容" v-model="contant" />
 			<view class="upload">
-				<view @click="jin">
+				<view @click="UploadImg1">
 					<text class="center">近景</text>
-					<view class="uploadImg"><image :src="jinImg"></image></view>
+					<view class="uploadImg"><image :src="jin"></image></view>
 				</view>
-				<view @click="yuan">
+				<view @click="UploadImg2">
 					<text class="center">远景</text>
-					<view class="uploadImg"><image :src="yuanImg"></image></view>
+					<view class="uploadImg"><image :src="yuan"></image></view>
 				</view>
-				<view @click="te">
+				<view @click="UploadImg3">
 					<text class="center">特写</text>
-					<view class="uploadImg"><image :src="teImg"></image></view>
+					<view class="uploadImg"><image :src="te"></image></view>
 				</view>		
 			</view>
 			<view class="btn" @click="currentTask">上传</view>
@@ -52,13 +52,10 @@
 </template>
 
 <script>
-import robbyImageUpload from '../../components/robby-image-upload/robby-image-upload.vue'
-import { Base64 } from '../../js_sdk/js-md5/base64.js'
+import { pathToBase64, base64ToPath } from '../../js_sdk/gsq-image-tools/image-tools/index.js'
 var _self;
 	export default {
-		components: {
-			robbyImageUpload
-		},
+
 		data() {
 			return {
 				id: '',
@@ -75,10 +72,13 @@ var _self;
 				index3: 0,
 				index4: 0,
 				index5: 0,
-				jinImg: '',
-				yuanImg: '',
-				teImg: '',
-				contant: ''
+				jin: '',
+				yuan: '',
+				te: '',
+				contant: '',
+				jinBase64: '',
+				yuanBase64: '',
+				teBase64: ''
 			}
 		},
 		onLoad(options) {
@@ -120,51 +120,83 @@ var _self;
 				console.log('picker发送选择改变，携带值为', e.target.value)
 				this.index5 = e.target.value;
 			},
-			jin() {
+			UploadImg1() {
 				_self = this;
-				
-
-				
-			},
-			yuan() {
-				_self = this;
+				uni.chooseImage({
+					count: 1, //默认9
+					sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album','camera'], //从相册选择
+					success: function (res) {
+						_self.jin = res.tempFilePaths[0];
+						pathToBase64(_self.jin).then(base64 => {
+							_self.jinBase64 = base64;
+						})
+						
+					}
+				});	
 			
 			},
-			te() {
-				_self = this;
-				
+			UploadImg2() {
+			_self = this;
+			uni.chooseImage({
+			count: 1, //默认9
+			sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
+			sourceType: ['album','camera'], //从相册选择
+			success: function (res) {
+			console.log(res.tempFilePaths);
+			_self.yuan = res.tempFilePaths[0];
+			pathToBase64(_self.yuan)
+			.then(base64 => {
+				_self.yuanBase64 = base64;									
+			})
+			.catch(error => {
+				console.error(error);
+			})					
+			}
+			});														
 			},
-			
+			UploadImg3() {
+			_self = this;
+			uni.chooseImage({
+			count: 1, //默认9
+			sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
+			sourceType: ['album','camera'], //从相册选择
+			success: function (res) {
+			console.log(res.tempFilePaths[0]);
+			_self.te = res.tempFilePaths[0];
+			pathToBase64(_self.te)
+			.then(base64 => {
+				_self.teBase64 = base64;					
+			})
+			.catch(error => {
+			console.error(error);
+			})					
+			}
+			});														
+			},
 			currentTask() {
 				_self = this;
-				
-				uni.request({
-					url: 'http://ranqi.qhd58.net/api/jk/xunjian_qk',
-					method: "POST",
-					data: {
-						username: "1",
-						password: "1",
-						id: _self.id,
-						gdlq: 1,
-						gdsg: 1,
-						fmswh: 1,
-						tyzxwh: 1,
-						qita: 1,
-						yuan_img: Base64.encode(_self.yuanImg),
-						jin_img: Base64.encode(_self.jinImg),
-						texie_img: Base64.encode(_self.teImg)
-					},
-					header: {
-						'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
-					},
-					success: (res) => {
-						uni.hideLoading();
-						uni.showToast({
-							title: `%{res.jin_img}`
-						})
+							uni.request({
+								url: 'http://ranqi.qhd58.net/api/jk/xunjian_qk',
+								method: 'POST',
+								data: {
+									username: "1",
+									password: "1",
+									id: _self.id,
+									gdlq: 1,
+									gdsg: 1,
+									fmswh: 1,
+									tyzxwh: 1,
+									qita: 1,
+									jin_img: _self.jinBase64,
+									yuan_img: _self.yuanBase64,
+									te_img: _self.teBase64
+								},
+								success: (res) => {
+									console.log(res);
+								}
+							});				
 
-					}
-				});
 			},
         } 
 	}
