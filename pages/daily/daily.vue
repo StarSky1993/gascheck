@@ -3,41 +3,33 @@
         <view class="container">
 			<text class="text0 eosfont" @click="goback">&#xef07;</text>
             <text class="text1">巡查日志</text>
-            <text class="text2">用户名：张三</text>
+            <text class="text2">用户名：{{ming}}</text>
             <text class="text3">部门：巡检部</text>
-			<view class="row">
-				<text class="text4">匹配范围：200米</text>
-				<text class="text5">状态：在线</text>
-			</view>
-            <view class="row">
-				<text class="text4">经度：118.35488</text>
-				<text class="text5">纬度：39.54865</text>
-			</view>
         </view>	
 		<view class="form">
-            <view class="item" v-for="(item,index) in 6" :key="index">
+            <view class="item" v-for="(item,index) in rizhiList" :key="index">
                 <view class="inner">
                     <view class="title">
-                        <view>编号：<text>#25</text></view>
-                        <view>2019年03月12日19:35:22</view>
+                        <view>编号：<text>#{{item.renwu_sb}}</text></view>
+                        <view>{{item.start}}</view>
                     </view>
                     <view class="info">
                         <view>
                             <text>任务内容：</text>
-                            <text class="huise">管道巡查</text>
+                            <text class="huise">{{item.name}}</text>
                         </view>
                         <view>
                             <text>任务时间：</text>
-                            <text class="huise">2019年3月12日19:35:22</text>
+                            <text class="huise">{{item.end}}</text>
                         </view>
                         <view>
                             <text>任务地址：</text>
-                            <text class="huise">河北省秦皇岛市北戴河区</text>
+                            <text class="huise">{{item.dizhi}}</text>
                         </view>                
                     </view>  
                     <view class="tab">
                         <text @click="call">呼叫调度中心</text>
-                        <text>查看详情</text>
+                        <text @click="detail(item.id)">查看详情</text>
                         <text class="icon2 eosfont">&#xe63a;</text>
                     </view>  
                 </view>
@@ -50,11 +42,41 @@
 	export default {
 		data() {
 			return {
-
+				ming: '',
+				rizhiList: []
 			}
 		},
 		onLoad() {
-
+			uni.showLoading({
+				title: '加载中',
+				mask: true
+			});
+			setTimeout(function () {
+				uni.hideLoading();
+			}, 1500);
+			uni.request({
+				url: "http://ranqi.qhd58.net/api/Jk/xun_rizhi",
+				data: {
+					username: "1",
+					password: "1"
+				},
+				header: {
+					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
+				},
+				success: (res) => {	
+					uni.hideLoading();
+					this.rizhiList = res.data;	
+					this.ming = res.data[0].ming;
+				},
+				fail: (res) => {
+					uni.hideLoading();
+					uni.showToast({
+						title: "位置获取失败,请检查网络",
+						icon: "none",
+						duration: 2000
+					})
+				}
+			});
 		},
 		methods: {
 			goback() {
@@ -67,6 +89,12 @@
 				uni.makePhoneCall({
 					phoneNumber: '0335-8888888'
 				});
+			},
+			detail(id) {
+				console.log(id)
+				uni.navigateTo({
+					url: `/pages/CheckDetails/CheckDetails?id=${id}`
+				})
 			}
         } 
 	}
@@ -122,7 +150,7 @@
 		}
 		.form {
 			width: 100%;
-			height: 65%;
+			height: 72%;
 			box-sizing: border-box;
 			border-radius: 30upx 30upx 0 0;
 			position: absolute;

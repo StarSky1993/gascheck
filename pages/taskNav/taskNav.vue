@@ -10,12 +10,12 @@
 				<text class="text5">状态：在线</text>
 			</view>
             <view class="row">
-				<text class="text4">经度：{{coordinate.bd_lat}}</text>
-				<text class="text5">纬度：{{coordinate.bd_lng}}</text>
+				<text class="text4">经度：{{coordinate.bd_lat|numFilter}}</text>
+				<text class="text5">纬度：{{coordinate.bd_lng|numFilter}}</text>
 			</view>
         </view>	
 		<view class="form">
-            <view class="item" v-for="(item,index) in taskNav" :key="index" @click="onItem(item.id)">
+            <view class="item" v-for="(item,index) in taskNav" :key="index">
                 <view class="inner">
                     <view class="title">
                         <view>编号：<text>#{{item.renwu_sb}}</text></view>
@@ -37,7 +37,7 @@
                     </view>  
                     <view class="tab">
                         <text @click="call">呼叫调度中心</text>
-                        <text>导航</text>
+                        <text @click="onItem(item.id)">导航</text>
                         <text class="icon2 eosfont">&#xe63a;</text>
                     </view>  
                 </view>
@@ -57,9 +57,18 @@ var _self;
 				coordinate: {}
 			}
 		},
+		
+		filters: {
+			numFilter(value) {
+				
+				let realVal = new Number(value).toFixed(6);
+				return realVal;
+			}
+		},
 		onLoad(options) {
 			uni.showLoading({
-				title: '加载中'
+				title: '加载中',
+				mask: true
 			})
 			_self = this;
 			_self.name = options.name;
@@ -114,11 +123,6 @@ var _self;
 				uni.navigateTo({
 					url: `/pages/condition/condition?id=${id}&name=${_self.name}&bd_lat=${_self.coordinate.bd_lat}&bd_lng=${_self.coordinate.bd_lng}`
 				})
-				uni.showToast({
-					title: `${id}`,
-					icon: "none",
-					duration: 2000
-				})
 			}
         } 
 	}
@@ -167,13 +171,6 @@ var _self;
                 margin-top: 20upx;
                 font-size: 30upx;
                 color: #fff;
-				text {
-					display: inline-block;
-					width: 260upx;
-					overflow:hidden;
-					text-overflow:ellipsis;
-					white-space:nowrap;
-				}
 				.text4 {
 					margin-right: 92upx;
 				}
@@ -189,7 +186,7 @@ var _self;
 			left: 0;
 			background: #fff;
             .item {
-                border-bottom: 4upx solid #dadada;
+                border-bottom: 4upx solid #000;
                 .inner {
                     padding: 0 33upx;
                     .title {

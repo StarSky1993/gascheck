@@ -2,16 +2,16 @@
 	<view class="condition">
         <view class="container">
 			<text class="text0 eosfont" @click="goback">&#xef07;</text>
-            <text class="text1">巡检情况</text>
-            <text class="text2">用户名：{{name}}</text>
+            <text class="text1">查看详情</text>
+            <text class="text2">用户名：{{showDetail.ming}}</text>
             <text class="text3">部门：巡检部</text>
 			<view class="row">
 				<text class="text4">匹配范围：200米</text>
 				<text class="text5">状态：在线</text>
 			</view>
             <view class="row">
-				<text class="text4">经度：{{bd_lat}}</text>
-				<text class="text5">纬度：{{bd_lng}}</text>
+				<text class="text4">经度：</text>
+				<text class="text5">纬度：</text>
 			</view>
         </view>	
 		<view class="form">
@@ -31,35 +31,33 @@
 				<view class="uni-input">其他：{{array5[index5]}}</view><text class="text11 eosfont">&#xe60b;</text>					
 			</picker>
 			<text class="text6">详细描述：</text>
-			<textarea placeholder-style="color:#F76260" placeholder="请输入具体内容" v-model="contant" />
+			<view class="textarea">{{showDetail.content}}</view>
 			<view class="upload">
-				<view @click="UploadImg1">
+				<view>
 					<text class="center">近景</text>
-					<view class="uploadImg"><image :src="jin"></image></view>
+					<view class="uploadImg"><image :src="'http://ranqi.qhd58.net' + showDetail.jin_img"></image></view>
 				</view>
-				<view @click="UploadImg2">
+				<view>
 					<text class="center">远景</text>
-					<view class="uploadImg"><image :src="yuan"></image></view>
+					<view class="uploadImg"><image :src="'http://ranqi.qhd58.net' + showDetail.yuan_img"></image></view>
 				</view>
-				<view @click="UploadImg3">
+				<view>
 					<text class="center">特写</text>
-					<view class="uploadImg"><image :src="te"></image></view>
+					<view class="uploadImg"><image :src="'http://ranqi.qhd58.net' + showDetail.texie_img"></image></view>
 				</view>		
 			</view>
-			<view class="btn" @click="currentTask">上传</view>
 		</view>		
 	</view>
 </template>
 
 <script>
-import { pathToBase64, base64ToPath } from '../../js_sdk/gsq-image-tools/image-tools/index.js'
+
 var _self;
 	export default {
 
 		data() {
 			return {
-				id: '',
-				name: '',
+				id: '',				
 				bd_lat: '',
 				bd_lng: '',
 				array: ['无', '微小', '中级', '严重'],
@@ -72,28 +70,30 @@ var _self;
 				index3: 0,
 				index4: 0,
 				index5: 0,
-				jin: '',
-				yuan: '',
-				te: '',
-				contant: '',
-				jinBase64: '',
-				yuanBase64: '',
-				teBase64: ''
+				showDetail: {}
 			}
 		},
 		onLoad(options) {
-			uni.showLoading({
-				title: '加载中',
-				mask: true
-			});
-			setTimeout(function () {
-				uni.hideLoading();
-			}, 1500);
-			_self = this;
-			_self.id = options.id;
-			_self.name = options.name;
-			_self.bd_lat = options.bd_lat;
-			_self.bd_lng = options.bd_lng;
+			uni.request({
+				url: "http://ranqi.qhd58.net/api/Jk/xun_rizhixq",
+				data: {
+					id: options.id
+				},
+				header: {
+					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
+				},
+				success: (res) => {	
+					this.showDetail = res.data;
+				},
+				fail: (res) => {
+					uni.hideLoading();
+					uni.showToast({
+						title: "位置获取失败,请检查网络",
+						icon: "none",
+						duration: 2000
+					})
+				}
+			});			
 		},
 		methods: {
 			goback() {
@@ -102,110 +102,20 @@ var _self;
 				});
 			},
 			bindPickerChange: function(e) {				
-				this.index = e.target.value;
+				this.index = this.showDetail.gdlq;
 			},
 			bindPickerChange2: function(e) {				
-				this.index2 = e.target.value;
+				this.index2 = this.showDetail.gdsg;
 			},
 			bindPickerChange3: function(e) {				
-				this.index3 = e.target.value;
+				this.index3 = this.showDetail.fmswh;
 			},
 			bindPickerChange4: function(e) {				
-				this.index4 = e.target.value;
+				this.index4 = this.showDetail.tyzxwh;
 			},
 			bindPickerChange5: function(e) {				
-				this.index5 = e.target.value;
-			},
-			UploadImg1() {
-				_self = this;
-				uni.chooseImage({
-					count: 1, //默认9
-					sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
-					sourceType: ['album','camera'], //从相册选择
-					success: function (res) {
-						_self.jin = res.tempFilePaths[0];
-						uni.showLoading({
-							title: '读取中...'
-						})
-						pathToBase64(_self.jin).then(base64 => {
-							_self.jinBase64 = base64;
-							uni.hideLoading();
-						}) 
-						
-					}
-				});	
-			
-			},
-			UploadImg2() {
-			_self = this;
-			uni.chooseImage({
-			count: 1, //默认9
-			sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
-			sourceType: ['album','camera'], //从相册选择
-			success: function (res) {
-			console.log(res.tempFilePaths[0]);
-			_self.yuan = res.tempFilePaths[0];
-			uni.showLoading({
-				title: '读取中...'
-			})
-			pathToBase64(_self.yuan)
-			.then(base64 => {
-				_self.yuanBase64 = base64;	
-				uni.hideLoading();
-			})
-			.catch(error => {
-				console.error(error);
-			})					
+				this.index5 = this.showDetail.qita;
 			}
-			});														
-			},
-			UploadImg3() {
-			_self = this;
-			uni.chooseImage({
-			count: 1, //默认9
-			sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
-			sourceType: ['album','camera'], //从相册选择
-			success: function (res) {
-			_self.te = res.tempFilePaths[0];
-			uni.showLoading({
-				title: '读取中...'
-			})
-			pathToBase64(_self.te)
-			.then(base64 => {
-				_self.teBase64 = base64;
-				uni.hideLoading();
-			})
-			.catch(error => {
-			console.error(error);
-			})					
-			}
-			});														
-			},
-			currentTask() {
-				_self = this;
-				uni.request({
-					url: 'http://ranqi.qhd58.net/api/jk/xunjian_qk',
-					method: 'POST',
-					data: {
-						username: 1,
-						password: 1,
-						id: _self.id,
-						gdlq: this.index,
-						gdsg: this.index2,
-						fmswh: this.index3,
-						tyzxwh: this.index4,
-						qita: this.index5,
-						content: this.contant,
-						jin_img: _self.jinBase64,
-						yuan_img: _self.yuanBase64,
-						texie_img: _self.teBase64
-					},
-					success: (res) => {
-						console.log(res.data);
-					}
-				});				
-
-			},
         } 
 	}
 </script>
@@ -308,10 +218,9 @@ var _self;
 				}
 			}
 			.text6 {
-				font-size: 30upx;
-				margin-top: 40upx;
+				font-size: 30upx;	
 			}
-			textarea {
+			.textarea {
 				margin-top: 15upx;
 				width: 100%;
 				height: 120upx;
