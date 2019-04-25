@@ -1,95 +1,70 @@
 <template>
-	<view class="condition">
+	<view class="securityList" >
         <view class="container">
 			<text class="text0 eosfont" @click="goback">&#xef07;</text>
-            <text class="text1">查看详情</text>
-            <text class="text2">用户名：{{showDetail.ming}}</text>
-            <text class="text3">部门：巡检部</text>
+            <text class="text1">安检列表</text>
+            <text class="text2">用户名：{{name}}</text>
+            <text class="text3">部门：安检部</text>
         </view>	
 		<view class="form">
-			<picker @change="bindPickerChange" :value="index" :range="array">
-				<view class="uni-input">管道漏气：{{array[index]}}</view><text class="text7 eosfont">&#xe60b;</text>					
-			</picker>
-			<picker @change="bindPickerChange2" :value="index2" :range="array2">
-				<view class="uni-input">管道施工：{{array2[index2]}}</view><text class="text8 eosfont">&#xe60b;</text>					
-			</picker>
-			<picker @change="bindPickerChange3" :value="index3" :range="array3">
-				<view class="uni-input">阀门师维护：{{array3[index3]}}</view><text class="text9 eosfont">&#xe60b;</text>					
-			</picker>
-			<picker @change="bindPickerChange4" :value="index4" :range="array4">
-				<view class="uni-input">调压站箱维护：{{array4[index4]}}</view><text class="text10 eosfont">&#xe60b;</text>						
-			</picker>
-			<picker @change="bindPickerChange5" :value="index5" :range="array5">
-				<view class="uni-input">其他：{{array5[index5]}}</view><text class="text11 eosfont">&#xe60b;</text>					
-			</picker>
-			<text class="text6">详细描述：</text>
-			<view class="textarea">{{showDetail.content}}</view>
-			<view class="upload">
-				<view>
-					<text class="center">近景</text>
-					<view class="uploadImg"><image :src="'http://ranqi.qhd58.net' + showDetail.jin_img"></image></view>
-				</view>
-				<view>
-					<text class="center">远景</text>
-					<view class="uploadImg"><image :src="'http://ranqi.qhd58.net' + showDetail.yuan_img"></image></view>
-				</view>
-				<view>
-					<text class="center">特写</text>
-					<view class="uploadImg"><image :src="'http://ranqi.qhd58.net' + showDetail.texie_img"></image></view>
-				</view>		
-			</view>
+            <view class="item" v-for="(item,index) in danyuanData" :key="index" @click="onItem(item.danyuan)">
+                <view class="inner">
+                    <view class="title">
+                        <view>编号：<text>#{{index}}</text></view>
+                    </view>
+                    <view class="info">
+						<view>{{item.danyuan}}</view>
+                    </view>  
+                    <view class="tab">
+                        <text @click="call">呼叫调度中心</text>
+                        <text>入户次数: 0</text>
+                        <text class="icon2 eosfont">&#xe63a;</text>
+                    </view>  
+                </view>
+            </view>
 		</view>		
 	</view>
 </template>
 
 <script>
-
-var _self;
 	export default {
-
 		data() {
 			return {
-				id: '',				
-				bd_lat: '',
-				bd_lng: '',
-				array: ['无', '微小', '中级', '严重'],
-				array2: ['无', '监管施工', '违章施工'],
-				array3: ['无', '丢失', '破损', '掩埋'],
-				array4: ['无', '老化', '漏气', '破损丢失'],
-				array5: ['无', '其他'],
-				index: 0,
-				index2: 0,
-				index3: 0,
-				index4: 0,
-				index5: 0,
-				showDetail: {}
+				name: '',
+				danyuanData: [],
+				xiaoqu: '',
+				dong: '',
+				danyuan: ''				
 			}
 		},
 		onLoad(options) {
 			uni.showLoading({
-				title: '加载中...'
+				title: '加载中'
 			})
+			this.xiaoqu = options.xiaoqu;
+			this.dong = options.dong;
 			uni.request({
-				url: "http://ranqi.qhd58.net/api/Jk/xun_rizhixq",
+				url: "http://ranqi.qhd58.net/api/jk/danyuan",
 				data: {
-					id: options.id
+					xiaoqu: this.xiaoqu,
+					dong: this.dong
 				},
 				header: {
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 				},
 				success: (res) => {	
-					this.showDetail = res.data;
-					uni.hideLoading()
-					
+					uni.hideLoading();
+					this.danyuanData = res.data;
 				},
 				fail: (res) => {
+					uni.hideLoading();
 					uni.showToast({
-						title: "加载失败,请检查网络",
+						title: "位置获取失败,请检查网络",
 						icon: "none",
 						duration: 2000
 					})
 				}
-			});			
+			});
 		},
 		methods: {
 			goback() {
@@ -97,26 +72,22 @@ var _self;
 					delta: 1
 				});
 			},
-			bindPickerChange: function(e) {				
-				this.index = this.showDetail.gdlq;
+			call() {
+				//拨打电话
+				uni.makePhoneCall({
+					phoneNumber: '0335-8888888'
+				});
 			},
-			bindPickerChange2: function(e) {				
-				this.index2 = this.showDetail.gdsg;
-			},
-			bindPickerChange3: function(e) {				
-				this.index3 = this.showDetail.fmswh;
-			},
-			bindPickerChange4: function(e) {				
-				this.index4 = this.showDetail.tyzxwh;
-			},
-			bindPickerChange5: function(e) {				
-				this.index5 = this.showDetail.qita;
+			onItem(danyuan) {
+				uni.navigateTo({
+					url: `/pages/securityList4/securityList4?xiaoqu=${this.xiaoqu}&dong=${this.dong}&danyuan=${danyuan}`
+				})
 			}
         } 
 	}
 </script>
 <style lang="scss" scoped>
-	.condition {
+	.securityList {
 		width: 100%;
 		height: 100%;
 		position: absolute;
@@ -158,112 +129,69 @@ var _self;
             .row {
                 margin-top: 20upx;
                 font-size: 30upx;
-				color: #fff;
-				position: relative;
-				text {
-					display: inline-block;
-					width: 260upx;
-					overflow:hidden;
-					text-overflow:ellipsis;
-					white-space:nowrap;
-				}
+                color: #fff;
 				.text4 {
 					margin-right: 92upx;
 				}
             }
 		}
 		.form {
-			width: 100%;
-			height: 72%;
-			padding: 0 44upx;
 			box-sizing: border-box;
 			border-radius: 30upx 30upx 0 0;
 			position: absolute;
+			top: 80upx;
 			bottom: 0;
+			right: 0;
 			left: 0;
 			background: #fff;
-			picker {
-				margin-top: 26upx;
-				.uni-input {
-					height: 60upx;
-					line-height: 60upx;
-					font-size: 30upx;
-					border-bottom: 2upx solid #f6f6fb;
-					position: relative;
-				}
-				text {
-					color: #000;
-					font-size: 30upx;
-					position: absolute;
-					right: 60upx;	
-				}
-				.text7 {
-					top: 40upx;	
-				}
-				.text8 {
-					top: 125upx;
-				}
-				.text9 {
-					top: 205upx;
-				}												
-				.text10 {
-					top: 290upx;
-				}
-				.text11 {
-					top: 380upx;
-				}
-			}
-			.text6 {
-				font-size: 30upx;	
-			}
-			.textarea {
-				margin-top: 15upx;
-				width: 100%;
-				height: 120upx;
-				border: 3upx solid #f6f6fb;
-				font-size: 28upx;
-				padding: 10upx;
-				box-sizing: border-box;
-			}
-			.upload {
-				display: flex;
-				justify-content: space-around;
-				margin-top: 19upx;
-				.center {
-					text-align: center;
-					display: block;
-					font-size: 30upx;
-					margin-bottom: 10upx;
-				}
-				.uploadImg {
-					width: 164upx;
-					height: 164upx;
-					background: #f6f2ef url('~@/static/images/condition/add.png') center center no-repeat;
-					background-size: 46upx;
-					border-radius: 10upx;
-					border: 1upx dashed #bababa;
-					position: relative;
-					image {
-						width: 164upx;
-						height: 164upx;
-						position: absolute;
-						left: 0;
-						top: 0;
-					}
-				}
-			}
-			.btn {
-				width: 410upx;
-				height: 72upx;
-				margin: 0 auto;
-				margin-top: 40upx;
-				line-height: 72upx;
-				border-radius: 20upx;
-				background: #5497f7;
-				text-align: center;
-				color: #fff;
-				font-size: 30upx;
-			}
+            .item {
+                border-bottom: 4upx solid #000;
+                .inner {
+                    padding: 0 33upx;
+                    .title {
+                        height: 85upx;
+                        line-height: 85upx;
+                        display: flex;
+                        justify-content: space-between;
+                        font-size: 30upx;
+                        border-bottom: 1upx solid #c4c4c4;
+                        text {
+                            font-size: 28upx;
+                            color: red;
+                        }
+                        view {
+                            font-size: 22upx;
+                            color: #8f8f8f;
+                        }
+                    }
+                    .info {
+                        view {
+                            font-size: 50upx;
+							text-align: center;
+                            .huise {
+                                color: #6d6d6d;
+                            }
+                        }
+                        border-bottom: 1upx solid #c4c4c4;
+                        padding-bottom: 10upx;
+                    }
+                    .tab {
+                        display: flex;
+                        justify-content: space-around;
+                        font-size: 24upx;
+                        color: #6e6e6e;
+                        height: 82upx;
+                        line-height: 82upx;
+                        position: relative;
+                    }
+                    .icon2 {
+                        position: absolute;
+                        left: 50%;
+                        top: 3upx;
+                        font-size: 22upx;
+                    }
+                }
+            }
 		}
 	}
 </style>

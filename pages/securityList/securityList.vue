@@ -1,38 +1,30 @@
 <template>
-	<view class="securityList">
+	<view class="securityList" >
         <view class="container">
 			<text class="text0 eosfont" @click="goback">&#xef07;</text>
             <text class="text1">安检列表</text>
-            <text class="text2">用户名：张三</text>
+            <text class="text2">用户名：{{name}}</text>
             <text class="text3">部门：安检部</text>
-			<view class="row">
-				<text class="text4">匹配范围：200米</text>
-				<text class="text5">状态：在线</text>
-			</view>
-            <view class="row">
-				<text class="text4">经度：118.35488</text>
-				<text class="text5">纬度：39.54865</text>
-			</view>
         </view>	
 		<view class="form">
-            <view class="item" v-for="(item,index) in 6" :key="index" @click="onItem">
+            <view class="item" v-for="(item,index) in securityData" :key="index" @click="onItem(item.xiaoqu)">
                 <view class="inner">
                     <view class="title">
-                        <view>编号：<text>#25</text></view>
-                        <view>2019年03月12日19:35:22</view>
+                        <view>编号：<text>#{{index}}</text></view>
+                        <view>{{item.st_time}}</view>
                     </view>
                     <view class="info">
                         <view>
                             <text>任务内容：</text>
-                            <text class="huise">定期安检</text>
+                            <text class="huise">{{item.renwu_name}}</text>
                         </view>
                         <view>
                             <text>任务时间：</text>
-                            <text class="huise">2019年3月12日19:35:22</text>
+                            <text class="huise">{{item.end_time}}</text>
                         </view>
                         <view>
                             <text>任务地址：</text>
-                            <text class="huise">河北省秦皇岛市北戴河区</text>
+                            <text class="huise">{{item.xiaoqu}}</text>
                         </view>                
                     </view>  
                     <view class="tab">
@@ -50,11 +42,38 @@
 	export default {
 		data() {
 			return {
-
+				name: '',
+				securityData: [],
+				xiaoqu: ''
 			}
 		},
 		onLoad() {
-
+			uni.showLoading({
+				title: '加载中'
+			})
+			uni.request({
+				url: "http://ranqi.qhd58.net/api/jk/xiaoqu",
+				data: {
+					username: "2",
+					password: "2"
+				},
+				header: {
+					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
+				},
+				success: (res) => {	
+					uni.hideLoading();
+					this.name = res.data[0].name;
+					this.securityData = res.data;
+				},
+				fail: (res) => {
+					uni.hideLoading();
+					uni.showToast({
+						title: "位置获取失败,请检查网络",
+						icon: "none",
+						duration: 2000
+					})
+				}
+			});			
 		},
 		methods: {
 			goback() {
@@ -68,10 +87,10 @@
 					phoneNumber: '0335-8888888'
 				});
 			},
-			onItem() {
+			onItem(xiaoqu) {
 				uni.navigateTo({
-					url: '/pages/condition/condition2'
-				})
+					url: `/pages/securityList2/securityList2?xiaoqu=${xiaoqu}`
+				})				
 			}
         } 
 	}
@@ -127,7 +146,7 @@
 		}
 		.form {
 			width: 100%;
-			height: 65%;
+			height: 72%;
 			box-sizing: border-box;
 			border-radius: 30upx 30upx 0 0;
 			position: absolute;
@@ -135,7 +154,7 @@
 			left: 0;
 			background: #fff;
             .item {
-                border-bottom: 4upx solid #dadada;
+                border-bottom: 4upx solid #000;
                 .inner {
                     padding: 0 33upx;
                     .title {

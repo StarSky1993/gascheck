@@ -5,42 +5,41 @@
             <text class="text1">安检情况</text>
             <text class="text2">用户名：张三</text>
             <text class="text3">部门：巡检部</text>
-			<view class="row">
-				<text class="text4">匹配范围：200米</text>
-				<text class="text5">状态：在线</text>
-			</view>
-            <view class="row">
-				<text class="text4">经度：118.35488</text>
-				<text class="text5">纬度：39.54865</text>
-				<text class="text12">更新</text>
-			</view>
         </view>	
 		<view class="form">
-			<picker>
-				<view class="uni-input">管道漏气：</view><text class="text7 eosfont">&#xe60b;</text>
-				<view class="uni-input">管道施工：</view><text class="text8 eosfont">&#xe60b;</text>
-				<view class="uni-input">阀门师维护：</view><text class="text9 eosfont">&#xe60b;</text>
-				<view class="uni-input">调压站箱维护：</view><text class="text10 eosfont">&#xe60b;</text>	
-				<view class="uni-input">其他：</view><text class="text11 eosfont">&#xe60b;</text>										
+			<picker @change="bindPickerChange" :value="index" :range="array">
+				<view class="uni-input">管道漏气：{{array[index]}}</view><text class="text7 eosfont">&#xe60b;</text>					
+			</picker>
+			<picker @change="bindPickerChange2" :value="index2" :range="array2">
+				<view class="uni-input">管道施工：{{array2[index2]}}</view><text class="text8 eosfont">&#xe60b;</text>					
+			</picker>
+			<picker @change="bindPickerChange3" :value="index3" :range="array3">
+				<view class="uni-input">阀门师维护：{{array3[index3]}}</view><text class="text9 eosfont">&#xe60b;</text>					
+			</picker>
+			<picker @change="bindPickerChange4" :value="index4" :range="array4">
+				<view class="uni-input">调压站箱维护：{{array4[index4]}}</view><text class="text10 eosfont">&#xe60b;</text>						
+			</picker>
+			<picker @change="bindPickerChange5" :value="index5" :range="array5">
+				<view class="uni-input">其他：{{array5[index5]}}</view><text class="text11 eosfont">&#xe60b;</text>					
 			</picker>
 			<text class="text6">详细描述：</text>
-			<textarea placeholder-style="color:#F76260" placeholder="请输入具体内容"/>
+			<textarea placeholder-style="color:#F76260" placeholder="请输入具体内容" v-model="contant" />
 			<view class="upload">
-				<view>
+				<view @click="UploadImg1">
 					<text class="center">远景:</text>
-					<view class="uploadImg"></view>
+					<view class="uploadImg"><image :src="yuan"></image></view>
 				</view>
-				<view>
+				<view @click="UploadImg2">
 					<text class="center">近景:</text>
-					<view class="uploadImg"></view>
+					<view class="uploadImg"><image :src="jin"></image></view>
 				</view>
-				<view>
+				<view @click="UploadImg3">
 					<text class="center">特写:</text>
-					<view class="uploadImg"></view>
+					<view class="uploadImg"><image :src="te"></image></view>
 				</view>
-				<view>
+				<view @click="UploadImg4">
 					<text class="center ln">告知单:</text>
-					<view class="uploadImg"></view>
+					<view class="uploadImg"><image :src="gaozhi"></image></view>
 				</view>
 				
 			</view>
@@ -50,14 +49,41 @@
 </template>
 
 <script>
+import { pathToBase64, base64ToPath } from '../../js_sdk/gsq-image-tools/image-tools/index.js'
+
+var _self;
 	export default {
 		data() {
 			return {
-
+				xiaoqu: '',
+				dong: '',
+				danyuan: '',
+				menpai: '',
+				array: ['无', '微小', '中级', '严重'],
+				array2: ['无', '监管施工', '违章施工'],
+				array3: ['无', '丢失', '破损', '掩埋'],
+				array4: ['无', '老化', '漏气', '破损丢失'],
+				array5: ['无', '其他'],
+				index: 0,
+				index2: 0,
+				index3: 0,
+				index4: 0,
+				index5: 0,
+				jin: '',
+				yuan: '',
+				te: '',
+				gaozhi: '',
+				contant: '',
+				jinBase64: '',
+				yuanBase64: '',
+				teBase64: ''
 			}
 		},
-		onLoad() {
-
+		onLoad(options) {
+			this.xiaoqu = options.xiaoqu;
+			this.dong = options.dong;
+			this.danyuan = options.danyuan;
+			this.menpai = options.menpai;
 		},
 		methods: {
 			goback() {
@@ -65,8 +91,161 @@
 					delta: 1
 				});
 			},
+			bindPickerChange: function(e) {				
+				this.index = e.target.value;
+			},
+			bindPickerChange2: function(e) {				
+				this.index2 = e.target.value;
+			},
+			bindPickerChange3: function(e) {				
+				this.index3 = e.target.value;
+			},
+			bindPickerChange4: function(e) {				
+				this.index4 = e.target.value;
+			},
+			bindPickerChange5: function(e) {				
+				this.index5 = e.target.value;
+			},
+			UploadImg1() {
+				_self = this;
+				uni.chooseImage({
+					count: 1, //默认9
+					sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album','camera'], //从相册选择
+					success: function (res) {
+						console.log(res.tempFilePaths[0]);
+						_self.yuan = res.tempFilePaths[0];
+						uni.showLoading({
+							title: '读取中...'
+						})
+						pathToBase64(_self.yuan).then(base64 => {
+							_self.yuanBase64 = base64;
+							uni.hideLoading();
+						}) 
+						
+					}
+				});	
+			
+			},
+			UploadImg2() {
+			_self = this;
+			uni.chooseImage({
+			count: 1, //默认9
+			sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
+			sourceType: ['album','camera'], //从相册选择
+			success: function (res) {
+			console.log(res.tempFilePaths[0]);
+			_self.jin = res.tempFilePaths[0];
+			uni.showLoading({
+				title: '读取中...'
+			})
+			pathToBase64(_self.jin)
+			.then(base64 => {
+				_self.jin = base64;	
+				uni.hideLoading();
+			})
+			.catch(error => {
+				console.error(error);
+			})					
+			}
+			});														
+			},
+			UploadImg3() {
+			_self = this;
+			uni.chooseImage({
+			count: 1, //默认9
+			sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
+			sourceType: ['album','camera'], //从相册选择
+			success: function (res) {
+			console.log(res.tempFilePaths[0]);
+			_self.te = res.tempFilePaths[0];
+			uni.showLoading({
+				title: '读取中...'
+			})
+			pathToBase64(_self.te)
+			.then(base64 => {
+				_self.teBase64 = base64;
+				uni.hideLoading();
+			})
+			.catch(error => {
+			console.error(error);
+			})					
+			}
+			});														
+			},
+			UploadImg4() {
+			_self = this;
+			uni.chooseImage({
+			count: 1, //默认9
+			sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
+			sourceType: ['album','camera'], //从相册选择
+			success: function (res) {
+			_self.gaozhi = res.tempFilePaths[0];
+			uni.showLoading({
+				title: '读取中...'
+			})
+			pathToBase64(_self.gaozhi)
+			.then(base64 => {
+				_self.gaozhiBase64 = base64;
+				uni.hideLoading();
+			})
+			.catch(error => {
+			console.error(error);
+			})					
+			}
+			});														
+			},			
 			currentTask() {
-
+				_self = this;
+				uni.showModal({
+					title: '是否提交数据？',
+					content: '确认无误后即可提交数据',
+					success: function (res) {
+						if (res.confirm) {
+							console.log('用户点击确定');
+							uni.showLoading({
+								title: '提交中...'
+							})
+							uni.request({
+								url: 'http://ranqi.qhd58.net/api/jk/xunjian_qk',
+								method: 'POST',
+								data: {
+									xiaoqu: _self.xiaoqu,
+									dong: _self.dong,
+									danyuan: _self.danyuan,
+									menpai: _self.menpai,
+									lq: _self.index,
+									rqgdyzxs: _self.index2,
+									zprsq: _self.index3,
+									rqrsbgf: _self.index4,
+									xjrgps: _self.index5,
+									content: _self.contant,
+									jin_img: _self.jinBase64,
+									yuan_img: _self.yuanBase64,
+									texie_img: _self.teBase64
+								},
+								success: (res) => {
+									console.log(res.data);
+									console.log(_self.jinBase64);
+									console.log(_self.yuanBase64);
+									console.log(_self.teBase64);
+									uni.hideLoading()
+									if(res.data === 1) {
+										uni.showToast({
+											title: '提交成功！'
+										})
+									}else {
+										uni.showToast({
+											title: '提交失败,请重新提交！'
+										})
+									}
+								}
+							});
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				});	
 			}
         } 
 	}
@@ -137,7 +316,7 @@
 		}
 		.form {
 			width: 100%;
-			height: 65%;
+			height: 72%;
 			padding: 0 44upx;
 			box-sizing: border-box;
 			border-radius: 30upx 30upx 0 0;

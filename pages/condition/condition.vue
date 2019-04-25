@@ -183,28 +183,45 @@ var _self;
 			},
 			currentTask() {
 				_self = this;
-				uni.request({
-					url: 'http://ranqi.qhd58.net/api/jk/xunjian_qk',
-					method: 'POST',
-					data: {
-						username: 1,
-						password: 1,
-						id: _self.id,
-						gdlq: this.index,
-						gdsg: this.index2,
-						fmswh: this.index3,
-						tyzxwh: this.index4,
-						qita: this.index5,
-						content: this.contant,
-						jin_img: _self.jinBase64,
-						yuan_img: _self.yuanBase64,
-						texie_img: _self.teBase64
-					},
-					success: (res) => {
-						console.log(res.data);
+				uni.showModal({
+					title: '是否提交数据？',
+					content: '确认无误后即可提交数据',
+					success: function (res) {
+						if (res.confirm) {
+							console.log('用户点击确定');
+							uni.showLoading({
+								title: '提交中...'
+							})
+							uni.request({
+								url: 'http://ranqi.qhd58.net/api/jk/xunjian_qk',
+								method: 'POST',
+								data: {
+									username: 1,
+									password: 1,
+									id: _self.id,
+									gdlq: this.index,
+									gdsg: this.index2,
+									fmswh: this.index3,
+									tyzxwh: this.index4,
+									qita: this.index5,
+									content: this.contant,
+									jin_img: _self.jinBase64,
+									yuan_img: _self.yuanBase64,
+									texie_img: _self.teBase64
+								},
+								success: (res) => {
+									uni.hideLoading()
+									uni.showToast({
+										title: '提交成功！'
+									})
+									console.log(res.data);
+								}
+							});
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
 					}
 				});				
-
 			},
         } 
 	}

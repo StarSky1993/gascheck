@@ -15,8 +15,17 @@
 		{	//巡查情况
 			"path": "pages/condition/condition"			
 		},
-		{	//安检列表
+		{	//安检列表小区
 			"path": "pages/securityList/securityList"	
+		},
+		{	//安检列表栋数
+			"path": "pages/securityList2/securityList2"
+		},
+		{	//安检列表单元数
+			"path": "pages/securityList3/securityList3"
+		},
+		{	//安检列表室数
+			"path": "pages/securityList4/securityList4"
 		},
 		{	//安检情况
 			"path": "pages/condition/condition2"

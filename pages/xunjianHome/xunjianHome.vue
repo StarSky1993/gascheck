@@ -25,19 +25,29 @@ var _self;
 			return {
 				//定义经纬度坐标集合
 				coordinate: {},
-				name: '账号'
+				name: '',
+				username: '',
+				password: ''
 			}
 		},
 		onLoad() {
 			uni.showLoading({
 				title: '加载中'
 			})
+			uni.getStorage({
+				key: 'user',
+				success: function (res) {
+					console.log(res.data);
+					this.username = res.data.username;
+					this.password = res.data.password;
+				}
+			});
 			uni.request({
 				url: this.$api.XUNJIANHOME,
 				method: "GET",
 				data: {
-					username: "1",
-					password: "1"
+					username: this.username,
+					password: this.password
 				},
 				header: {
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息

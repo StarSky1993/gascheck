@@ -4,8 +4,8 @@
 			<a href="javascript:;">秦皇岛市北戴河区燃气公司</a>
 		</view>
 		<view class="form">
-			<text class="icon1 eosfont">&#xe768;</text><input type="number" v-model="username" maxlength="11" placeholder="请输入您的手机号" />
-			<text class="icon2 eosfont">&#xe64c;</text><input type="text" v-model="password" class="input2" placeholder="请输入密码" />
+			<text class="icon1 eosfont">&#xe768;</text><input type="number" v-model="user.username" maxlength="11" placeholder="请输入您的手机号" />
+			<text class="icon2 eosfont">&#xe64c;</text><input type="text" v-model="user.password" class="input2" placeholder="请输入密码" />
 			<button @click="login">登陆</button>
 		</view>
 	</view>
@@ -16,8 +16,10 @@
 	export default {
 		data() {
 			return {
-				username: '',
-				password: ''
+				user: {
+					"username": '',
+					"password": ''
+				}				
 			}
 		},
 		methods: {
@@ -25,14 +27,20 @@
 				uni.request({
 					url: this.$api.LOGIN,
 					data: {
-						username: this.username,
-						password: this.password
+						username: this.user.username,
+						password: this.user.password
 					},
 					header: {
 						'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 					},
 					success: (res) => {	
-						
+						uni.setStorage({
+							key: 'user',
+							data: this.username,
+							success: function() {
+								console.log('success')
+							}
+						})
 						if(res.data === 1) {							
 							uni.navigateTo({
 								//巡检主页
@@ -60,12 +68,12 @@
 								icon: 'none',
 								duration: 2000
 							});	
-// 							uni.removeStorage({
-// 								key: 'username',
-// 								success: function (res) {
-// 									console.log('移除成功！');
-// 								}
-// 							});						
+							uni.removeStorage({
+								key: 'username',
+								success: function (res) {
+									console.log('移除成功！');
+								}
+							});						
 						}						
 					}
 				});
