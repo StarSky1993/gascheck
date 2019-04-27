@@ -3,7 +3,7 @@
         <view class="container">
 			<text class="text0 eosfont" @click="goback">&#xef07;</text>
             <text class="text1">安检情况</text>
-            <text class="text2">用户名：张三</text>
+            <text class="text2">用户名：{{ming}}</text>
             <text class="text3">部门：巡检部</text>
         </view>	
 		<view class="form">
@@ -55,6 +55,7 @@ var _self;
 	export default {
 		data() {
 			return {
+				ming: '',
 				xiaoqu: '',
 				dong: '',
 				danyuan: '',
@@ -64,6 +65,11 @@ var _self;
 				array3: ['无', '丢失', '破损', '掩埋'],
 				array4: ['无', '老化', '漏气', '破损丢失'],
 				array5: ['无', '其他'],
+				arrayContant: "",
+				array2Contant: "",
+				array3Contant: "",
+				array4Contant: "",
+				array5Contant: "",
 				index: 0,
 				index2: 0,
 				index3: 0,
@@ -76,14 +82,24 @@ var _self;
 				contant: '',
 				jinBase64: '',
 				yuanBase64: '',
-				teBase64: ''
+				teBase64: '',
+				gaozhiBase64: ''
 			}
 		},
 		onLoad(options) {
+			
 			this.xiaoqu = options.xiaoqu;
 			this.dong = options.dong;
 			this.danyuan = options.danyuan;
 			this.menpai = options.menpai;
+			_self = this;
+			uni.getStorage({
+				key: 'ming',
+				success: function (res) {
+					_self.ming = res.data;
+				}
+			});
+			
 		},
 		methods: {
 			goback() {
@@ -93,20 +109,54 @@ var _self;
 			},
 			bindPickerChange: function(e) {				
 				this.index = e.target.value;
+				console.log(this.array[this.index])
+				this.arrayContant = this.array[this.index];
+				
 			},
 			bindPickerChange2: function(e) {				
 				this.index2 = e.target.value;
+				this.array2Contant = this.array2[this.index2];
 			},
 			bindPickerChange3: function(e) {				
 				this.index3 = e.target.value;
+				this.array3Contant = this.array3[this.index3];
 			},
 			bindPickerChange4: function(e) {				
 				this.index4 = e.target.value;
+				this.array4Contant = this.array4[this.index4];
 			},
 			bindPickerChange5: function(e) {				
 				this.index5 = e.target.value;
+				this.array5Contant = this.array5[this.index5];
 			},
 			UploadImg1() {
+			_self = this;
+			uni.chooseImage({
+			count: 1, //默认9
+			sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
+			sourceType: ['album','camera'], //从相册选择
+			success: function (res) {
+			console.log(res.tempFilePaths[0]);
+			_self.yuan = res.tempFilePaths[0];
+			// 预览图片
+			uni.previewImage({
+				urls: res.tempFilePaths
+			});
+			uni.showLoading({
+				title: '读取中...'
+			})
+			pathToBase64(_self.yuan)
+			.then(base64 => {
+				_self.yuanBase64 = base64;	
+				uni.hideLoading();
+			})
+			.catch(error => {
+				console.error(error);
+			})					
+			}
+			});				
+			},
+			UploadImg2() {
 				_self = this;
 				uni.chooseImage({
 					count: 1, //默认9
@@ -114,89 +164,79 @@ var _self;
 					sourceType: ['album','camera'], //从相册选择
 					success: function (res) {
 						console.log(res.tempFilePaths[0]);
-						_self.yuan = res.tempFilePaths[0];
+						_self.jin = res.tempFilePaths[0];
+						// 预览图片
+						uni.previewImage({
+							urls: res.tempFilePaths
+						});
 						uni.showLoading({
 							title: '读取中...'
 						})
-						pathToBase64(_self.yuan).then(base64 => {
-							_self.yuanBase64 = base64;
+						pathToBase64(_self.jin).then(base64 => {
+							_self.jinBase64 = base64;
 							uni.hideLoading();
 						}) 
 						
 					}
-				});	
-			
-			},
-			UploadImg2() {
-			_self = this;
-			uni.chooseImage({
-			count: 1, //默认9
-			sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
-			sourceType: ['album','camera'], //从相册选择
-			success: function (res) {
-			console.log(res.tempFilePaths[0]);
-			_self.jin = res.tempFilePaths[0];
-			uni.showLoading({
-				title: '读取中...'
-			})
-			pathToBase64(_self.jin)
-			.then(base64 => {
-				_self.jin = base64;	
-				uni.hideLoading();
-			})
-			.catch(error => {
-				console.error(error);
-			})					
-			}
-			});														
+				});													
 			},
 			UploadImg3() {
 			_self = this;
 			uni.chooseImage({
-			count: 1, //默认9
-			sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
-			sourceType: ['album','camera'], //从相册选择
-			success: function (res) {
-			console.log(res.tempFilePaths[0]);
-			_self.te = res.tempFilePaths[0];
-			uni.showLoading({
-				title: '读取中...'
-			})
-			pathToBase64(_self.te)
-			.then(base64 => {
-				_self.teBase64 = base64;
-				uni.hideLoading();
-			})
-			.catch(error => {
-			console.error(error);
-			})					
-			}
-			});														
+				count: 1, //默认9
+				sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
+				sourceType: ['album','camera'], //从相册选择
+				success: function (res) {
+					console.log(res.tempFilePaths[0]);
+					_self.te = res.tempFilePaths[0];
+					// 预览图片
+					uni.previewImage({
+						urls: res.tempFilePaths
+					});
+					uni.showLoading({
+						title: '读取中...'
+					})
+					pathToBase64(_self.te)
+					.then(base64 => {
+						_self.teBase64 = base64;
+						uni.hideLoading();
+					})
+					.catch(error => {
+						console.error(error);
+					})					
+				}
+			});													
 			},
 			UploadImg4() {
-			_self = this;
-			uni.chooseImage({
-			count: 1, //默认9
-			sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
-			sourceType: ['album','camera'], //从相册选择
-			success: function (res) {
-			_self.gaozhi = res.tempFilePaths[0];
-			uni.showLoading({
-				title: '读取中...'
-			})
-			pathToBase64(_self.gaozhi)
-			.then(base64 => {
-				_self.gaozhiBase64 = base64;
-				uni.hideLoading();
-			})
-			.catch(error => {
-			console.error(error);
-			})					
-			}
-			});														
+				_self = this;
+				uni.chooseImage({
+					count: 1, //默认9
+					sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album','camera'], //从相册选择
+					success: function (res) {
+						_self.gaozhi = res.tempFilePaths[0];
+						// 预览图片
+						uni.previewImage({
+							urls: res.tempFilePaths
+						});
+						uni.showLoading({
+							title: '读取中...'
+						})
+						pathToBase64(_self.gaozhi)
+						.then(base64 => {
+							_self.gaozhiBase64 = base64;
+							uni.hideLoading();
+						})
+						.catch(error => {
+							console.error(error);
+						})					
+					}
+				});														
 			},			
 			currentTask() {
+				
 				_self = this;
+				console.log(_self.arrayContant)
 				uni.showModal({
 					title: '是否提交数据？',
 					content: '确认无误后即可提交数据',
@@ -207,28 +247,27 @@ var _self;
 								title: '提交中...'
 							})
 							uni.request({
-								url: 'http://ranqi.qhd58.net/api/jk/xunjian_qk',
+								url: 'http://ranqi.qhd58.net/api/jk/anjian_qk',
 								method: 'POST',
 								data: {
+									name: _self.ming,
 									xiaoqu: _self.xiaoqu,
 									dong: _self.dong,
 									danyuan: _self.danyuan,
 									menpai: _self.menpai,
-									lq: _self.index,
-									rqgdyzxs: _self.index2,
-									zprsq: _self.index3,
-									rqrsbgf: _self.index4,
-									xjrgps: _self.index5,
+									lq: _self.arrayContant,
+									rqgdyzxs: _self.array2Contant,
+									zprsq: _self.array3Contant,
+									rqrsbgf: _self.array4Contant,
+									xjrgps: _self.array5Contant,
 									content: _self.contant,
 									jin_img: _self.jinBase64,
 									yuan_img: _self.yuanBase64,
-									texie_img: _self.teBase64
+									texie_img: _self.teBase64,
+									hui_img: _self.gaozhiBase64
 								},
 								success: (res) => {
 									console.log(res.data);
-									console.log(_self.jinBase64);
-									console.log(_self.yuanBase64);
-									console.log(_self.teBase64);
 									uni.hideLoading()
 									if(res.data === 1) {
 										uni.showToast({
@@ -395,6 +434,14 @@ var _self;
 						background-size: 46upx;
 						border-radius: 10upx;
 						border: 1upx dashed #bababa;
+						position: relative;
+						image {
+							width: 164upx;
+							height: 164upx;
+							position: absolute;
+							left: 0;
+							top: 0;
+						}
 					}
 				}
 

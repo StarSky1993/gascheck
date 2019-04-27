@@ -31,7 +31,7 @@
 				<view class="uni-input">其他：{{array5[index5]}}</view><text class="text11 eosfont">&#xe60b;</text>					
 			</picker>
 			<text class="text6">详细描述：</text>
-			<textarea placeholder-style="color:#F76260" placeholder="请输入具体内容" v-model="contant" />
+			<textarea placeholder-style="color:#F76260" placeholder="请输入具体内容" v-model="content" />
 			<view class="upload">
 				<view @click="UploadImg1">
 					<text class="center">近景</text>
@@ -75,10 +75,12 @@ var _self;
 				jin: '',
 				yuan: '',
 				te: '',
-				contant: '',
+				content: '',
 				jinBase64: '',
 				yuanBase64: '',
-				teBase64: ''
+				teBase64: '',
+				username: '',
+				password: ''
 			}
 		},
 		onLoad(options) {
@@ -94,6 +96,13 @@ var _self;
 			_self.name = options.name;
 			_self.bd_lat = options.bd_lat;
 			_self.bd_lng = options.bd_lng;
+			uni.getStorage({
+				key: 'user',
+				success: function (res) {
+					_self.username = res.data.username;
+					_self.password = res.data.password;
+				}
+			});
 		},
 		methods: {
 			goback() {
@@ -124,6 +133,10 @@ var _self;
 					sourceType: ['album','camera'], //从相册选择
 					success: function (res) {
 						_self.jin = res.tempFilePaths[0];
+						// 预览图片
+						uni.previewImage({
+							urls: res.tempFilePaths
+						});
 						uni.showLoading({
 							title: '读取中...'
 						})
@@ -145,6 +158,10 @@ var _self;
 			success: function (res) {
 			console.log(res.tempFilePaths[0]);
 			_self.yuan = res.tempFilePaths[0];
+			// 预览图片
+			uni.previewImage({
+				urls: res.tempFilePaths
+			});
 			uni.showLoading({
 				title: '读取中...'
 			})
@@ -167,6 +184,10 @@ var _self;
 			sourceType: ['album','camera'], //从相册选择
 			success: function (res) {
 			_self.te = res.tempFilePaths[0];
+			// 预览图片
+			uni.previewImage({
+				urls: res.tempFilePaths
+			});
 			uni.showLoading({
 				title: '读取中...'
 			})
@@ -196,15 +217,15 @@ var _self;
 								url: 'http://ranqi.qhd58.net/api/jk/xunjian_qk',
 								method: 'POST',
 								data: {
-									username: 1,
-									password: 1,
+									username: _self.username,
+									password: _self.password,
 									id: _self.id,
-									gdlq: this.index,
-									gdsg: this.index2,
-									fmswh: this.index3,
-									tyzxwh: this.index4,
-									qita: this.index5,
-									content: this.contant,
+									gdlq: _self.index,
+									gdsg: _self.index2,
+									fmswh: _self.index3,
+									tyzxwh: _self.index4,
+									qita: _self.index5,
+									content: _self.content,
 									jin_img: _self.jinBase64,
 									yuan_img: _self.yuanBase64,
 									texie_img: _self.teBase64
@@ -215,6 +236,9 @@ var _self;
 										title: '提交成功！'
 									})
 									console.log(res.data);
+									console.log(_self.jinBase64);
+									console.log(_self.yuanBase64);
+									console.log(_self.teBase64);
 								}
 							});
 						} else if (res.cancel) {

@@ -36,7 +36,7 @@
 					success: (res) => {	
 						uni.setStorage({
 							key: 'user',
-							data: this.username,
+							data: this.user,
 							success: function() {
 								console.log('success')
 							}

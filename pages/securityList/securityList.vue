@@ -39,30 +39,49 @@
 </template>
 
 <script>
+var _self;
 	export default {
 		data() {
 			return {
 				name: '',
 				securityData: [],
-				xiaoqu: ''
+				xiaoqu: '',
+				username: '',
+				password: ''
 			}
 		},
 		onLoad() {
+			_self = this;
 			uni.showLoading({
 				title: '加载中'
 			})
+			uni.getStorage({
+				key: 'user',
+				success: function (res) {
+					_self.username = res.data.username;
+					_self.password = res.data.password;
+				}
+			});
 			uni.request({
 				url: "http://ranqi.qhd58.net/api/jk/xiaoqu",
 				data: {
-					username: "2",
-					password: "2"
+					username: _self.username,
+					password: _self.password
 				},
 				header: {
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 				},
 				success: (res) => {	
 					uni.hideLoading();
-					this.name = res.data[0].name;
+					_self.name = res.data[0].name;
+					uni.setStorage({
+						key: 'ming',
+						data: _self.name,
+						success: function(res) {
+							console.log('success')
+						}
+					})
+					
 					this.securityData = res.data;
 				},
 				fail: (res) => {

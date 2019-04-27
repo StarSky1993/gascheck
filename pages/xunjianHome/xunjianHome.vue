@@ -31,29 +31,31 @@ var _self;
 			}
 		},
 		onLoad() {
+			_self = this;
 			uni.showLoading({
 				title: '加载中'
 			})
 			uni.getStorage({
 				key: 'user',
 				success: function (res) {
-					console.log(res.data);
-					this.username = res.data.username;
-					this.password = res.data.password;
+					_self.username = res.data.username;
+					_self.password = res.data.password;
 				}
 			});
 			uni.request({
 				url: this.$api.XUNJIANHOME,
 				method: "GET",
 				data: {
-					username: this.username,
-					password: this.password
+					username: _self.username,
+					password: _self.password
 				},
 				header: {
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 				},
 				success: (res) => {
 					uni.hideLoading();
+					console.log(this.username);
+					console.log(this.password)
 					this.name = res.data.name;
 				}
 			});
@@ -75,8 +77,8 @@ var _self;
 						uni.request({
 							url: "http://ranqi.qhd58.net/api/jk/caiji",
 							data: {
-								username: "1",
-								password: "1",
+								username: _self.username,
+								password: _self.password,
 								jing: _self.coordinate.bd_lat,
 								wei: _self.coordinate.bd_lng
 							},

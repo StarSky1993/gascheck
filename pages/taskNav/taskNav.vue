@@ -54,23 +54,31 @@ var _self;
 			return {
 				taskNav: [],
 				name: '',
-				coordinate: {}
+				coordinate: {},
+				username: '',
+				password: ''
 			}
 		},
 		
 		filters: {
-			numFilter(value) {
-				
+			numFilter(value) {	
 				let realVal = new Number(value).toFixed(6);
 				return realVal;
 			}
 		},
 		onLoad(options) {
+			_self = this;
 			uni.showLoading({
 				title: '加载中',
 				mask: true
 			})
-			_self = this;
+			uni.getStorage({
+				key: 'user',
+				success: function (res) {
+					_self.username = res.data.username;
+					_self.password = res.data.password;
+				}
+			});			
 			_self.name = options.name;
 			uni.getLocation({
 				type: 'gcj02',
@@ -86,8 +94,8 @@ var _self;
 			uni.request({
 				url: "http://ranqi.qhd58.net/api/Jk/renwu_xun",
 				data: {
-					username: "1",
-					password: "1"
+					username: _self.username,
+					password: _self.password
 				},
 				header: {
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息

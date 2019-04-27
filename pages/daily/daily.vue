@@ -39,14 +39,25 @@
 </template>
 
 <script>
+var _self;
 	export default {
 		data() {
 			return {
 				ming: '',
-				rizhiList: []
+				rizhiList: [],
+				username: '',
+				password: ''
 			}
 		},
 		onLoad() {
+			_self = this;
+			uni.getStorage({
+				key: 'user',
+				success: function (res) {
+					_self.username = res.data.username;
+					_self.password = res.data.password;
+				}
+			});
 			uni.showLoading({
 				title: '加载中',
 				mask: true
@@ -57,8 +68,8 @@
 			uni.request({
 				url: "http://ranqi.qhd58.net/api/Jk/xun_rizhi",
 				data: {
-					username: "1",
-					password: "1"
+					username: _self.username,
+					password: _self.password
 				},
 				header: {
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息

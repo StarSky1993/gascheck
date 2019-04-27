@@ -7,20 +7,20 @@
             <text>当前任务</text>
             <text class="eosfont">&#xe670;</text>
         </view>
-        <view class="list" v-show="index==1">
-            <view class="item" v-for="(item,index) in 3" :key="index" @click="onDetail" >
+        <view class="list" v-show="idx==1">
+            <view class="item" v-for="(item,index) in xunjianList" :key="index" @click="onDetail" >
                 <view class="img"></view>
                 <view class="content">
-                    <view class="title2">环境学院教学楼302</view>
-                    <view class="content2">燃气问题描述燃气问题描述燃气问题描述燃气问题描述燃气问题描述燃气问题描述</view>
+                    <view class="title2">{{item.dizhi}}</view>
+                    <view class="content2">{{item.content}}</view>
                     <view class="time-box">
                         <text class="time_ico eosfont">&#xe60a;</text>
-                        <text class="time">2019-04-26</text>
+                        <text class="time">{{item.end}}</text>
                     </view>
                 </view>
             </view>
         </view>
-		<view class="list" v-show="index==2">
+		<view class="list" v-show="idx==2">
 		    <view class="item" v-for="(item,index) in 3" :key="index">
 		        <view class="img2"></view>
 		        <view class="content">
@@ -36,8 +36,8 @@
 		<view class="hujiao">呼叫调度中心</view>
 		<view class="tab">
 			<view>
-				<text class="t1" :class="{active:index==1}" @click="index=1">当前任务</text>
-				<text class="t2" :class="{active2:index==2}" @click="index=2">已完成任务</text>				
+				<text class="t1" :class="{active:idx==1}" @click="idx=1">当前任务</text>
+				<text class="t2" :class="{active2:idx==2}" @click="idx=2">已完成任务</text>				
 			</view>
 		</view>
     </view>
@@ -47,11 +47,23 @@
 export default {
     data() {
         return {
-			index: 1
+			idx: 1,
+			xunjianList: []
         }
     },
     onLoad() {
-
+		uni.showLoading({
+			title: '加载中...'
+		})
+		
+		uni.request({
+			url: 'http://ranqi.qhd58.net/api/jk/weixiu_xun',
+			method: 'POST',
+			success: (res) => {
+				uni.hideLoading()
+				this.xunjianList = res.data;
+			}
+		});
     },
     methods: {
 		onDetail() {
@@ -86,7 +98,7 @@ export default {
             line-height: 87upx;
             justify-content: space-between;
             padding: 0 21upx;
-            position: absolute;
+            position: fixed;
             box-sizing: border-box;
             top: 50upx;
             left: 0;
