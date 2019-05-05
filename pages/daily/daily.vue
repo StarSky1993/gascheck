@@ -14,10 +14,7 @@
                         <view>{{item.start}}</view>
                     </view>
                     <view class="info">
-                        <view>
-                            <text>任务内容：</text>
-                            <text class="huise">{{item.name}}</text>
-                        </view>
+
                         <view>
                             <text>任务时间：</text>
                             <text class="huise">{{item.end}}</text>
@@ -70,9 +67,6 @@ var _self;
 				data: {
 					username: _self.username,
 					password: _self.password
-				},
-				header: {
-					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 				},
 				success: (res) => {	
 					uni.hideLoading();

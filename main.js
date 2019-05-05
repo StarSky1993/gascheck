@@ -7,7 +7,9 @@ Vue.prototype.$store = store;
 Vue.prototype.$axios = axios;
 Vue.prototype.$api = api;
 Vue.config.productionTip = false
-
+//引入图片懒加载组件
+import lazyImage from "./components/lazy-image"
+Vue.component('lazy-image',lazyImage)
 App.mpType = 'app'
 
 const app = new Vue({

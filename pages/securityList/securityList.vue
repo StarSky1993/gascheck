@@ -11,7 +11,7 @@
                 <view class="inner">
                     <view class="title">
                         <view>编号：<text>#{{index}}</text></view>
-                        <view>{{item.st_time}}</view>
+                        <view class="fd">{{item.st_time}}</view>
                     </view>
                     <view class="info">
                         <view>
@@ -191,6 +191,9 @@ var _self;
                             font-size: 22upx;
                             color: #8f8f8f;
                         }
+						.fd {
+							font-size: 26upx;
+						}
                     }
                     .info {
                         view {
@@ -200,7 +203,15 @@ var _self;
                             height: 50upx;
                             line-height: 50upx;
                             .huise {
+								display: block;
+								width: 200upx;
                                 color: #6d6d6d;
+								overflow:hidden;
+								text-overflow:ellipsis;
+								white-space:nowrap;
+								text-align: right;
+								font-size: 26upx;
+								
                             }
                         }
                         border-bottom: 1upx solid #c4c4c4;

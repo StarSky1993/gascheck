@@ -7,35 +7,36 @@
             <text class="text3">部门：巡检部</text>
         </view>	
 		<view class="form">
-			<picker @change="bindPickerChange" :value="index" :range="array">
+			<picker @change="bindPickerChange" :value="index" :range="array" :disabled=true>
 				<view class="uni-input">管道漏气：{{array[index]}}</view><text class="text7 eosfont">&#xe60b;</text>					
 			</picker>
-			<picker @change="bindPickerChange2" :value="index2" :range="array2">
+			<picker @change="bindPickerChange2" :value="index2" :range="array2" :disabled=true>
 				<view class="uni-input">管道施工：{{array2[index2]}}</view><text class="text8 eosfont">&#xe60b;</text>					
 			</picker>
-			<picker @change="bindPickerChange3" :value="index3" :range="array3">
+			<picker @change="bindPickerChange3" :value="index3" :range="array3" :disabled=true>
 				<view class="uni-input">阀门师维护：{{array3[index3]}}</view><text class="text9 eosfont">&#xe60b;</text>					
 			</picker>
-			<picker @change="bindPickerChange4" :value="index4" :range="array4">
+			<picker @change="bindPickerChange4" :value="index4" :range="array4" :disabled=true>
 				<view class="uni-input">调压站箱维护：{{array4[index4]}}</view><text class="text10 eosfont">&#xe60b;</text>						
 			</picker>
-			<picker @change="bindPickerChange5" :value="index5" :range="array5">
+			<picker @change="bindPickerChange5" :value="index5" :range="array5" :disabled=true>
 				<view class="uni-input">其他：{{array5[index5]}}</view><text class="text11 eosfont">&#xe60b;</text>					
 			</picker>
 			<text class="text6">详细描述：</text>
 			<view class="textarea">{{showDetail.content}}</view>
 			<view class="upload">
 				<view>
-					<text class="center">近景</text>
-					<view class="uploadImg"><image :src="'http://ranqi.qhd58.net' + showDetail.jin_img"></image></view>
+					<text class="center">近景</text>					
+					<view class="uploadImg"><lazy-image  :realSrc="'http://ranqi.qhd58.net' + showDetail.jin_img" :placeholdSrc="placeholderSrc"></lazy-image></view>
 				</view>
 				<view>
 					<text class="center">远景</text>
-					<view class="uploadImg"><image :src="'http://ranqi.qhd58.net' + showDetail.yuan_img"></image></view>
+					
+					<view class="uploadImg"><lazy-image  :realSrc="'http://ranqi.qhd58.net' + showDetail.yuan_img" :placeholdSrc="placeholderSrc"></lazy-image></view>
 				</view>
 				<view>
-					<text class="center">特写</text>
-					<view class="uploadImg"><image :src="'http://ranqi.qhd58.net' + showDetail.texie_img"></image></view>
+					<text class="center">特写</text>					
+					<view class="uploadImg"><lazy-image  :realSrc="'http://ranqi.qhd58.net' + showDetail.texie_img" :placeholdSrc="placeholderSrc"></lazy-image></view>
 				</view>		
 			</view>
 		</view>		
@@ -43,10 +44,8 @@
 </template>
 
 <script>
-
 var _self;
 	export default {
-
 		data() {
 			return {
 				id: '',				
@@ -62,7 +61,10 @@ var _self;
 				index3: 0,
 				index4: 0,
 				index5: 0,
-				showDetail: {}
+				showDetail: {},
+				placeholderSrc: '../../static/images/common/abc.png',
+				show: false,
+				loaded: false
 			}
 		},
 		onLoad(options) {
@@ -227,25 +229,22 @@ var _self;
 			}
 			.upload {
 				display: flex;
-				justify-content: space-around;
+				flex-direction: column;
 				margin-top: 19upx;
 				.center {
-					text-align: center;
 					display: block;
 					font-size: 30upx;
 					margin-bottom: 10upx;
 				}
 				.uploadImg {
-					width: 164upx;
-					height: 164upx;
-					background: #f6f2ef url('~@/static/images/condition/add.png') center center no-repeat;
-					background-size: 46upx;
+					width: 100%;
+					height: 400upx;
 					border-radius: 10upx;
 					border: 1upx dashed #bababa;
 					position: relative;
 					image {
-						width: 164upx;
-						height: 164upx;
+						width: 100%;
+						height: 100%;
 						position: absolute;
 						left: 0;
 						top: 0;

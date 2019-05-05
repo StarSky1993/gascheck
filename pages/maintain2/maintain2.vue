@@ -7,7 +7,7 @@
 		    <text>资料上传</text>
 		    <text class="eosfont">&#xe670;</text>
 		</view>
-		<view class="dizhi">{{showData.dizhi}}</view>
+		<view class="dizhi">{{showData.xiaoqu}}&nbsp;&nbsp;{{showData.dong}}-{{showData.danyuan}}-{{showData.menpai}}</view>
 		<view class="time">
 			<text class="eosfont">&#xe60a;</text>
 			<text class="shijian">{{showData.end}}</text>
@@ -16,29 +16,29 @@
 		<view class="wimg">问题图片</view>
 		<view class="yuan">
 			<text>远景:</text>
-			<lazy-image  :realSrc="'http://ranqi.qhd58.net' + showData.yuan_img" :placeholdSrc="placeholderSrc"></lazy-image>
+			<image :src="'http://ranqi.qhd58.net' + showData.yuan_img"></image>
 		</view>
 		<view class="jin">
-			<text>近景:</text>			
-			<lazy-image  :realSrc="'http://ranqi.qhd58.net' + showData.jin_img" :placeholdSrc="placeholderSrc"></lazy-image>
+			<text>近景:</text>
+			<image :src="'http://ranqi.qhd58.net' + showData.jin_img"></image>
 		</view>
 		<view class="te">
 			<text>特写:</text>
-			<lazy-image :realSrc="'http://ranqi.qhd58.net' + showData.texie_img" :placeholdSrc="placeholderSrc"></lazy-image>
+			<image :src="'http://ranqi.qhd58.net' + showData.texie_img"></image>
 		</view>
 		<view class="dispose">处理图片</view>
 		<view class="upload">
 			<view @click="UploadImg2">
 				<text class="center">远景</text>
-				<view class="uploadImg"><image :src="yuan"></image></view>
+				<view class="uploadImg"><lazy-image  :realSrc="'http://ranqi.qhd58.net' + showData.yuan_img" :placeholdSrc="placeholderSrc"></lazy-image></view>
 			</view>
 			<view @click="UploadImg1">
 				<text class="center">近景</text>
-				<view class="uploadImg"><image :src="jin"></image></view>
+				<view class="uploadImg"><lazy-image  :realSrc="'http://ranqi.qhd58.net' + showData.jin_img" :placeholdSrc="placeholderSrc"></lazy-image></view>
 			</view>			
 			<view @click="UploadImg3">
 				<text class="center">特写</text>
-				<view class="uploadImg"><image :src="te"></image></view>
+				<view class="uploadImg"><lazy-image :realSrc="'http://ranqi.qhd58.net' + showData.texie_img" :placeholdSrc="placeholderSrc"></lazy-image></view>
 			</view>		
 		</view>	
 		<view class="content5">
@@ -185,12 +185,6 @@ export default {
 				success: function (res) {
 					if (res.confirm) {
 						console.log('用户点击确定');
-						if (!_self.content) {
-							uni.showToast({
-								title: '内容不能为空！'
-							})
-							return false
-						}
 						uni.showLoading({
 							title: '提交中...'
 						})
@@ -212,9 +206,6 @@ export default {
 									uni.showToast({
 										title: '提交成功！'
 									})
-									uni.redirectTo({
-										url: '/pages/Task/currentTask'
-									});
 								}else {
 									uni.showToast({
 										title: '提交失败,请重新提交！'

@@ -30,14 +30,29 @@
 		{	//安检情况
 			"path": "pages/condition/condition2"
 		},
-		{	//维修工列表1
+		{	//维修工巡检列表1
 			"path": "pages/Task/currentTask"
 		},
 		{
 			"path": "pages/maintain/maintain"
 		},
+		{	//维修工安检列表1
+			"path": "pages/Task2/currentTask2"
+		},
+		{
+			"path": "pages/maintain2/maintain2"
+		},		
 		{
 			"path": "pages/CheckDetails/CheckDetails"
+		},
+		{
+			"path": "pages/Look/look"
+		},
+		{
+			"path": "pages/maintain3/maintain3"
+		},
+		{
+			"path": "pages/Look2/look2"
 		}
 	],
 	"globalStyle": {

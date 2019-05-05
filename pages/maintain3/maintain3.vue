@@ -7,20 +7,20 @@
 		    <text>资料上传</text>
 		    <text class="eosfont">&#xe670;</text>
 		</view>
-		<view class="dizhi">{{showData.dizhi}}</view>
+		<view class="dizhi">{{showData.xiaoqu}}&nbsp;&nbsp;{{showData.dong}}-{{showData.danyuan}}-{{showData.menpai}}</view>
 		<view class="time">
 			<text class="eosfont">&#xe60a;</text>
-			<text class="shijian">{{showData.end}}</text>
+			<text class="shijian">{{showData.add_time}}</text>
 		</view>
 		<view class="content">{{showData.content}}</view>
 		<view class="wimg">问题图片</view>
 		<view class="yuan">
 			<text>远景:</text>
-			<lazy-image  :realSrc="'http://ranqi.qhd58.net' + showData.yuan_img" :placeholdSrc="placeholderSrc"></lazy-image>
+			<lazy-image :realSrc="'http://ranqi.qhd58.net' + showData.yuan_img" :placeholdSrc="placeholderSrc"></lazy-image>
 		</view>
 		<view class="jin">
-			<text>近景:</text>			
-			<lazy-image  :realSrc="'http://ranqi.qhd58.net' + showData.jin_img" :placeholdSrc="placeholderSrc"></lazy-image>
+			<text>近景:</text>
+			<lazy-image :realSrc="'http://ranqi.qhd58.net' + showData.jin_img" :placeholdSrc="placeholderSrc"></lazy-image>
 		</view>
 		<view class="te">
 			<text>特写:</text>
@@ -45,7 +45,7 @@
 			<text class="text6">详细描述：</text>
 			<textarea placeholder-style="color:#F76260" placeholder="请输入具体内容" v-model="content" maxlength=500 />			
 		</view>
-		<view class="btn" @click="upload">上传</view>	
+		<view class="btn" @click="upload">上传</view>			
 	</view>
 </template>
 
@@ -64,32 +64,24 @@ export default {
 			yuan: '',
 			te: '',
 			id: '',
-			content: '',
-			placeholderSrc: '../../static/images/common/abc.png',
-			show: false,
-			loaded: false
+			content: ''
         }
     },
     onLoad(options) {
 		_self = this;
+		
 		_self.id = options.id;
-		uni.getStorage({
-			key: 'status',
-			success: function (res) {
-				_self.status = res.data;
-			}
-		});
+		console.log(_self.id)
 		uni.request({
 			url: 'http://ranqi.qhd58.net/api/jk/find',
 			method: 'POST',
 			data: {
-				id: _self.id,
-				xun: _self.status
+				id: _self.id
 			},
 			success: (res) => {
-				console.log(_self.status)
 				uni.hideLoading()
 				_self.showData = res.data;
+				console.log(_self.showData.jin_img)
 			}
 		});
     },
@@ -178,19 +170,18 @@ export default {
 		},
 		upload() {
 			_self = this;
+			console.log(_self.id)
 			console.log(_self.jinBase64)
+			
+			console.log(_self.yuanBase64)
+			console.log(_self.teBase64)
+			console.log(_self.content)
 			uni.showModal({
 				title: '是否提交数据？',
 				content: '确认无误后即可提交数据',
 				success: function (res) {
 					if (res.confirm) {
 						console.log('用户点击确定');
-						if (!_self.content) {
-							uni.showToast({
-								title: '内容不能为空！'
-							})
-							return false
-						}
 						uni.showLoading({
 							title: '提交中...'
 						})
@@ -199,7 +190,6 @@ export default {
 							method: 'POST',
 							data: {
 								id: _self.id,
-								xun: _self.status,
 								wei_jin: _self.jinBase64,
 								wei_yuan: _self.yuanBase64,
 								wei_te: _self.teBase64,
@@ -213,7 +203,7 @@ export default {
 										title: '提交成功！'
 									})
 									uni.redirectTo({
-										url: '/pages/Task/currentTask'
+										url: '/pages/Task2/currentTask2'
 									});
 								}else {
 									uni.showToast({

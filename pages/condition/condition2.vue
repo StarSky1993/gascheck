@@ -271,7 +271,11 @@ var _self;
 									uni.hideLoading()
 									if(res.data === 1) {
 										uni.showToast({
-											title: '提交成功！'
+											title: '提交成功！',
+											duration: 2000
+										})
+										uni.redirectTo({
+											url: '/pages/securityList/securityList'
 										})
 									}else {
 										uni.showToast({
@@ -401,7 +405,7 @@ var _self;
 			textarea {
 				margin-top: 15upx;
 				width: 100%;
-				height: 120upx;
+				height: 200upx;
 				border: 3upx solid #f6f6fb;
 				font-size: 28upx;
 				padding: 10upx;

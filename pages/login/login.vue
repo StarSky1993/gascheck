@@ -1,7 +1,7 @@
 <template>
 	<view class="login">
 		<view class="logo">
-			<a href="javascript:;">秦皇岛市北戴河区燃气公司</a>
+			
 		</view>
 		<view class="form">
 			<text class="icon1 eosfont">&#xe768;</text><input type="number" v-model="user.username" maxlength="11" placeholder="请输入您的手机号" />
@@ -51,12 +51,32 @@
 								//安检列表
 								url: '/pages/securityList/securityList'
 							})
-						}else if(res.data === 3) {						
+						}else if(res.data === 3) {	
+							uni.setStorage({
+								key: 'status',
+								data: res.data,
+								success: function() {
+									console.log('success')
+								}
+							})
 							uni.navigateTo({
 								//维修工页面1
 								url: "/pages/Task/currentTask"
 							})
-						}else if(res.data === 0) {
+						}else if(res.data === 4) {	
+							uni.setStorage({
+								key: 'status2',
+								data: res.data,
+								success: function() {
+									console.log('success')
+								}
+							})
+							uni.navigateTo({
+								//维修工页面1
+								url: "/pages/Task2/currentTask2"
+							})
+						}
+						else if(res.data === 0) {
 							uni.showToast({
 								title: '账号或密码错误！',
 								icon: 'none',						
@@ -81,6 +101,9 @@
 		},
 		onLoad() {
 			_self = this;
+			uni.setKeepScreenOn({
+				keepScreenOn: true
+			})
 		},
 		onShow() {
 			

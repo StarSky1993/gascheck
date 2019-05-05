@@ -10,8 +10,8 @@
 				<text class="text5">状态：在线</text>
 			</view>
             <view class="row">
-				<text class="text4">经度：{{coordinate.bd_lat|numFilter}}</text>
-				<text class="text5">纬度：{{coordinate.bd_lng|numFilter}}</text>
+				<text class="text4">经度：{{lat}}</text>
+				<text class="text5">纬度：{{lng}}</text>
 			</view>
         </view>	
 		<view class="form">
@@ -19,13 +19,10 @@
                 <view class="inner">
                     <view class="title">
                         <view>编号：<text>#{{item.renwu_sb}}</text></view>
-                        <view>{{item.start}}</view>
+                        <view class="fd">{{item.start}}</view>
                     </view>
                     <view class="info">
-                        <view>
-                            <text>任务内容：</text>
-                            <text class="huise">{{item.name}}</text>
-                        </view>
+
                         <view>
                             <text>任务时间：</text>
                             <text class="huise">{{item.end}}</text>
@@ -56,14 +53,9 @@ var _self;
 				name: '',
 				coordinate: {},
 				username: '',
-				password: ''
-			}
-		},
-		
-		filters: {
-			numFilter(value) {	
-				let realVal = new Number(value).toFixed(6);
-				return realVal;
+				password: '',
+				lat: '',
+				lng: ''
 			}
 		},
 		onLoad(options) {
@@ -89,6 +81,9 @@ var _self;
 					console.log(res.longitude);						
 					//调用coordinate.js方法,将经纬度传入
 					_self.coordinate = coordinate(res.latitude,res.longitude);
+					_self.lat = parseFloat(_self.coordinate.bd_lat).toFixed(6); 
+					_self.lng = parseFloat(_self.coordinate.bd_lng).toFixed(6); 
+					console.log(_self.lat)
 				}
 			});
 			uni.request({
@@ -129,7 +124,7 @@ var _self;
 			onItem(id) {
 				_self = this;
 				uni.navigateTo({
-					url: `/pages/condition/condition?id=${id}&name=${_self.name}&bd_lat=${_self.coordinate.bd_lat}&bd_lng=${_self.coordinate.bd_lng}`
+					url: `/pages/condition/condition?id=${id}&name=${_self.name}`
 				})
 			}
         } 
@@ -212,6 +207,9 @@ var _self;
                             font-size: 22upx;
                             color: #8f8f8f;
                         }
+						.fd {
+							font-size: 26upx;
+						}
                     }
                     .info {
                         view {

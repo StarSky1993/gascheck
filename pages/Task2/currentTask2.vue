@@ -5,18 +5,18 @@
                 <text class="eosfont" @click="goback">&#xef07;退出</text>
             </view>
             <text v-if="idx==1" :class="{active:idx==1}">当前任务</text>
-            <text v-else :class="{active2:idx==2}">已完成任务</text>
+            <text v-else :class="{active2:idx==2}">已完成任务</text>	
             <text class="eosfont">&#xe670;</text>
         </view>
         <view class="list" v-show="idx==1">
-            <view class="item" v-for="(item,index) in xunjianList" :key="index" @click="onDetail(item.id)" >
+            <view class="item" v-for="(item,index) in anjianList" :key="index" @click="onDetail(item.id)" >
                 <view class="img"></view>
                 <view class="content">
-                    <view class="title2">{{item.dizhi}}</view>
-                    <view class="content2">{{item.content}}</view>
+                    <view class="title2">{{item.xiaoqu}}&nbsp;&nbsp;{{item.dong}}-{{item.danyuan}}-{{item.menpai}}</view>
+                    <view class="content2" v-if="item.aj_wz !== null">{{item.aj_wz}}</view>
                     <view class="time-box">
                         <text class="time_ico eosfont">&#xe60a;</text>
-                        <text class="time">{{item.end}}</text>
+                        <text class="time">{{item.add_time}}</text>
                     </view>
                 </view>
             </view>
@@ -25,8 +25,8 @@
 		    <view class="item" v-for="(items,index) in ywList" :key="index" @click="ywclick(items.id)">
 		        <view class="img2"></view>
 		        <view class="content">
-		            <view class="title2">{{items.dizhi}}</view>
-		            <view class="content2">{{items.wei_content}}</view>
+		            <view class="title2">{{items.xiaoqu}}&nbsp;&nbsp;{{items.dong}}-{{items.danyuan}}-{{items.menpai}}</view>
+		            <view class="content2">{{items.wx_wz}}</view>
 		            <view class="time-box">
 		                <text class="time_ico eosfont">&#xe60a;</text>
 		                <text class="time">{{items.wx_time}}</text>
@@ -49,7 +49,7 @@ export default {
     data() {
         return {
 			idx: 1,
-			xunjianList: [],
+			anjianList: [],
 			ywList: []
         }
     },
@@ -58,31 +58,31 @@ export default {
 			title: '加载中...'
 		})
 		uni.request({
-			url: 'http://ranqi.qhd58.net/api/jk/weixiu_xun',
+			url: 'http://ranqi.qhd58.net/api/jk/weixiu_an',
 			method: 'POST',
 			success: (res) => {
 				uni.hideLoading()
-				this.xunjianList = res.data;
+				this.anjianList = res.data;
 			}
 		});
 		uni.request({
-			url: 'http://ranqi.qhd58.net/api/jk/yw?xun=3',
+			url: 'http://ranqi.qhd58.net/api/jk/yw',
 			method: 'POST',
 			success: (res) => {
 				uni.hideLoading()
 				this.ywList = res.data;
 			}
-		});		
+		});	
     },
     methods: {
 		onDetail(id) {
 			uni.navigateTo({
-				url: `/pages/maintain/maintain?id=${id}`
+				url: `/pages/maintain3/maintain3?id=${id}`
 			})
 		},
 		ywclick(id) {
 			uni.navigateTo({
-				url: `/pages/Look/look?id=${id}`
+				url: `/pages/Look2/look2?id=${id}`
 			})
 		},
 		goback() {
@@ -105,7 +105,7 @@ export default {
 			uni.makePhoneCall({
 				phoneNumber: '0335-8888888'
 			});
-		}
+		}		
     } 
 }
 </script>

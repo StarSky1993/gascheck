@@ -10,8 +10,8 @@
 				<text class="text5">状态：在线</text>
 			</view>
             <view class="row">
-				<text class="text4">经度：{{bd_lat}}</text>
-				<text class="text5">纬度：{{bd_lng}}</text>
+				<text class="text4">经度：{{lat}}</text>
+				<text class="text5">纬度：{{lng}}</text>
 			</view>
         </view>	
 		<view class="form">
@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import {coordinate} from '../../common/js/coordinate.js';
 import { pathToBase64, base64ToPath } from '../../js_sdk/gsq-image-tools/image-tools/index.js'
 var _self;
 	export default {
@@ -80,7 +81,9 @@ var _self;
 				yuanBase64: '',
 				teBase64: '',
 				username: '',
-				password: ''
+				password: '',
+				lat: '',
+				lng: ''
 			}
 		},
 		onLoad(options) {
@@ -94,13 +97,25 @@ var _self;
 			_self = this;
 			_self.id = options.id;
 			_self.name = options.name;
-			_self.bd_lat = options.bd_lat;
-			_self.bd_lng = options.bd_lng;
 			uni.getStorage({
 				key: 'user',
 				success: function (res) {
 					_self.username = res.data.username;
 					_self.password = res.data.password;
+				}
+			});
+			uni.getLocation({
+				type: 'gcj02',
+				success: function (res) {
+					//当前经度
+					console.log(res.latitude);
+					//当前纬度
+					console.log(res.longitude);						
+					//调用coordinate.js方法,将经纬度传入
+					_self.coordinate = coordinate(res.latitude,res.longitude);
+					_self.lat = parseFloat(_self.coordinate.bd_lat).toFixed(6); 
+					_self.lng = parseFloat(_self.coordinate.bd_lng).toFixed(6); 
+					console.log(_self.lat)
 				}
 			});
 		},
@@ -233,12 +248,16 @@ var _self;
 								success: (res) => {
 									uni.hideLoading()
 									uni.showToast({
-										title: '提交成功！'
+										title: '提交成功！',
+										duration: 2000
 									})
 									console.log(res.data);
 									console.log(_self.jinBase64);
 									console.log(_self.yuanBase64);
 									console.log(_self.teBase64);
+									uni.navigateTo({
+										url: '/pages/taskNav/taskNav'
+									})
 								}
 							});
 						} else if (res.cancel) {
@@ -355,7 +374,7 @@ var _self;
 			textarea {
 				margin-top: 15upx;
 				width: 100%;
-				height: 120upx;
+				height: 200upx;
 				border: 3upx solid #f6f6fb;
 				font-size: 28upx;
 				padding: 10upx;
@@ -391,8 +410,7 @@ var _self;
 			.btn {
 				width: 410upx;
 				height: 72upx;
-				margin: 0 auto;
-				margin-top: 40upx;
+				margin: 40upx auto;
 				line-height: 72upx;
 				border-radius: 20upx;
 				background: #5497f7;

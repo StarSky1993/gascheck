@@ -10,7 +10,6 @@
                 <view class="nav2" @click="GetLocation"></view>
                 <view class="nav3" @click="daily"></view>
                 <view class="nav4" @click="taskNav"></view>
-                <view class="nav5" @click="condition"></view>
             </view>
             <view class="footer" @click="call">调度中心：0335-8888888</view>
         </view>
@@ -27,19 +26,34 @@ var _self;
 				coordinate: {},
 				name: '',
 				username: '',
-				password: ''
+				password: '',
+				lat1: '',
+				lng1: '',
+				lat2: '',
+				lng2: '',
+				time: '',
+				distance: '',
+				coordinate2: ''
 			}
 		},
 		onLoad() {
-			_self = this;
 			uni.showLoading({
 				title: '加载中'
 			})
+			_self = this;
 			uni.getStorage({
 				key: 'user',
 				success: function (res) {
 					_self.username = res.data.username;
 					_self.password = res.data.password;
+				}
+			});
+			uni.getLocation({
+				type: 'gcj02',
+				success: function (res) {					
+					_self.coordinate = coordinate(res.latitude,res.longitude);
+					_self.lat1 = _self.coordinate.bd_lat;
+					_self.lng1 = _self.coordinate.bd_lng;
 				}
 			});
 			uni.request({
@@ -54,25 +68,70 @@ var _self;
 				},
 				success: (res) => {
 					uni.hideLoading();
-					console.log(this.username);
-					console.log(this.password)
 					this.name = res.data.name;
 				}
 			});
+
+			uni.request({
+				url: 'http://ranqi.qhd58.net/api/Jk/jiange',
+				success: (res) => {
+					_self.time = parseInt(res.data);
+					clearInterval(timer);
+					const timer = setInterval(()=> {
+						uni.getLocation({
+							type: 'gcj02',
+							success: (res) => {
+								_self.coordinate2 = coordinate(res.latitude,res.longitude);
+								/* 这里到底是等于lat1,还有_self.coordinate.bd_lat待测试 */
+								_self.lat2 = _self.coordinate.bd_lat;
+								_self.lng2 = _self.coordinate.bd_lng;
+								_self.distance = this.getDistance(_self.lat1, _self.lng1, _self.lat2, _self.lng2)
+								_self.distance = parseInt(this.distance)
+								console.log(_self.distance);
+								uni.request({
+									url: 'http://ranqi.qhd58.net/api/Jk/zuobiao',
+									data: {
+										username: _self.username,
+										password: _self.password,
+										jing: _self.lat1,
+										wei: _self.lng1,
+										mm: _self.distance
+									},
+									success: (res) => {
+										uni.hideLoading();
+										console.log(_self.lat1)
+										console.log(_self.lng1)
+									}
+								});
+							}
+						});						
+					},_self.time*1000)
+				}
+			})	
+			
 		},
 		methods: {
+			getDistance(lat1, lng1, lat2, lng2) {
+				let a = (Math.PI/180)*lat1;
+				let b = (Math.PI/180)*lat2;
+				let c = (Math.PI/180)*lng1;
+				let d = (Math.PI/180)*lng2;
+				let r = 6371;
+				let m = Math.acos(Math.sin(a)*Math.sin(b)+Math.cos(a)*Math.cos(b)*Math.cos(d-c))*r;
+				m*1000;
+				return m;
+			},
 			//获取位置
 			GetLocation() {
+				uni.showLoading({
+					title: '位置采集中...',
+					icon: "none"
+				});
 				_self = this;
 				uni.getLocation({
 					type: 'gcj02',
 					success: function (res) {
-						//当前经度
-						console.log(res.latitude);
-						//当前纬度
-						console.log(res.longitude);						
-						//调用coordinate.js方法,将经纬度传入
-						_self.coordinate = coordinate(res.latitude,res.longitude);
+						
 						//请求获取当前位置接口
 						uni.request({
 							url: "http://ranqi.qhd58.net/api/jk/caiji",
@@ -85,7 +144,8 @@ var _self;
 							header: {
 								'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 							},
-							success: (res) => {								
+							success: (res) => {	
+								uni.hideLoading()
 								uni.showToast({
 									title: '位置采集成功!',
 									icon: "none",
@@ -182,35 +242,30 @@ var _self;
                 border-radius: 20upx;
                 display: flex;
                 flex-wrap: wrap;
-                padding: 0 33upx;
+                padding: 30upx 30upx;
+				justify-content: space-between;
                 box-sizing: border-box;
-                .nav1,.nav2 {
-                    width: 306upx;
-                    height: 205upx;
+                .nav1,.nav2,.nav3,.nav4 {
+                    width: 47%;
+                    height: 233upx;
                     background: url('~@/static/images/xunjianHome/nav1.png');
                     background-size: 100% 100%;
-                    margin-top: 37upx;
                 }
                 .nav2 {
                     margin-left: 15upx;
                     background: url('~@/static/images/xunjianHome/nav2.png');
                     background-size: 100% 100%;                    
                 }
-                .nav3,.nav4,.nav5 {
-                    width: 209upx;
-                    height: 250upx;
+                .nav3 {
                     background: url('~@/static/images/xunjianHome/nav3.png');
                     background-size: 100% 100%; 
-                    margin-bottom: 38upx;
                 }
                 .nav4 {
+					margin-left: 15upx;
                     background: url('~@/static/images/xunjianHome/nav4.png');
                     background-size: 100% 100%;                     
                 }
-                .nav5 {
-                    background: url('~@/static/images/xunjianHome/nav5.png');
-                    background-size: 100% 100%;                     
-                }
+
             }
             .footer {
                 width: 100%;
