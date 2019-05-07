@@ -123,6 +123,21 @@ var _self;
 			}  
 		},  
 		methods: {
+			GETPOST() {
+				uni.getLocation({
+				type: 'wgs84',
+				success: function (res) {
+				
+				uni.showToast({
+					title: `${res.longitude}\n${res.latitude}`,
+					mask: false,
+					icon: "none",
+					duration: 1500
+				});
+				
+				}
+				});
+			},
 			getDistance(lat1, lng1, lat2, lng2) {
 				let a = (Math.PI/180)*lat1;
 				let b = (Math.PI/180)*lat2;
