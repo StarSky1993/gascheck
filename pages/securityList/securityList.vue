@@ -11,26 +11,24 @@
                 <view class="inner">
                     <view class="title">
                         <view>编号：<text>#{{index}}</text></view>
-                        <view class="fd">{{item.st_time}}</view>
+                        <view class="fd" v-if="item.st_time !== null">{{item.st_time}}</view>
                     </view>
                     <view class="info">
                         <view>
                             <text>任务内容：</text>
-                            <text class="huise">{{item.renwu_name}}</text>
+                            <text class="huise" v-if="item.renwu_name !== null">{{item.renwu_name}}</text>
                         </view>
                         <view>
                             <text>任务时间：</text>
-                            <text class="huise">{{item.end_time}}</text>
+                            <text class="huise" v-if="item.end_time !== null">{{item.end_time}}</text>
                         </view>
                         <view>
                             <text>任务地址：</text>
-                            <text class="huise">{{item.xiaoqu}}</text>
+                            <text class="huise" v-if="item.xiaoqu !== null">{{item.xiaoqu}}</text>
                         </view>                
                     </view>  
                     <view class="tab">
                         <text @click="call">呼叫调度中心</text>
-                        <text>入户次数: 0</text>
-                        <text class="icon2 eosfont">&#xe63a;</text>
                     </view>  
                 </view>
             </view>
@@ -219,18 +217,12 @@ var _self;
                     }
                     .tab {
                         display: flex;
-                        justify-content: space-around;
+                        justify-content: center;
                         font-size: 24upx;
                         color: #6e6e6e;
                         height: 82upx;
                         line-height: 82upx;
                         position: relative;
-                    }
-                    .icon2 {
-                        position: absolute;
-                        left: 50%;
-                        top: 3upx;
-                        font-size: 22upx;
                     }
                 }
             }

@@ -46,8 +46,9 @@ var _self;
 				password: ''
 			}
 		},
-		onLoad() {
+		onLoad(options) {
 			_self = this;
+			_self.ming = options.name;
 			uni.getStorage({
 				key: 'user',
 				success: function (res) {
@@ -71,7 +72,6 @@ var _self;
 				success: (res) => {	
 					uni.hideLoading();
 					this.rizhiList = res.data;	
-					this.ming = res.data[0].ming;
 				},
 				fail: (res) => {
 					uni.hideLoading();

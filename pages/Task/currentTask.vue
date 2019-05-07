@@ -45,32 +45,48 @@
 </template>
 
 <script>
+	var _self;
 export default {
     data() {
         return {
 			idx: 1,
 			xunjianList: [],
-			ywList: []
+			ywList: [],
+			username: '',
+			password: ''
         }
     },
     onLoad() {
+		_self = this;
 		uni.showLoading({
 			title: '加载中...'
 		})
+		uni.getStorage({
+			key: 'user',
+			success: function (res) {				
+				_self.username = res.data.username;
+				_self.password = res.data.password;
+			}
+		});
 		uni.request({
 			url: 'http://ranqi.qhd58.net/api/jk/weixiu_xun',
 			method: 'POST',
 			success: (res) => {
 				uni.hideLoading()
-				this.xunjianList = res.data;
+				
+				_self.xunjianList = res.data;
 			}
 		});
 		uni.request({
 			url: 'http://ranqi.qhd58.net/api/jk/yw?xun=3',
+			data: {
+				username: _self.username,
+				password: _self.password
+			},
 			method: 'POST',
 			success: (res) => {
-				uni.hideLoading()
-				this.ywList = res.data;
+				console.log(res.data)
+				_self.ywList = res.data;
 			}
 		});		
     },

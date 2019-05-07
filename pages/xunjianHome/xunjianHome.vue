@@ -8,7 +8,7 @@
             <view class="nav">
                 <view class="nav1" @click="GETPOST"></view>
                 <view class="nav2" @click="GetLocation"></view>
-                <view class="nav3" @click="daily"></view>
+                <view class="nav3" @click="daily(name)"></view>
                 <view class="nav4" @click="taskNav"></view>
             </view>
             <view class="footer" @click="call">调度中心：0335-8888888</view>
@@ -33,10 +33,12 @@ var _self;
 				lng2: '',
 				time: '',
 				distance: '',
-				coordinate2: ''
+				coordinate2: '',
+				timer: ''
 			}
 		},
 		onLoad() {
+			
 			uni.showLoading({
 				title: '加载中'
 			})
@@ -71,12 +73,13 @@ var _self;
 					this.name = res.data.name;
 				}
 			});
-
+			
 			uni.request({
 				url: 'http://ranqi.qhd58.net/api/Jk/jiange',
 				success: (res) => {
+					
 					_self.time = parseInt(res.data);
-					clearInterval(timer);
+					clearInterval(timer)
 					const timer = setInterval(()=> {
 						uni.getLocation({
 							type: 'gcj02',
@@ -98,6 +101,7 @@ var _self;
 										mm: _self.distance
 									},
 									success: (res) => {
+										console.log(res.data)
 										uni.hideLoading();
 										console.log(_self.lat1)
 										console.log(_self.lng1)
@@ -105,11 +109,19 @@ var _self;
 								});
 							}
 						});						
-					},_self.time*1000)
+					},_self.time*1000)					
 				}
 			})	
 			
 		},
+		onUnload(){ 
+			_self = this;
+			console.log(_self.timer)
+			if(_self.timer) {  
+				clearInterval(_self.timer);  
+				_self.timer = null;  
+			}  
+		},  
 		methods: {
 			getDistance(lat1, lng1, lat2, lng2) {
 				let a = (Math.PI/180)*lat1;
@@ -145,6 +157,7 @@ var _self;
 								'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 							},
 							success: (res) => {	
+								console.log(res.data);
 								uni.hideLoading()
 								uni.showToast({
 									title: '位置采集成功!',
@@ -164,10 +177,10 @@ var _self;
 				});
 				
 			},
-            daily() {
+            daily(name) {
 				uni.navigateTo({
 					//查询日志
-					url: '/pages/daily/daily'
+					url: `/pages/daily/daily?name=${name}`
 				})                 
             },
             taskNav() {

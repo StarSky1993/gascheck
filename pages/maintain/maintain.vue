@@ -67,16 +67,26 @@ export default {
 			content: '',
 			placeholderSrc: '../../static/images/common/abc.png',
 			show: false,
-			loaded: false
+			loaded: false,
+			username: '',
+			password: ''			
         }
     },
     onLoad(options) {
 		_self = this;
 		_self.id = options.id;
+		console.log(options.name)
 		uni.getStorage({
 			key: 'status',
 			success: function (res) {
 				_self.status = res.data;
+			}
+		});
+		uni.getStorage({
+			key: 'user',
+			success: function (res) {				
+				_self.username = res.data.username;
+				_self.password = res.data.password;
 			}
 		});
 		uni.request({
@@ -203,10 +213,14 @@ export default {
 								wei_jin: _self.jinBase64,
 								wei_yuan: _self.yuanBase64,
 								wei_te: _self.teBase64,
-								wei_content: _self.content
+								wei_content: _self.content,
+								username: _self.username,
+								password: _self.password
 							},
 							success: (res) => {
 								uni.hideLoading();
+								console.log(_self.username);
+								console.log(_self.password);
 								console.log(res.data)
 								if(res.data === 1) {
 									uni.showToast({

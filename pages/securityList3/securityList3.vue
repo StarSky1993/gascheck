@@ -13,12 +13,10 @@
                         <view>编号：<text>#{{index}}</text></view>
                     </view>
                     <view class="info">
-						<view>{{item.danyuan}}</view>
+						<view>{{item.danyuan}}单元</view>
                     </view>  
                     <view class="tab">
                         <text @click="call">呼叫调度中心</text>
-                        <text>入户次数: 0</text>
-                        <text class="icon2 eosfont">&#xe63a;</text>
                     </view>  
                 </view>
             </view>
@@ -177,18 +175,12 @@
                     }
                     .tab {
                         display: flex;
-                        justify-content: space-around;
+                        justify-content: center;
                         font-size: 24upx;
                         color: #6e6e6e;
                         height: 82upx;
                         line-height: 82upx;
                         position: relative;
-                    }
-                    .icon2 {
-                        position: absolute;
-                        left: 50%;
-                        top: 3upx;
-                        font-size: 22upx;
                     }
                 }
             }
