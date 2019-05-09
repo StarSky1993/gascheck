@@ -6,7 +6,7 @@
             <text class="text3">部门名称：巡检部</text>
             <text class="text4">我的功能</text>
             <view class="nav">
-                <view class="nav1" @click="GETPOST"></view>
+                <view class="nav1"></view>
                 <view class="nav2" @click="GetLocation"></view>
                 <view class="nav3" @click="daily(name)"></view>
                 <view class="nav4" @click="taskNav"></view>
@@ -19,6 +19,7 @@
 <script>
 import {coordinate} from '../../common/js/coordinate.js';
 var _self;
+
 	export default {
 		data() {
 			return {
@@ -34,15 +35,16 @@ var _self;
 				time: '',
 				distance: '',
 				coordinate2: '',
-				timer: ''
+				timer: null,
+				timer3: null
 			}
 		},
 		onLoad() {
-			
+			_self = this;
 			uni.showLoading({
 				title: '加载中'
 			})
-			_self = this;
+			
 			uni.getStorage({
 				key: 'user',
 				success: function (res) {
@@ -52,12 +54,31 @@ var _self;
 			});
 			uni.getLocation({
 				type: 'gcj02',
-				success: function (res) {					
+				success: function (res) {
+					_self.$realTime.wakeLock()
 					_self.coordinate = coordinate(res.latitude,res.longitude);
-					_self.lat1 = _self.coordinate.bd_lat;
-					_self.lng1 = _self.coordinate.bd_lng;
+					
+					
 				}
-			});
+			});	
+			
+			clearInterval(_self.timer3)
+			_self.timer3 = null;
+			_self.timer3 = setInterval(() => {
+			 		uni.getLocation({
+			 			type: 'gcj02',
+			 			success: function (res) {	
+			 				_self.$realTime.wakeLock()
+			 				_self.coordinate = coordinate(res.latitude,res.longitude);
+			 				_self.lat1 = _self.coordinate.bd_lat;
+			 				_self.lng1 = _self.coordinate.bd_lng;
+			 				// console.log(_self.lat1)
+			 				// console.log(_self.lng1)
+			 			}
+			 		});		
+			 }, _self.time*1000/1.5);
+			
+
 			uni.request({
 				url: this.$api.XUNJIANHOME,
 				method: "GET",
@@ -73,17 +94,20 @@ var _self;
 					this.name = res.data.name;
 				}
 			});
-			
+			clearInterval(_self.timer)
+			_self.timer = null; 
 			uni.request({
 				url: 'http://ranqi.qhd58.net/api/Jk/jiange',
 				success: (res) => {
 					
 					_self.time = parseInt(res.data);
-					clearInterval(timer)
-					const timer = setInterval(()=> {
+					clearInterval(_self.timer)
+					_self.timer = null; 
+					_self.timer = setInterval(()=> {
 						uni.getLocation({
 							type: 'gcj02',
 							success: (res) => {
+								_self.$realTime.wakeLock()
 								_self.coordinate2 = coordinate(res.latitude,res.longitude);
 								/* 这里到底是等于lat1,还有_self.coordinate.bd_lat待测试 */
 								_self.lat2 = _self.coordinate.bd_lat;
@@ -96,8 +120,8 @@ var _self;
 									data: {
 										username: _self.username,
 										password: _self.password,
-										jing: _self.lat1,
-										wei: _self.lng1,
+										jing: _self.lat2,
+										wei: _self.lng2,
 										mm: _self.distance
 									},
 									success: (res) => {
@@ -108,45 +132,26 @@ var _self;
 									}
 								});
 							}
-						});						
-					},_self.time*1000)					
+						});
+					},_self.time*1000)	
+					clearInterval(_self.timer)
+					
 				}
 			})	
 			
 		},
 		onUnload(){ 
-			_self = this;
-			console.log(_self.timer)
-			if(_self.timer) {  
-				clearInterval(_self.timer);  
-				_self.timer = null;  
-			}  
+			_self = this;				  			 
+			clearInterval(_self.timer);  
+			_self.timer = null;  			 			
+			clearInterval(_self.timer3);  
+			_self.timer3 = null; 				
+			
+			_self.$realTime.releaseWakeLock()			 
 		},  
 		methods: {
-			GETPOST() {
-				uni.getLocation({
-				type: 'wgs84',
-				success: function (res) {
-				
-				uni.showToast({
-					title: `${res.longitude}\n${res.latitude}`,
-					mask: false,
-					icon: "none",
-					duration: 1500
-				});
-				
-				}
-				});
-			},
 			getDistance(lat1, lng1, lat2, lng2) {
-				let a = (Math.PI/180)*lat1;
-				let b = (Math.PI/180)*lat2;
-				let c = (Math.PI/180)*lng1;
-				let d = (Math.PI/180)*lng2;
-				let r = 6371;
-				let m = Math.acos(Math.sin(a)*Math.sin(b)+Math.cos(a)*Math.cos(b)*Math.cos(d-c))*r;
-				m*1000;
-				return m;
+				return Math.sqrt(Math.pow(111.2 * (lng2 - lng1), 2) +Math.pow(111.2 * (lat2 - lat1) * Math.cos(lat2 / 57.3), 2))
 			},
 			//获取位置
 			GetLocation() {
@@ -158,7 +163,6 @@ var _self;
 				uni.getLocation({
 					type: 'gcj02',
 					success: function (res) {
-						
 						//请求获取当前位置接口
 						uni.request({
 							url: "http://ranqi.qhd58.net/api/jk/caiji",

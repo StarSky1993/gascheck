@@ -6,22 +6,25 @@
             <text class="text2">用户名：{{showDetail.ming}}</text>
             <text class="text3">部门：巡检部</text>
         </view>	
-		<view class="form">
-			<picker @change="bindPickerChange" :value="index" :range="array" :disabled=true>
-				<view class="uni-input">管道漏气：{{array[index]}}</view><text class="text7 eosfont">&#xe60b;</text>					
-			</picker>
-			<picker @change="bindPickerChange2" :value="index2" :range="array2" :disabled=true>
-				<view class="uni-input">管道施工：{{array2[index2]}}</view><text class="text8 eosfont">&#xe60b;</text>					
-			</picker>
-			<picker @change="bindPickerChange3" :value="index3" :range="array3" :disabled=true>
-				<view class="uni-input">阀门师维护：{{array3[index3]}}</view><text class="text9 eosfont">&#xe60b;</text>					
-			</picker>
-			<picker @change="bindPickerChange4" :value="index4" :range="array4" :disabled=true>
-				<view class="uni-input">调压站箱维护：{{array4[index4]}}</view><text class="text10 eosfont">&#xe60b;</text>						
-			</picker>
-			<picker @change="bindPickerChange5" :value="index5" :range="array5" :disabled=true>
-				<view class="uni-input">其他：{{array5[index5]}}</view><text class="text11 eosfont">&#xe60b;</text>					
-			</picker>
+		<view class="form">	
+				<view class="picker">
+					<view class="uni-input">管道漏气：{{array[index]}}</view><text class="text7 eosfont">&#xe60b;</text>				
+				</view>
+				<view class="picker">
+					<view class="uni-input">管道漏气：{{array[index]}}</view><text class="text7 eosfont">&#xe60b;</text>				
+				</view>
+				<view class="picker">
+					<view class="uni-input">管道施工：{{array2[index2]}}</view><text class="text8 eosfont">&#xe60b;</text>				
+				</view>										
+				<view class="picker">
+					<view class="uni-input">阀门师维护：{{array3[index3]}}</view><text class="text9 eosfont">&#xe60b;</text>				
+				</view>										
+				<view class="picker">
+					<view class="uni-input">调压站箱维护：{{array4[index4]}}</view><text class="text10 eosfont">&#xe60b;</text>
+				</view>											
+				<view class="picker">
+					<view class="uni-input">其他：{{array5[index5]}}</view><text class="text11 eosfont">&#xe60b;</text>
+				</view>															
 			<text class="text6">详细描述：</text>
 			<view class="textarea">{{showDetail.content}}</view>
 			<view class="upload">
@@ -68,6 +71,7 @@ var _self;
 			}
 		},
 		onLoad(options) {
+			console.log(options.id)
 			uni.showLoading({
 				title: '加载中...'
 			})
@@ -80,7 +84,15 @@ var _self;
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 				},
 				success: (res) => {	
+					
 					this.showDetail = res.data;
+					this.index = this.showDetail.gdlq;
+					this.index2 = this.showDetail.gdsg;
+					this.index3 = this.showDetail.fmswh;
+					this.index4 = this.showDetail.tyzxwh;
+					this.index5 = this.showDetail.qita;
+					
+					console.log(this.array[this.index])
 					uni.hideLoading()
 					
 				},
@@ -99,7 +111,8 @@ var _self;
 					delta: 1
 				});
 			},
-			bindPickerChange: function(e) {				
+			bindPickerChange: function(e) {		
+				console.log(this.showDetail.gdlq)
 				this.index = this.showDetail.gdlq;
 			},
 			bindPickerChange2: function(e) {				
@@ -184,7 +197,7 @@ var _self;
 			bottom: 0;
 			left: 0;
 			background: #fff;
-			picker {
+			.picker {
 				margin-top: 26upx;
 				.uni-input {
 					height: 60upx;

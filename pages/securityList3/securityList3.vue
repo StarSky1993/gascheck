@@ -32,7 +32,8 @@
 				danyuanData: [],
 				xiaoqu: '',
 				dong: '',
-				danyuan: ''				
+				danyuan: '',
+				renwuname: ''
 			}
 		},
 		onLoad(options) {
@@ -41,11 +42,14 @@
 			})
 			this.xiaoqu = options.xiaoqu;
 			this.dong = options.dong;
+			this.renwuname = options.renwuname;
+			console.log(this.renwuname);
 			uni.request({
 				url: "http://ranqi.qhd58.net/api/jk/danyuan",
 				data: {
 					xiaoqu: this.xiaoqu,
-					dong: this.dong
+					dong: this.dong,
+					rhhf_name: this.renwuname
 				},
 				header: {
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
@@ -78,7 +82,7 @@
 			},
 			onItem(danyuan) {
 				uni.navigateTo({
-					url: `/pages/securityList4/securityList4?xiaoqu=${this.xiaoqu}&dong=${this.dong}&danyuan=${danyuan}`
+					url: `/pages/securityList4/securityList4?xiaoqu=${this.xiaoqu}&dong=${this.dong}&danyuan=${danyuan}&renwuname=${this.renwuname}`
 				})
 			}
         } 

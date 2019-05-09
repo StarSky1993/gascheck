@@ -7,7 +7,7 @@
             <text class="text3">部门：安检部</text>
         </view>	
 		<view class="form">
-            <view class="item" v-for="(item,index) in securityData" :key="index" @click="onItem(item.xiaoqu)">
+            <view class="item" v-for="(item,index) in securityData" :key="index" @click="onItem(item.xiaoqu,item.renwu_name)">
                 <view class="inner">
                     <view class="title">
                         <view>编号：<text>#{{index}}</text></view>
@@ -104,9 +104,10 @@ var _self;
 					phoneNumber: '0335-8888888'
 				});
 			},
-			onItem(xiaoqu) {
+			onItem(xiaoqu,renwuname) {
+				console.log(renwuname)
 				uni.navigateTo({
-					url: `/pages/securityList2/securityList2?xiaoqu=${xiaoqu}`
+					url: `/pages/securityList2/securityList2?xiaoqu=${xiaoqu}&renwuname=${renwuname}`
 				})				
 			}
         } 

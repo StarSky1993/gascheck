@@ -11,7 +11,9 @@ Vue.config.productionTip = false
 import lazyImage from "./components/lazy-image"
 Vue.component('lazy-image',lazyImage)
 App.mpType = 'app'
-
+//引入保持后台运行方法
+import realTime from "./common/js/realTime.js"
+Vue.prototype.$realTime = realTime;
 const app = new Vue({
     ...App
 })

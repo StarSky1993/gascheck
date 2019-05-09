@@ -24,7 +24,8 @@
 			return {
 				name: '',
 				xiaoquData: [],
-				xiaoqu: ''
+				xiaoqu: '',
+				renwuname: ''
 			}
 		},
 		onLoad(options) {
@@ -32,10 +33,13 @@
 				title: '加载中'
 			})
 			this.xiaoqu = options.xiaoqu;
+			this.renwuname = options.renwuname;
+			console.log(this.renwuname)
 			uni.request({
 				url: "http://ranqi.qhd58.net/api/jk/dong",
 				data: {
-					xiaoqu: this.xiaoqu
+					xiaoqu: this.xiaoqu,
+					rhhf_name: this.renwuname
 				},
 				header: {
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
@@ -68,7 +72,7 @@
 			},
 			onItem(dong) {
 				uni.navigateTo({
-					url: `/pages/securityList3/securityList3?xiaoqu=${this.xiaoqu}&dong=${dong}`
+					url: `/pages/securityList3/securityList3?xiaoqu=${this.xiaoqu}&dong=${dong}&renwuname=${this.renwuname}`
 				})
 			}
         } 

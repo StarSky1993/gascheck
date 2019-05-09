@@ -6,7 +6,7 @@
 		<view class="form">
 			<text class="icon1 eosfont">&#xe768;</text><input type="number" v-model="user.username" maxlength="11" placeholder="请输入您的手机号" />
 			<text class="icon2 eosfont">&#xe64c;</text><input type="text" v-model="user.password" class="input2" placeholder="请输入密码" />
-			<button @click="login">登陆</button>
+			<button @click="login" :disabled="isDisable">登陆</button>
 		</view>
 	</view>
 </template>
@@ -18,7 +18,9 @@
 			return {
 				user: {
 					"username": '',
-					"password": ''
+					"password": '',
+					//防止表单重复提交开关
+					isDisable: false
 				}				
 			}
 		},
@@ -41,17 +43,20 @@
 								console.log('success')
 							}
 						})
-						if(res.data === 1) {							
+						if(res.data === 1) {
+							this.isDisable = true;
 							uni.navigateTo({
 								//巡检主页
 								url: '/pages/xunjianHome/xunjianHome'
 							})
-						}else if(res.data === 2) {					
+						}else if(res.data === 2) {
+							this.isDisable = true;
 							uni.navigateTo({
 								//安检列表
 								url: '/pages/securityList/securityList'
 							})
-						}else if(res.data === 3) {	
+						}else if(res.data === 3) {
+							this.isDisable = true;
 							uni.setStorage({
 								key: 'status',
 								data: res.data,
@@ -63,7 +68,8 @@
 								//维修工页面1
 								url: "/pages/Task/currentTask"
 							})
-						}else if(res.data === 4) {	
+						}else if(res.data === 4) {
+							this.isDisable = true;
 							uni.setStorage({
 								key: 'status2',
 								data: res.data,
@@ -77,12 +83,14 @@
 							})
 						}
 						else if(res.data === 0) {
+							this.isDisable = false;
 							uni.showToast({
 								title: '账号或密码错误！',
 								icon: 'none',						
 								duration: 2000
 							});						
 						}else {
+							this.isDisable = false;
 							uni.showToast({
 								title: '账号或密码错误！',
 								icon: 'none',

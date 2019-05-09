@@ -27,7 +27,8 @@
 				xiaoqu: '',
 				dong: '',
 				danyuan: '',
-				menpai: ''
+				menpai: '',
+				renwuname: ''
 			}
 		},
 		onLoad(options) {
@@ -37,17 +38,21 @@
 			this.xiaoqu = options.xiaoqu;
 			this.dong = options.dong;
 			this.danyuan = options.danyuan;
+			this.renwuname = options.renwuname;
+			console.log(this.renwuname)
 			uni.request({
 				url: "http://ranqi.qhd58.net/api/jk/menpai",
 				data: {
 					xiaoqu: this.xiaoqu,
 					dong: this.dong,
-					danyuan: this.danyuan
+					danyuan: this.danyuan,
+					rhhf_name: this.renwuname
 				},
 				header: {
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 				},
 				success: (res) => {	
+					console.log(res.data)
 					uni.hideLoading();
 					this.menpaiData = res.data;
 				},
