@@ -243,6 +243,7 @@ export default {
 		box-sizing: border-box;
 		top: 0upx;
 		left: 0;
+		z-index: 9;
 		background: #fff;
 		border-top: 50upx solid #000;
 		.goback {

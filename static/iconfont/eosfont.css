@@ -1,5 +1,5 @@
 @font-face {font-family: "eosfont";
-  src: url('https://at.alicdn.com/t/font_1136620_4timu24ccfw.ttf') format('truetype')
+  src: url('https://at.alicdn.com/t/font_1136620_6wkfy7p84rf.ttf') format('truetype')
 }
 
 .eosfont {
@@ -22,8 +22,8 @@
   content: "\e60a";
 }
 
-.eoszuo:before {
-  content: "\ef07";
+.eosweb__bitebizuojiantou:before {
+  content: "\e62f";
 }
 
 .eosjiahao:before {

@@ -35,11 +35,11 @@ var _self;
 				time: '',
 				distance: '',
 				coordinate2: '',
-				timer: null,
-				timer3: null
+				timer: null
 			}
 		},
 		onLoad() {
+			
 			_self = this;
 			uni.showLoading({
 				title: '加载中'
@@ -56,29 +56,12 @@ var _self;
 				type: 'gcj02',
 				success: function (res) {
 					_self.$realTime.wakeLock()
-					_self.coordinate = coordinate(res.latitude,res.longitude);
+					_self.coordinate = coordinate(res.longitude,res.latitude);
 					
 					
 				}
 			});	
-			
-			clearInterval(_self.timer3)
-			_self.timer3 = null;
-			_self.timer3 = setInterval(() => {
-			 		uni.getLocation({
-			 			type: 'gcj02',
-			 			success: function (res) {	
-			 				_self.$realTime.wakeLock()
-			 				_self.coordinate = coordinate(res.latitude,res.longitude);
-			 				_self.lat1 = _self.coordinate.bd_lat;
-			 				_self.lng1 = _self.coordinate.bd_lng;
-			 				// console.log(_self.lat1)
-			 				// console.log(_self.lng1)
-			 			}
-			 		});		
-			 }, _self.time*1000/1.5);
-			
-
+	
 			uni.request({
 				url: this.$api.XUNJIANHOME,
 				method: "GET",
@@ -94,25 +77,76 @@ var _self;
 					this.name = res.data.name;
 				}
 			});
+
 			clearInterval(_self.timer)
 			_self.timer = null; 
 			uni.request({
 				url: 'http://ranqi.qhd58.net/api/Jk/jiange',
 				success: (res) => {
 					
-					_self.time = parseInt(res.data);
+					_self.time = parseInt(res.data)*1000;
 					clearInterval(_self.timer)
-					_self.timer = null; 
+					_self.timer = null;
 					_self.timer = setInterval(()=> {
+						uni.request({
+							url: 'http://ranqi.qhd58.net/api/jk/fandian',
+							method: "GET",
+							data: {
+								username: _self.username,
+								password: _self.password
+							},
+							success: (res) => {
+								if(res.data === null) {
+									clearInterval(timer)
+									uni.getLocation({
+										type: 'gcj02',
+										success: function (res) {
+											_self.$realTime.wakeLock()
+											_self.coordinate = coordinate(res.longitude,res.latitude);
+											_self.lng1 = res.data.jing;
+											_self.lat1 = res.data.wei;
+											_self.distance = this.GetDistance(_self.lng1, _self.lat1, _self.lng1, _self.lat1)
+											_self.distance = parseInt(this.distance)
+											console.log(_self.distance);
+											uni.request({
+												url: 'http://ranqi.qhd58.net/api/Jk/zuobiao',
+												data: {
+													username: _self.username,
+													password: _self.password,
+													jing: _self.lng1,
+													wei: _self.lat1,
+													mm: _self.distance
+												},
+												success: (res) => {
+													console.log(res.data)
+													uni.hideLoading();
+													console.log(_self.lat1)
+													console.log(_self.lng1)
+												}
+											});
+										}
+									});										
+								}else {
+									_self.timer;
+									_self.lng1 = res.data.jing;
+									_self.lat1 = res.data.wei;
+									console.log(_self.lng1)
+									console.log(_self.lat1)									
+								}
+
+							}
+						})						
 						uni.getLocation({
 							type: 'gcj02',
 							success: (res) => {
 								_self.$realTime.wakeLock()
-								_self.coordinate2 = coordinate(res.latitude,res.longitude);
+								_self.coordinate2 = coordinate(res.longitude,res.latitude);
 								/* 这里到底是等于lat1,还有_self.coordinate.bd_lat待测试 */
-								_self.lat2 = _self.coordinate.bd_lat;
-								_self.lng2 = _self.coordinate.bd_lng;
-								_self.distance = this.getDistance(_self.lat1, _self.lng1, _self.lat2, _self.lng2)
+								_self.lng2 = _self.coordinate2.bd_lng;
+								_self.lat2 = _self.coordinate2.bd_lat;
+								console.log(_self.lng2);
+								console.log(_self.lat2)
+								_self.distance = this.GetDistance(_self.lng1, _self.lat1, _self.lng2, _self.lat2)
 								_self.distance = parseInt(this.distance)
 								console.log(_self.distance);
 								uni.request({
@@ -120,38 +154,51 @@ var _self;
 									data: {
 										username: _self.username,
 										password: _self.password,
-										jing: _self.lat2,
-										wei: _self.lng2,
+										jing: _self.lng2,
+										wei: _self.lat2,
 										mm: _self.distance
 									},
 									success: (res) => {
 										console.log(res.data)
 										uni.hideLoading();
-										console.log(_self.lat1)
-										console.log(_self.lng1)
+										console.log(_self.lat2)
+										console.log(_self.lng2)
 									}
 								});
 							}
 						});
-					},_self.time*1000)	
-					clearInterval(_self.timer)
+					},_self.time)
 					
 				}
-			})	
+			})
+
+				
+				
 			
 		},
 		onUnload(){ 
 			_self = this;				  			 
 			clearInterval(_self.timer);  
-			_self.timer = null;  			 			
-			clearInterval(_self.timer3);  
-			_self.timer3 = null; 				
-			
+			_self.timer = null;
+			//禁止后台运行
 			_self.$realTime.releaseWakeLock()			 
 		},  
 		methods: {
-			getDistance(lat1, lng1, lat2, lng2) {
-				return Math.sqrt(Math.pow(111.2 * (lng2 - lng1), 2) +Math.pow(111.2 * (lat2 - lat1) * Math.cos(lat2 / 57.3), 2))
+			Rad(d) {
+				//经纬度转三角函数
+				return d * Math.PI / 180.0; 
+			},
+			GetDistance(lng1, lat1, lng2, lat2) {
+				let radLat1 = this.Rad(lat1);
+				let radLat2 = this.Rad(lat2);
+				let a = radLat1 - radLat2;
+				let b = this.Rad(lng1) - this.Rad(lng2);
+				let s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+				s = s * 6378.137; // 地球半径，千米;
+				// s = Math.round(s * 10000) / 10000; //输出为公里
+				s = Math.round(s * 1000) / 1; //单位修改为米,取整
+				// s=s.toFixed(4);
+				return s;
 			},
 			//获取位置
 			GetLocation() {
@@ -163,26 +210,39 @@ var _self;
 				uni.getLocation({
 					type: 'gcj02',
 					success: function (res) {
+						_self.coordinate = coordinate(res.longitude,res.latitude);
 						//请求获取当前位置接口
 						uni.request({
 							url: "http://ranqi.qhd58.net/api/jk/caiji",
 							data: {
 								username: _self.username,
 								password: _self.password,
-								jing: _self.coordinate.bd_lat,
-								wei: _self.coordinate.bd_lng
+								jing: _self.coordinate.bd_lng,
+								wei: _self.coordinate.bd_lat
 							},
 							header: {
 								'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 							},
 							success: (res) => {	
 								console.log(res.data);
-								uni.hideLoading()
-								uni.showToast({
-									title: '位置采集成功!',
-									icon: "none",
-									duration: 1000
-								})
+								if(res.data === 0) {
+									uni.showToast({
+										title: '位置采集失败!',
+										icon: "none",
+										duration: 1000
+									})
+								}
+								if(res.data === 1) {
+									console.log(_self.coordinate.bd_lng);
+									console.log(_self.coordinate.bd_lat);
+									uni.hideLoading()
+									uni.showToast({
+										title: '位置采集成功!',
+										icon: "none",
+										duration: 1000
+									})
+								}
+
 							},
 							fail: (res) => {
 								uni.showToast({

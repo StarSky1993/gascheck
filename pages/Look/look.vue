@@ -30,15 +30,15 @@
 		<view class="upload">
 			<view>
 				<text class="center">远景</text>
-				<view class="uploadImg"><image :src="'http://ranqi.qhd58.net' + showData.wei_yuan"></image></view>
+				<lazy-image class="uploadImg" :realSrc="'http://ranqi.qhd58.net' + showData.wei_yuan" :placeholdSrc="placeholderSrc"></lazy-image>
 			</view>
 			<view>
 				<text class="center">近景</text>
-				<view class="uploadImg"><image :src="'http://ranqi.qhd58.net' + showData.wei_jin"></image></view>
+				<lazy-image class="uploadImg" :realSrc="'http://ranqi.qhd58.net' + showData.wei_jin" :placeholdSrc="placeholderSrc"></lazy-image>
 			</view>			
 			<view>
 				<text class="center">特写</text>
-				<view class="uploadImg"><image :src="'http://ranqi.qhd58.net' + showData.wei_te"></image></view>
+				<lazy-image class="uploadImg" :realSrc="'http://ranqi.qhd58.net' + showData.wei_te" :placeholdSrc="placeholderSrc"></lazy-image>
 			</view>		
 		</view>	
 		<view class="content5">
@@ -119,6 +119,7 @@ export default {
 		box-sizing: border-box;
 		top: 0upx;
 		left: 0;
+		z-index: 9;
 		background: #fff;
 		border-top: 50upx solid #000;
 		.goback {

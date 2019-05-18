@@ -4,8 +4,8 @@
 			
 		</view>
 		<view class="form">
-			<text class="icon1 eosfont">&#xe768;</text><input type="number" v-model="user.username" maxlength="11" placeholder="请输入您的手机号" />
-			<text class="icon2 eosfont">&#xe64c;</text><input type="text" v-model="user.password" class="input2" placeholder="请输入密码" />
+			<text class="icon1 eosfont">&#xe768;</text><input type="number" v-model="user.username" :value="user.username" maxlength="11" placeholder="请输入您的手机号" />
+			<text class="icon2 eosfont">&#xe64c;</text><input type="text" v-model="user.password" :value="user.password" class="input2" placeholder="请输入密码" />
 			<button @click="login" :disabled="isDisable">登陆</button>
 		</view>
 	</view>
@@ -36,6 +36,7 @@
 						'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 					},
 					success: (res) => {	
+
 						uni.setStorage({
 							key: 'user',
 							data: this.user,
@@ -43,6 +44,8 @@
 								console.log('success')
 							}
 						})
+						uni.setStorageSync('userPhone',this.user.username);
+						uni.setStorageSync('Password',this.user.password);
 						if(res.data === 1) {
 							this.isDisable = true;
 							uni.navigateTo({
@@ -97,7 +100,7 @@
 								duration: 2000
 							});	
 							uni.removeStorage({
-								key: 'username',
+								key: 'user',
 								success: function (res) {
 									console.log('移除成功！');
 								}
@@ -105,6 +108,8 @@
 						}						
 					}
 				});
+
+
 			}
 		},
 		onLoad() {
@@ -112,6 +117,13 @@
 			uni.setKeepScreenOn({
 				keepScreenOn: true
 			})
+			//页面加载完成，获取本地存储的用户名及密码
+			const userPhone = uni.getStorageSync('userPhone');
+			const Password = uni.getStorageSync('Password');
+			if(userPhone && Password) {
+				_self.user.username = userPhone;
+				_self.user.password = Password;
+			}
 		},
 		onShow() {
 			

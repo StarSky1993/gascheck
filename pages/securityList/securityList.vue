@@ -1,7 +1,7 @@
 <template>
 	<view class="securityList" >
         <view class="container">
-			<text class="text0 eosfont" @click="goback">&#xef07;</text>
+			<text class="text0 eosfont" @click="goback">&#xe62f;</text>
             <text class="text1">安检列表</text>
             <text class="text2">用户名：{{name}}</text>
             <text class="text3">部门：安检部</text>
@@ -72,13 +72,8 @@ var _self;
 				success: (res) => {	
 					uni.hideLoading();
 					_self.name = res.data[0].name;
-					uni.setStorage({
-						key: 'ming',
-						data: _self.name,
-						success: function(res) {
-							console.log('success')
-						}
-					})
+					console.log(_self.name)
+
 					
 					this.securityData = res.data;
 				},
@@ -132,9 +127,9 @@ var _self;
 			position: relative;
 			.text0 {
 				position: absolute;
-				left: 30upx;
-				top: 105upx;
-				font-size: 40upx;
+				left: 50upx;
+				top: 90upx;
+				font-size: 60upx;
 				color: #fff;
 			}
 			.text1 {

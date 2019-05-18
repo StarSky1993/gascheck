@@ -75,7 +75,6 @@ export default {
     onLoad(options) {
 		_self = this;
 		_self.id = options.id;
-		console.log(options.name)
 		uni.getStorage({
 			key: 'status',
 			success: function (res) {
@@ -266,6 +265,7 @@ export default {
 		box-sizing: border-box;
 		top: 0upx;
 		left: 0;
+		z-index: 9;
 		background: #fff;
 		border-top: 50upx solid #000;
 		.goback {

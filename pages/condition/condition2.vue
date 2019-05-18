@@ -1,7 +1,7 @@
 <template>
 	<view class="condition">
         <view class="container">
-			<text class="text0 eosfont" @click="goback">&#xef07;</text>
+			<text class="text0 eosfont" @click="goback">&#xe62f;</text>
             <text class="text1">安检情况</text>
             <text class="text2">用户名：{{ming}}</text>
             <text class="text3">部门：巡检部</text>
@@ -312,9 +312,9 @@ var _self;
 			position: relative;
 			.text0 {
 				position: absolute;
-				left: 30upx;
-				top: 105upx;
-				font-size: 40upx;
+				left: 50upx;
+				top: 90upx;
+				font-size: 60upx;
 				color: #fff;
 			}
 			.text1 {

@@ -132,6 +132,7 @@ export default {
             box-sizing: border-box;
             top: 50upx;
             left: 0;
+			z-index: 9;
             background: #ff9000;
 			color: #fff;
             .goback {
