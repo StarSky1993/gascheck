@@ -52,15 +52,16 @@ var _self;
 					_self.password = res.data.password;
 				}
 			});
-			uni.getLocation({
-				type: 'gcj02',
-				success: function (res) {
-					_self.$realTime.wakeLock()
-					_self.coordinate = coordinate(res.longitude,res.latitude);
-					
-					
-				}
-			});	
+ 			uni.getLocation({
+ 				type: 'gcj02',
+ 				success: function (res) {
+ 					_self.$realTime.wakeLock()
+ 					_self.coordinate = coordinate(res.longitude,res.latitude);
+ 					_self.lng1 = _self.coordinate.bd_lng;
+ 					_self.lat1 = _self.coordinate.bd_lat;
+				
+ 				}
+ 			});	
 	
 			uni.request({
 				url: this.$api.XUNJIANHOME,
@@ -78,8 +79,6 @@ var _self;
 				}
 			});
 
-			clearInterval(_self.timer)
-			_self.timer = null; 
 			uni.request({
 				url: 'http://ranqi.qhd58.net/api/Jk/jiange',
 				success: (res) => {
@@ -88,54 +87,6 @@ var _self;
 					clearInterval(_self.timer)
 					_self.timer = null;
 					_self.timer = setInterval(()=> {
-						uni.request({
-							url: 'http://ranqi.qhd58.net/api/jk/fandian',
-							method: "GET",
-							data: {
-								username: _self.username,
-								password: _self.password
-							},
-							success: (res) => {
-								if(res.data === null) {
-									clearInterval(timer)
-									uni.getLocation({
-										type: 'gcj02',
-										success: function (res) {
-											_self.$realTime.wakeLock()
-											_self.coordinate = coordinate(res.longitude,res.latitude);
-											_self.lng1 = res.data.jing;
-											_self.lat1 = res.data.wei;
-											_self.distance = this.GetDistance(_self.lng1, _self.lat1, _self.lng1, _self.lat1)
-											_self.distance = parseInt(this.distance)
-											console.log(_self.distance);
-											uni.request({
-												url: 'http://ranqi.qhd58.net/api/Jk/zuobiao',
-												data: {
-													username: _self.username,
-													password: _self.password,
-													jing: _self.lng1,
-													wei: _self.lat1,
-													mm: _self.distance
-												},
-												success: (res) => {
-													console.log(res.data)
-													uni.hideLoading();
-													console.log(_self.lat1)
-													console.log(_self.lng1)
-												}
-											});
-										}
-									});										
-								}else {
-									_self.timer;
-									_self.lng1 = res.data.jing;
-									_self.lat1 = res.data.wei;
-									console.log(_self.lng1)
-									console.log(_self.lat1)									
-								}
-
-							}
-						})						
 						uni.getLocation({
 							type: 'gcj02',
 							success: (res) => {
@@ -144,11 +95,10 @@ var _self;
 								/* 这里到底是等于lat1,还有_self.coordinate.bd_lat待测试 */
 								_self.lng2 = _self.coordinate2.bd_lng;
 								_self.lat2 = _self.coordinate2.bd_lat;
-								console.log(_self.lng2);
-								console.log(_self.lat2)
-								_self.distance = this.GetDistance(_self.lng1, _self.lat1, _self.lng2, _self.lat2)
-								_self.distance = parseInt(this.distance)
-								console.log(_self.distance);
+								console.log(_self.lng3);
+								console.log(_self.lat3)
+								_self.distance = _self.GetDistance(_self.lat2, _self.lng2, _self.lat3, _self.lng3)
+								console.log(_self.distance)								
 								uni.request({
 									url: 'http://ranqi.qhd58.net/api/Jk/zuobiao',
 									data: {
@@ -159,14 +109,27 @@ var _self;
 										mm: _self.distance
 									},
 									success: (res) => {
-										console.log(res.data)
+										
 										uni.hideLoading();
-										console.log(_self.lat2)
-										console.log(_self.lng2)
+
 									}
 								});
 							}
-						});
+						});						
+						uni.request({
+							url: 'http://ranqi.qhd58.net/api/jk/fandian',
+							method: "GET",
+							data: {
+								username: _self.username,
+								password: _self.password
+							},
+							success: (res) => {
+									_self.timer;
+									_self.lng3 = res.data.jing;
+									_self.lat3 = res.data.wei;
+									
+							}
+						})						
 					},_self.time)
 					
 				}
@@ -188,7 +151,7 @@ var _self;
 				//经纬度转三角函数
 				return d * Math.PI / 180.0; 
 			},
-			GetDistance(lng1, lat1, lng2, lat2) {
+			GetDistance(lat1, lng1, lat2, lng2) {
 				let radLat1 = this.Rad(lat1);
 				let radLat2 = this.Rad(lat2);
 				let a = radLat1 - radLat2;
