@@ -64,7 +64,7 @@ var _self;
 				uni.hideLoading();
 			}, 1500);
 			uni.request({
-				url: "http://ranqi.qhd58.net/api/Jk/xun_rizhi",
+				url: "http://bdh-ranqi.qhd58.net/api/Jk/xun_rizhi",
 				data: {
 					username: _self.username,
 					password: _self.password

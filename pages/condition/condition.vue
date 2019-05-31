@@ -229,7 +229,7 @@ var _self;
 								title: '提交中...'
 							})
 							uni.request({
-								url: 'http://ranqi.qhd58.net/api/jk/xunjian_qk',
+								url: 'http://bdh-ranqi.qhd58.net/api/jk/xunjian_qk',
 								method: 'POST',
 								data: {
 									username: _self.username,

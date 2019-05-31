@@ -10,7 +10,7 @@
             <view class="item" v-for="(item,index) in danyuanData" :key="index" @click="onItem(item.danyuan)">
                 <view class="inner">
                     <view class="title">
-                        <view>编号：<text>#{{index}}</text></view>
+                        <view>编号：<text>#{{index+1}}</text></view>
                     </view>
                     <view class="info">
 						<view>{{item.danyuan}}单元</view>
@@ -40,12 +40,13 @@
 			uni.showLoading({
 				title: '加载中'
 			})
+			this.name = options.name;
 			this.xiaoqu = options.xiaoqu;
 			this.dong = options.dong;
 			this.renwuname = options.renwuname;
 			console.log(this.renwuname);
 			uni.request({
-				url: "http://ranqi.qhd58.net/api/jk/danyuan",
+				url: "http://bdh-ranqi.qhd58.net/api/jk/danyuan",
 				data: {
 					xiaoqu: this.xiaoqu,
 					dong: this.dong,
@@ -82,7 +83,7 @@
 			},
 			onItem(danyuan) {
 				uni.navigateTo({
-					url: `/pages/securityList4/securityList4?xiaoqu=${this.xiaoqu}&dong=${this.dong}&danyuan=${danyuan}&renwuname=${this.renwuname}`
+					url: `/pages/securityList4/securityList4?name=${this.name}&xiaoqu=${this.xiaoqu}&dong=${this.dong}&danyuan=${danyuan}&renwuname=${this.renwuname}`
 				})
 			}
         } 

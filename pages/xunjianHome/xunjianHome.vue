@@ -35,7 +35,10 @@ var _self;
 				time: '',
 				distance: '',
 				coordinate2: '',
-				timer: null
+				timer: null,
+				onlinetime: null,
+				realTime: this.$realTime.wakeLock(),
+				releaseWakeLock: this.$realTime.releaseWakeLock()				
 			}
 		},
 		onLoad() {
@@ -44,7 +47,28 @@ var _self;
 			uni.showLoading({
 				title: '加载中'
 			})
-			
+
+			clearInterval(run)
+			const run = setInterval(() => {
+				_self.realTime
+			},300000)
+			uni.onNetworkStatusChange(function (res) {
+				if(!res.isConnected) {
+					clearInterval(_self.onlinetime)
+					_self.onlinetime = setInterval(() => {
+						_self.realTime
+						uni.showToast({
+							title: '获取坐标失败，请检查网络状态！',
+							icon: "none"
+						})
+					},4000)
+				}else {
+					_self.realTime
+					clearInterval(_self.onlinetime)
+				}
+			});
+
+						
 			uni.getStorage({
 				key: 'user',
 				success: function (res) {
@@ -52,19 +76,45 @@ var _self;
 					_self.password = res.data.password;
 				}
 			});
- 			uni.getLocation({
- 				type: 'gcj02',
- 				success: function (res) {
- 					_self.$realTime.wakeLock()
- 					_self.coordinate = coordinate(res.longitude,res.latitude);
- 					_self.lng1 = _self.coordinate.bd_lng;
- 					_self.lat1 = _self.coordinate.bd_lat;
-				
- 				}
- 			});	
-	
+			uni.getLocation({
+				type: 'gcj02',
+				success: function (res) {
+					_self.realTime
+					_self.coordinate = coordinate(res.longitude,res.latitude);
+					_self.lng1 = _self.coordinate.bd_lng;
+					_self.lat1 = _self.coordinate.bd_lat;
+					_self.distance = _self.GetDistance(_self.lat1, _self.lng1, _self.lat1, _self.lng1)
+					console.log(_self.distance)	
+					uni.request({
+						url: 'http://bdh-ranqi.qhd58.net/api/Jk/zuobiao',
+						data: {
+							username: _self.username,
+							password: _self.password,
+							jing: _self.lng1,
+							wei: _self.lat1,
+							mm: _self.distance
+						},
+						success: (res) => {
+							if(res.data !== 0 && res.data !== 1) {
+								uni.showToast({
+									title: '自动获取坐标失败，请重新登录！'
+								});
+							}
+							uni.hideLoading();
+
+						},
+						fail: (res) => {
+							uni.showToast({
+								title: "请检查网络状态！",
+								icon: "none",
+								duration: 2000
+							})
+						}						
+					});				
+				}
+			});		
 			uni.request({
-				url: this.$api.XUNJIANHOME,
+				url: 'http://bdh-ranqi.qhd58.net/api/jk/index',
 				method: "GET",
 				data: {
 					username: _self.username,
@@ -75,76 +125,79 @@ var _self;
 				},
 				success: (res) => {
 					uni.hideLoading();
-					this.name = res.data.name;
+					_self.name = res.data.name;
 				}
 			});
 
 			uni.request({
-				url: 'http://ranqi.qhd58.net/api/Jk/jiange',
+				url: 'http://bdh-ranqi.qhd58.net/api/Jk/jiange',
 				success: (res) => {
-					
 					_self.time = parseInt(res.data)*1000;
 					clearInterval(_self.timer)
 					_self.timer = null;
 					_self.timer = setInterval(()=> {
-						uni.getLocation({
-							type: 'gcj02',
-							success: (res) => {
-								_self.$realTime.wakeLock()
-								_self.coordinate2 = coordinate(res.longitude,res.latitude);
-								/* 这里到底是等于lat1,还有_self.coordinate.bd_lat待测试 */
-								_self.lng2 = _self.coordinate2.bd_lng;
-								_self.lat2 = _self.coordinate2.bd_lat;
-								console.log(_self.lng3);
-								console.log(_self.lat3)
-								_self.distance = _self.GetDistance(_self.lat2, _self.lng2, _self.lat3, _self.lng3)
-								console.log(_self.distance)								
-								uni.request({
-									url: 'http://ranqi.qhd58.net/api/Jk/zuobiao',
-									data: {
-										username: _self.username,
-										password: _self.password,
-										jing: _self.lng2,
-										wei: _self.lat2,
-										mm: _self.distance
-									},
-									success: (res) => {
-										
-										uni.hideLoading();
-
-									}
-								});
-							}
-						});						
+						
 						uni.request({
-							url: 'http://ranqi.qhd58.net/api/jk/fandian',
+							url: 'http://bdh-ranqi.qhd58.net/api/jk/fandian',
 							method: "GET",
 							data: {
 								username: _self.username,
 								password: _self.password
 							},
 							success: (res) => {
-									_self.timer;
-									_self.lng3 = res.data.jing;
-									_self.lat3 = res.data.wei;
-									
-							}
-						})						
-					},_self.time)
-					
-				}
-			})
+								_self.lng3 = res.data.jing;
+								_self.lat3 = res.data.wei;	
+								uni.getLocation({
+									type: 'gcj02',
+									success: (res) => {
+										_self.realTime
+										_self.coordinate2 = coordinate(res.longitude,res.latitude);
+										/* 这里到底是等于lat1,还有_self.coordinate.bd_lat待测试 */
+										_self.lng2 = _self.coordinate2.bd_lng;
+										_self.lat2 = _self.coordinate2.bd_lat;
+										console.log(_self.lng2);
+										console.log(_self.lat2)
+										_self.distance2 = _self.GetDistance(_self.lat2, _self.lng2, _self.lat3, _self.lng3)
+										console.log(_self.distance2)
+										uni.request({
+											url: 'http://bdh-ranqi.qhd58.net/api/Jk/zuobiao',
+											data: {
+												username: _self.username,
+												password: _self.password,
+												jing: _self.lng2,
+												wei: _self.lat2,
+												mm: _self.distance2
+											},
+											success: (res) => {
+																						
+											},
+											fail: (res) => {
+												uni.showToast({
+													title: "网络异常，请检查网络重新登录！",
+													icon: "none",
+													duration: 2000
+												})
+											}
+										});										
+									}
+								})	
 
-				
-				
-			
+							}
+						})
+
+	
+						
+					},_self.time)					
+				}
+			})										
 		},
+		
 		onUnload(){ 
 			_self = this;				  			 
 			clearInterval(_self.timer);  
 			_self.timer = null;
 			//禁止后台运行
-			_self.$realTime.releaseWakeLock()			 
+			_self.releaseWakeLock			 
 		},  
 		methods: {
 			Rad(d) {
@@ -170,54 +223,47 @@ var _self;
 					icon: "none"
 				});
 				_self = this;
-				uni.getLocation({
-					type: 'gcj02',
-					success: function (res) {
-						_self.coordinate = coordinate(res.longitude,res.latitude);
-						//请求获取当前位置接口
-						uni.request({
-							url: "http://ranqi.qhd58.net/api/jk/caiji",
-							data: {
-								username: _self.username,
-								password: _self.password,
-								jing: _self.coordinate.bd_lng,
-								wei: _self.coordinate.bd_lat
-							},
-							header: {
-								'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
-							},
-							success: (res) => {	
-								console.log(res.data);
-								if(res.data === 0) {
-									uni.showToast({
-										title: '位置采集失败!',
-										icon: "none",
-										duration: 1000
-									})
-								}
-								if(res.data === 1) {
-									console.log(_self.coordinate.bd_lng);
-									console.log(_self.coordinate.bd_lat);
-									uni.hideLoading()
-									uni.showToast({
-										title: '位置采集成功!',
-										icon: "none",
-										duration: 1000
-									})
-								}
+				//请求获取当前位置接口
+				uni.request({
+					url: "http://bdh-ranqi.qhd58.net/api/jk/caiji",
+					data: {
+						username: _self.username,
+						password: _self.password,
+						jing: _self.lng1,
+						wei: _self.lat1
+					},
+					header: {
+						'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
+					},
+					success: (res) => {	
+						console.log(res.data);
+						if(res.data === 0) {
+							uni.showToast({
+								title: '位置采集失败!',
+								icon: "none",
+								duration: 1000
+							})
+						}
+						if(res.data === 1) {
+							console.log(_self.coordinate.bd_lng);
+							console.log(_self.coordinate.bd_lat);
+							uni.hideLoading()
+							uni.showToast({
+								title: '位置采集成功!',
+								icon: "none",
+								duration: 1000
+							})
+						}
 
-							},
-							fail: (res) => {
-								uni.showToast({
-									title: "位置获取失败,请检查网络",
-									icon: "none",
-									duration: 2000
-								})
-							}
-						});
+					},
+					fail: (res) => {
+						uni.showToast({
+							title: "位置获取失败,请检查网络",
+							icon: "none",
+							duration: 2000
+						})
 					}
-				});
-				
+				});				
 			},
             daily(name) {
 				uni.navigateTo({

@@ -4,7 +4,7 @@
             <view class="item" v-for="(item,index) in menpaiData" :key="index" @click="onItem(item.menpai)">
                 <view class="inner">
                     <view class="title">
-                        <view>编号：<text>#{{index}}</text></view>
+                        <view>编号：<text>#{{index+1}}</text></view>
                     </view>
                     <view class="info">
 						<view>{{item.menpai}}号</view>
@@ -35,13 +35,14 @@
 			uni.showLoading({
 				title: '加载中'
 			})
+			this.name = options.name;
 			this.xiaoqu = options.xiaoqu;
 			this.dong = options.dong;
 			this.danyuan = options.danyuan;
 			this.renwuname = options.renwuname;
 			console.log(this.renwuname)
 			uni.request({
-				url: "http://ranqi.qhd58.net/api/jk/menpai",
+				url: "http://bdh-ranqi.qhd58.net/api/jk/menpai",
 				data: {
 					xiaoqu: this.xiaoqu,
 					dong: this.dong,
@@ -80,7 +81,7 @@
 			},
 			onItem(menpai) {
 				uni.navigateTo({
-					url: `/pages/condition/condition2?xiaoqu=${this.xiaoqu}&dong=${this.dong}&danyuan=${this.danyuan}&menpai=${menpai}`
+					url: `/pages/condition/condition2?name=${this.name}&xiaoqu=${this.xiaoqu}&dong=${this.dong}&danyuan=${this.danyuan}&menpai=${menpai}&renwuname=${this.renwuname}`
 				})
 			}
         } 

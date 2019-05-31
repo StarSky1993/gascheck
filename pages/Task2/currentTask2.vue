@@ -6,7 +6,7 @@
             </view>
             <text v-if="idx==1" :class="{active:idx==1}">当前任务</text>
             <text v-else :class="{active2:idx==2}">已完成任务</text>	
-            <text class="eosfont">&#xe670;</text>
+            <text></text>
         </view>
         <view class="list" v-show="idx==1">
             <view class="item" v-for="(item,index) in anjianList" :key="index" @click="onDetail(item.id)" >
@@ -58,7 +58,7 @@ export default {
 			title: '加载中...'
 		})
 		uni.request({
-			url: 'http://ranqi.qhd58.net/api/jk/weixiu_an',
+			url: 'http://bdh-ranqi.qhd58.net/api/jk/weixiu_an',
 			method: 'POST',
 			success: (res) => {
 				uni.hideLoading()
@@ -66,7 +66,7 @@ export default {
 			}
 		});
 		uni.request({
-			url: 'http://ranqi.qhd58.net/api/jk/yw',
+			url: 'http://bdh-ranqi.qhd58.net/api/jk/yw',
 			method: 'POST',
 			success: (res) => {
 				uni.hideLoading()

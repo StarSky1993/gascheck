@@ -1,10 +1,10 @@
 <template>
-	<view class="securityList" >
+	<view class="securityList">
 		<view class="form">
             <view class="item" v-for="(item,index) in xiaoquData" :key="index" @click="onItem(item.dong)">
                 <view class="inner">
                     <view class="title">
-                        <view>编号：<text>#{{index}}</text></view>
+                        <view>编号：<text>#{{index+1}}</text></view>
                     </view>
                     <view class="info">
 						<view>{{item.dong}}栋</view>
@@ -13,8 +13,8 @@
                         <text @click="call">呼叫调度中心</text>
                     </view>  
                 </view>
-            </view>
-		</view>		
+            </view>			
+		</view>	
 	</view>
 </template>
 
@@ -32,11 +32,12 @@
 			uni.showLoading({
 				title: '加载中'
 			})
+			this.name = options.name;
 			this.xiaoqu = options.xiaoqu;
 			this.renwuname = options.renwuname;
 			console.log(this.renwuname)
 			uni.request({
-				url: "http://ranqi.qhd58.net/api/jk/dong",
+				url: "http://bdh-ranqi.qhd58.net/api/jk/dong",
 				data: {
 					xiaoqu: this.xiaoqu,
 					rhhf_name: this.renwuname
@@ -72,7 +73,7 @@
 			},
 			onItem(dong) {
 				uni.navigateTo({
-					url: `/pages/securityList3/securityList3?xiaoqu=${this.xiaoqu}&dong=${dong}&renwuname=${this.renwuname}`
+					url: `/pages/securityList3/securityList3?name=${this.name}&xiaoqu=${this.xiaoqu}&dong=${dong}&renwuname=${this.renwuname}`
 				})
 			}
         } 
@@ -140,6 +141,18 @@
                     }
                 }
             }
+		}
+		.noData {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			left: 0;
+			bottom: 0;
+			top: 0;
+			right: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
 		}
 	}
 </style>

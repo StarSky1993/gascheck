@@ -24,12 +24,12 @@ if (process.env.NODE_ENV == 'development') {
     ApiUrl = '/dpc';
 }else if(process.env.NODE_ENV == 'production') {
 	//正式接口
-    ApiUrl = 'http://ranqi.qhd58.net'
+    ApiUrl = 'http://bdh-ranqi.qhd58.net'
 }
 switch(uni.getSystemInfoSync().platform){
 	case 'android':
        console.log('运行Android上')
-	   ApiUrl = 'http://ranqi.qhd58.net/'
+	   ApiUrl = 'bdh-ranqi.qhd58.net'
        break;
 }
 export {

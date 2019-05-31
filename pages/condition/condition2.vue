@@ -3,25 +3,181 @@
         <view class="container">
 			<text class="text0 eosfont" @click="goback">&#xe62f;</text>
             <text class="text1">安检情况</text>
-            <text class="text2">用户名：{{ming}}</text>
-            <text class="text3">部门：巡检部</text>
+            <text class="text2">用户名：{{name}}</text>
+            <text class="text3">部门：安检部</text>
         </view>	
 		<view class="form">
 			<picker @change="bindPickerChange" :value="index" :range="array">
-				<view class="uni-input">管道漏气：{{array[index]}}</view><text class="text7 eosfont">&#xe60b;</text>					
+				<view class="uni-input">表具：{{array[index]}}</view><text class="text7 eosfont">&#xe60b;</text>					
 			</picker>
 			<picker @change="bindPickerChange2" :value="index2" :range="array2">
-				<view class="uni-input">管道施工：{{array2[index2]}}</view><text class="text8 eosfont">&#xe60b;</text>					
+				<view class="uni-input">燃气用具：{{array2[index2]}}</view><text class="text8 eosfont">&#xe60b;</text>					
 			</picker>
 			<picker @change="bindPickerChange3" :value="index3" :range="array3">
-				<view class="uni-input">阀门师维护：{{array3[index3]}}</view><text class="text9 eosfont">&#xe60b;</text>					
+				<view class="uni-input">安全宣传：{{array3[index3]}}</view><text class="text9 eosfont">&#xe60b;</text>					
 			</picker>
 			<picker @change="bindPickerChange4" :value="index4" :range="array4">
-				<view class="uni-input">调压站箱维护：{{array4[index4]}}</view><text class="text10 eosfont">&#xe60b;</text>						
+				<view class="uni-input">是否有隐患：{{array4[index4]}}</view><text class="text10 eosfont">&#xe60b;</text>						
 			</picker>
 			<picker @change="bindPickerChange5" :value="index5" :range="array5">
-				<view class="uni-input">其他：{{array5[index5]}}</view><text class="text11 eosfont">&#xe60b;</text>					
+				<view class="uni-input">整改方式：{{array5[index5]}}</view><text class="text11 eosfont">&#xe60b;</text>					
 			</picker>
+			<view class="yzyh">
+				<text>严重隐患:</text>
+				<view>
+					<checkbox-group @change="checkboxChange">
+						<label>
+							漏气<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange2">
+						<label>
+							燃气管道严重锈浊<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange3">
+						<label>
+							使用直排式热水器<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange4">
+						<label>
+							燃气热水器烟道安装不规范<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange5">
+						<label>
+							橡胶软管中间有借口或破损、无管卡<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange6">
+						<label>
+							同时使用双气源<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>	
+					<checkbox-group @change="checkboxChange7">
+						<label>
+							燃气设施经过卧室等<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+																																		
+				</view>				
+			</view>
+			<view class="ybyh">
+				<text>一般隐患</text>
+				<checkbox-group @change="checkboxChange8">
+					<label>
+						非燃气专用阀门或阀门启闭不灵<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange9">
+					<label>
+						燃气管道无管卡<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange10">
+					<label>
+						燃气表具严重锈蚀<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange11">
+					<label>
+						灶具无熄火保护<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange12">
+					<label>
+						灶具熄火保护失灵<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange13">
+					<label>
+						热水器、壁挂炉、灶具（超过使用年限）<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange14">
+					<label>
+						热水器（壁挂炉）封装在橱柜内<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange15">
+					<label>
+						非燃气专用胶管<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange16">
+					<label>
+						橡胶软管超期<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>																																							<checkbox-group @change="checkboxChange17">
+					<label>
+						橡胶软管老化<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange18">
+					<label>
+						橡胶软管超长<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange19">
+					<label>
+						橡胶软管穿墙<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange20">
+					<label>
+						软管安装不牢固<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange21">
+					<label>
+						软管受热辐射<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange22">
+					<label>
+						橱柜拉篮碰撞软管<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange23">
+					<label>
+						燃气设施与炉火热源、易燃易爆品、腐蚀性用品、加装电器设备等安全距离不够<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange24">
+					<label>
+						燃气设施上缠绕电线或搭挂杂物<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange25">
+					<label>
+						擅自安装、改装、拆除户内燃气设施和燃气计量装置<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>																																							<checkbox-group @change="checkboxChange26">
+					<label>
+						燃气设施暗埋按烽不规范<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>	
+				<checkbox-group @change="checkboxChange27">
+					<label>
+						暗厨房（燃气具使用地点无直通室外的门或窗）<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange28">
+					<label>
+						开放式厨房（使用燃气的厨房跟客厅起居室未有效隔断<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange29">
+					<label>
+						用气房间堆放可燃杂物<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>																
+			</view>
+			
+			
+			
+			
 			<text class="text6">详细描述：</text>
 			<textarea placeholder-style="color:#F76260" placeholder="请输入具体内容" v-model="contant" />
 			<view class="upload">
@@ -40,8 +196,7 @@
 				<view @click="UploadImg4">
 					<text class="center ln">告知单:</text>
 					<view class="uploadImg"><image :src="gaozhi"></image></view>
-				</view>
-				
+				</view>				
 			</view>
 			<view class="btn" @click="currentTask">上传</view>
 		</view>		
@@ -55,26 +210,56 @@ var _self;
 	export default {
 		data() {
 			return {
-				ming: '',
+				name: '',
 				xiaoqu: '',
 				dong: '',
 				danyuan: '',
 				menpai: '',
-				array: ['无', '微小', '中级', '严重'],
-				array2: ['无', '监管施工', '违章施工'],
-				array3: ['无', '丢失', '破损', '掩埋'],
-				array4: ['无', '老化', '漏气', '破损丢失'],
-				array5: ['无', '其他'],
+				array: ['皮膜式机械表','皮膜式IC卡表','室外挂表'],
+				array2: ['灶具','热水器','壁挂炉','长寿命软管'],
+				array3: ['口头','发放安全宣传单','已告知整改建议'],
+				array4: ['是','否'],
+				array5: ['现场整改','用户自行整改','委托公司整改'],
 				arrayContant: "",
 				array2Contant: "",
 				array3Contant: "",
 				array4Contant: "",
 				array5Contant: "",
+				array6Contant: "",
 				index: 0,
 				index2: 0,
 				index3: 0,
 				index4: 0,
 				index5: 0,
+				a: 0,
+				b: 0,
+				c: 0,
+				d: 0,
+				e: 0,
+				f: 0,
+				g: 0,
+				h: 0,
+				i: 0,
+				j: 0,
+				k: 0,
+				l: 0,
+				m: 0,
+				n: 0,
+				o: 0,
+				p: 0,
+				q: 0,
+				r: 0,
+				s: 0,
+				t: 0,
+				u: 0,
+				v: 0,
+				w: 0,
+				x: 0,
+				y: 0,
+				z: 0,
+				xixi: 0,
+				haha: 0,
+				hehe: 0,
 				jin: '',
 				yuan: '',
 				te: '',
@@ -83,15 +268,17 @@ var _self;
 				jinBase64: '',
 				yuanBase64: '',
 				teBase64: '',
-				gaozhiBase64: ''
+				gaozhiBase64: '',
+				renwuname: ''
 			}
 		},
 		onLoad(options) {
-			
+			this.renwuname = options.renwuname;
+			this.name = options.name;
 			this.xiaoqu = options.xiaoqu;
 			this.dong = options.dong;
 			this.danyuan = options.danyuan;
-			this.menpai = options.menpai;
+			this.menpai = options.menpai;			
 			_self = this;
 			uni.getStorage({
 				key: 'ming',
@@ -109,26 +296,126 @@ var _self;
 			},
 			bindPickerChange: function(e) {				
 				this.index = e.target.value;
-				console.log(this.array[this.index])
+				console.log(this.index)
 				this.arrayContant = this.array[this.index];
-				
+				console.log(this.arrayContant)
 			},
 			bindPickerChange2: function(e) {				
 				this.index2 = e.target.value;
-				this.array2Contant = this.array2[this.index2];
+
 			},
 			bindPickerChange3: function(e) {				
-				this.index3 = e.target.value;
-				this.array3Contant = this.array3[this.index3];
+				this.index3 = e.target.value;				
+
 			},
 			bindPickerChange4: function(e) {				
 				this.index4 = e.target.value;
-				this.array4Contant = this.array4[this.index4];
+
 			},
 			bindPickerChange5: function(e) {				
 				this.index5 = e.target.value;
-				this.array5Contant = this.array5[this.index5];
+
 			},
+			checkboxChange: function (e) {				
+				this.a = parseInt(e.detail.value);
+				console.log(typeof this.a)
+			},
+			checkboxChange2: function (e) {				
+				this.b = parseInt(e.detail.value);
+				console.log(this.b)
+			},
+			checkboxChange3: function (e) {				
+				this.c = parseInt(e.detail.value);
+				console.log(this.c)
+			},
+			checkboxChange4: function (e) {				
+				this.d = parseInt(e.detail.value);
+				console.log(this.d)
+			},
+			checkboxChange5: function (e) {				
+				this.e = parseInt(e.detail.value);
+				console.log(this.e)
+			},
+			checkboxChange6: function (e) {				
+				this.f = parseInt(e.detail.value);
+				console.log(this.f)
+			},
+			checkboxChange7: function (e) {				
+				this.g = parseInt(e.detail.value);
+				console.log(this.g)
+			},	
+			checkboxChange8: function (e) {				
+				this.h = parseInt(e.detail.value);
+				console.log(this.h)
+			},	
+			checkboxChange9: function (e) {				
+				this.i = parseInt(e.detail.value);
+				console.log(this.i)
+			},	
+			checkboxChange10: function (e) {				
+				this.j = parseInt(e.detail.value);
+				console.log(this.j)
+			},	
+			checkboxChange11: function (e) {				
+				this.k = parseInt(e.detail.value);
+				console.log(this.k)
+			},
+			checkboxChange12: function (e) {				
+				this.l = parseInt(e.detail.value);
+				console.log(this.l)
+			},
+			checkboxChange13: function (e) {				
+				this.m = parseInt(e.detail.value);
+				console.log(this.m)
+			},
+			checkboxChange14: function (e) {				
+				this.n = parseInt(e.detail.value);
+				console.log(this.n)
+			},
+			checkboxChange15: function (e) {				
+				this.o = parseInt(e.detail.value);
+			},
+			checkboxChange16: function (e) {				
+				this.p = parseInt(e.detail.value);
+			},
+			checkboxChange17: function (e) {				
+				this.q = parseInt(e.detail.value);
+			},
+			checkboxChange18: function (e) {				
+				this.r = parseInt(e.detail.value);
+			},																																											checkboxChange19: function (e) {				
+				this.s = parseInt(e.detail.value);
+			},
+			checkboxChange20: function (e) {				
+				this.t = parseInt(e.detail.value);
+			},
+			checkboxChange21: function (e) {				
+				this.u = parseInt(e.detail.value);
+			},
+			checkboxChange22: function (e) {				
+				this.v = parseInt(e.detail.value);
+			},
+			checkboxChange23: function (e) {				
+				this.w = parseInt(e.detail.value);
+			},
+			checkboxChange24: function (e) {				
+				this.x = parseInt(e.detail.value);
+			},
+			checkboxChange25: function (e) {				
+				this.y = parseInt(e.detail.value);
+			},
+			checkboxChange26: function (e) {				
+				this.z = parseInt(e.detail.value);
+			},
+			checkboxChange27: function (e) {				
+				this.xixi = parseInt(e.detail.value);
+			},
+			checkboxChange28: function (e) {				
+				this.haha = parseInt(e.detail.value);
+			},
+			checkboxChange29: function (e) {				
+				this.hehe = parseInt(e.detail.value);
+			},																																												
 			UploadImg1() {
 			_self = this;
 			uni.chooseImage({
@@ -247,19 +534,51 @@ var _self;
 								title: '提交中...'
 							})
 							uni.request({
-								url: 'http://ranqi.qhd58.net/api/jk/anjian_qk',
+								url: 'http://bdh-ranqi.qhd58.net/api/jk/anjian_qk',
 								method: 'POST',
 								data: {
-									name: _self.ming,
+									rhhf_name: _self.renwuname,
+									name: _self.name,
 									xiaoqu: _self.xiaoqu,
 									dong: _self.dong,
 									danyuan: _self.danyuan,
 									menpai: _self.menpai,
-									lq: _self.arrayContant,
-									rqgdyzxs: _self.array2Contant,
-									zprsq: _self.array3Contant,
-									rqrsbgf: _self.array4Contant,
-									xjrgps: _self.array5Contant,
+									yhqtqk: _self.index,
+									bj: _self.index2,
+									rqyj: _self.index3,
+									aqxc: _self.index4,
+									sfyyh: _self.index5,
+									zg: _self.index6,
+									lq: _self.a,
+									rqgdyzxs: _self.b,
+									syzpsrsq: _self.c,
+									rqrsqbgf: _self.d,
+									xjrgps: _self.e,
+									sqy: _self.f,
+									rqssjgws: _self.g,
+									
+									frqzyfm: _self.h,
+									wgk: _self.i,
+									yzxs: _self.j,
+									wxhbh: _self.k,
+									xhbhsl: _self.l,
+									cgsynx: _self.m,
+									fzzcgn: _self.n,
+									frqzyjg: _self.o,
+									xjrgcq: _self.p,
+									xjglh: _self.q,
+									xjgcc: _self.r,
+									xjgcq: _self.s,
+									azblg: _self.t,
+									srfs: _self.u,
+									pzrg: _self.v,
+									jlbg: _self.w,
+									crdxhdg: _self.x,
+									szgz: _self.y,
+									ambgf: _self.z,
+									acf: _self.xixi,
+									kfscf: _self.haha,
+									krzw: _self.hehe,																														
 									content: _self.contant,
 									jin_img: _self.jinBase64,
 									yuan_img: _self.yuanBase64,
@@ -462,7 +781,26 @@ var _self;
 				color: #fff;
 				font-size: 30upx;
 			}
-
+			.yzyh {
+				font-size: 40upx;
+				margin-top: 30upx;
+				text {
+					color: red;
+				}
+				checkbox-group {
+					margin-top: 15upx;
+				}
+			}
+			.ybyh {
+				margin-top: 30upx;
+				font-size: 40upx;
+				text {
+					color: #F40;
+				}
+				checkbox-group {
+					margin-top: 15upx;
+				}								
+			}
 		}
 	}
 </style>

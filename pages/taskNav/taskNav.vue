@@ -87,7 +87,7 @@ var _self;
 				}
 			});
 			uni.request({
-				url: "http://ranqi.qhd58.net/api/Jk/renwu_xun",
+				url: "http://bdh-ranqi.qhd58.net/api/Jk/renwu_xun",
 				data: {
 					username: _self.username,
 					password: _self.password

@@ -5,7 +5,7 @@
 		        <text class="eosfont" @click="goback">&#xef07;返回</text>
 		    </view>
 		    <text>资料上传</text>
-		    <text class="eosfont">&#xe670;</text>
+		    <text></text>
 		</view>
 		<view class="dizhi">{{showData.dizhi}}</view>
 		<view class="time">
@@ -16,29 +16,29 @@
 		<view class="wimg">问题图片</view>
 		<view class="yuan">
 			<text>远景:</text>
-			<lazy-image :realSrc="'http://ranqi.qhd58.net' + showData.yuan_img" :placeholdSrc="placeholderSrc"></lazy-image>
+			<lazy-image :realSrc="'http://bdh-ranqi.qhd58.net' + showData.yuan_img" :placeholdSrc="placeholderSrc"></lazy-image>
 		</view>
 		<view class="jin">
 			<text>近景:</text>
-			<lazy-image :realSrc="'http://ranqi.qhd58.net' + showData.jin_img" :placeholdSrc="placeholderSrc"></lazy-image>
+			<lazy-image :realSrc="'http://bdh-ranqi.qhd58.net' + showData.jin_img" :placeholdSrc="placeholderSrc"></lazy-image>
 		</view>
 		<view class="te">
 			<text>特写:</text>
-			<lazy-image :realSrc="'http://ranqi.qhd58.net' + showData.texie_img" :placeholdSrc="placeholderSrc"></lazy-image>
+			<lazy-image :realSrc="'http://bdh-ranqi.qhd58.net' + showData.texie_img" :placeholdSrc="placeholderSrc"></lazy-image>
 		</view>
 		<view class="dispose">处理图片</view>
 		<view class="upload">
 			<view>
 				<text class="center">远景</text>
-				<lazy-image class="uploadImg" :realSrc="'http://ranqi.qhd58.net' + showData.wei_yuan" :placeholdSrc="placeholderSrc"></lazy-image>
+				<lazy-image class="uploadImg" :realSrc="'http://bdh-ranqi.qhd58.net' + showData.wei_yuan" :placeholdSrc="placeholderSrc"></lazy-image>
 			</view>
 			<view>
 				<text class="center">近景</text>
-				<lazy-image class="uploadImg" :realSrc="'http://ranqi.qhd58.net' + showData.wei_jin" :placeholdSrc="placeholderSrc"></lazy-image>
+				<lazy-image class="uploadImg" :realSrc="'http://bdh-ranqi.qhd58.net' + showData.wei_jin" :placeholdSrc="placeholderSrc"></lazy-image>
 			</view>			
 			<view>
 				<text class="center">特写</text>
-				<lazy-image class="uploadImg" :realSrc="'http://ranqi.qhd58.net' + showData.wei_te" :placeholdSrc="placeholderSrc"></lazy-image>
+				<lazy-image class="uploadImg" :realSrc="'http://bdh-ranqi.qhd58.net' + showData.wei_te" :placeholdSrc="placeholderSrc"></lazy-image>
 			</view>		
 		</view>	
 		<view class="content5">
@@ -75,7 +75,7 @@ export default {
 			}
 		});
 		uni.request({
-			url: 'http://ranqi.qhd58.net/api/jk/find_wx',
+			url: 'http://bdh-ranqi.qhd58.net/api/jk/find_wx',
 			method: 'POST',
 			data: {
 				id: _self.id,

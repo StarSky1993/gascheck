@@ -30,16 +30,16 @@
 			<view class="upload">
 				<view>
 					<text class="center">近景</text>					
-					<view class="uploadImg"><lazy-image  :realSrc="'http://ranqi.qhd58.net' + showDetail.jin_img" :placeholdSrc="placeholderSrc"></lazy-image></view>
+					<view class="uploadImg"><lazy-image  :realSrc="'http://bdh-ranqi.qhd58.net' + showDetail.jin_img" :placeholdSrc="placeholderSrc"></lazy-image></view>
 				</view>
 				<view>
 					<text class="center">远景</text>
 					
-					<view class="uploadImg"><lazy-image  :realSrc="'http://ranqi.qhd58.net' + showDetail.yuan_img" :placeholdSrc="placeholderSrc"></lazy-image></view>
+					<view class="uploadImg"><lazy-image  :realSrc="'http://bdh-ranqi.qhd58.net' + showDetail.yuan_img" :placeholdSrc="placeholderSrc"></lazy-image></view>
 				</view>
 				<view>
 					<text class="center">特写</text>					
-					<view class="uploadImg"><lazy-image  :realSrc="'http://ranqi.qhd58.net' + showDetail.texie_img" :placeholdSrc="placeholderSrc"></lazy-image></view>
+					<view class="uploadImg"><lazy-image  :realSrc="'http://bdh-ranqi.qhd58.net' + showDetail.texie_img" :placeholdSrc="placeholderSrc"></lazy-image></view>
 				</view>		
 			</view>
 		</view>		
@@ -76,7 +76,7 @@ var _self;
 				title: '加载中...'
 			})
 			uni.request({
-				url: "http://ranqi.qhd58.net/api/Jk/xun_rizhixq",
+				url: "http://bdh-ranqi.qhd58.net/api/Jk/xun_rizhixq",
 				data: {
 					id: options.id
 				},

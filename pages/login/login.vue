@@ -27,7 +27,7 @@
 		methods: {
 			login() {
 				uni.request({
-					url: this.$api.LOGIN,
+					url: 'http://bdh-ranqi.qhd58.net/api/jk/denglu',
 					data: {
 						username: this.user.username,
 						password: this.user.password

@@ -10,7 +10,7 @@
             <view class="item" v-for="(item,index) in securityData" :key="index" @click="onItem(item.xiaoqu,item.renwu_name)">
                 <view class="inner">
                     <view class="title">
-                        <view>编号：<text>#{{index}}</text></view>
+                        <view>编号：<text>#{{index+1}}</text></view>
                         <view class="fd" v-if="item.st_time !== null">{{item.st_time}}</view>
                     </view>
                     <view class="info">
@@ -45,7 +45,8 @@ var _self;
 				securityData: [],
 				xiaoqu: '',
 				username: '',
-				password: ''
+				password: '',
+				num: 1
 			}
 		},
 		onLoad() {
@@ -61,7 +62,7 @@ var _self;
 				}
 			});
 			uni.request({
-				url: "http://ranqi.qhd58.net/api/jk/xiaoqu",
+				url: "http://bdh-ranqi.qhd58.net/api/jk/xiaoqu",
 				data: {
 					username: _self.username,
 					password: _self.password
@@ -72,9 +73,7 @@ var _self;
 				success: (res) => {	
 					uni.hideLoading();
 					_self.name = res.data[0].name;
-					console.log(_self.name)
-
-					
+					console.log(_self.name)					
 					this.securityData = res.data;
 				},
 				fail: (res) => {
@@ -102,7 +101,7 @@ var _self;
 			onItem(xiaoqu,renwuname) {
 				console.log(renwuname)
 				uni.navigateTo({
-					url: `/pages/securityList2/securityList2?xiaoqu=${xiaoqu}&renwuname=${renwuname}`
+					url: `/pages/securityList2/securityList2?name=${_self.name}&xiaoqu=${xiaoqu}&renwuname=${renwuname}`
 				})				
 			}
         } 
