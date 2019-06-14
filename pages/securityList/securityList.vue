@@ -101,7 +101,7 @@ var _self;
 			onItem(xiaoqu,renwuname) {
 				console.log(renwuname)
 				uni.navigateTo({
-					url: `/pages/securityList2/securityList2?name=${_self.name}&xiaoqu=${xiaoqu}&renwuname=${renwuname}`
+					url: `/pages/securityList2/securityList2?name=${_self.name}&xiaoqu=${xiaoqu}&renwuname=${renwuname}&username=${_self.username}&password=${_self.password}`
 				})				
 			}
         } 

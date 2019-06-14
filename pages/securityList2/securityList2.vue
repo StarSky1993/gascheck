@@ -25,7 +25,9 @@
 				name: '',
 				xiaoquData: [],
 				xiaoqu: '',
-				renwuname: ''
+				renwuname: '',
+				username: '',
+				password: ''
 			}
 		},
 		onLoad(options) {
@@ -40,7 +42,9 @@
 				url: "http://bdh-ranqi.qhd58.net/api/jk/dong",
 				data: {
 					xiaoqu: this.xiaoqu,
-					rhhf_name: this.renwuname
+					rhhf_name: this.renwuname,
+					username: options.username,
+					password: options.password
 				},
 				header: {
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息

@@ -11,7 +11,7 @@
 				<view class="uni-input">表具：{{array[index]}}</view><text class="text7 eosfont">&#xe60b;</text>					
 			</picker>
 			<picker @change="bindPickerChange2" :value="index2" :range="array2">
-				<view class="uni-input">燃气用具：{{array2[index2]}}</view><text class="text8 eosfont">&#xe60b;</text>					
+				<view class="uni-input">燃气用具：{{array2[index2]}}</view><text class="text8 eosfont">&#xe60b;</text>
 			</picker>
 			<picker @change="bindPickerChange3" :value="index3" :range="array3">
 				<view class="uni-input">安全宣传：{{array3[index3]}}</view><text class="text9 eosfont">&#xe60b;</text>					
@@ -297,124 +297,124 @@ var _self;
 			bindPickerChange: function(e) {				
 				this.index = e.target.value;
 				console.log(this.index)
-				this.arrayContant = this.array[this.index];
-				console.log(this.arrayContant)
+				// this.arrayContant = this.array[this.index];
+				// console.log(this.arrayContant)
 			},
 			bindPickerChange2: function(e) {				
 				this.index2 = e.target.value;
-
+				console.log(this.index2)
 			},
 			bindPickerChange3: function(e) {				
 				this.index3 = e.target.value;				
-
+				console.log(this.index3)
 			},
 			bindPickerChange4: function(e) {				
 				this.index4 = e.target.value;
-
+				console.log(this.index4)
 			},
 			bindPickerChange5: function(e) {				
 				this.index5 = e.target.value;
-
+				console.log(this.index5)
 			},
 			checkboxChange: function (e) {				
-				this.a = parseInt(e.detail.value);
-				console.log(typeof this.a)
+				this.a = Number(e.detail.value);
+				console.log(this.a)
 			},
 			checkboxChange2: function (e) {				
-				this.b = parseInt(e.detail.value);
+				this.b = Number(e.detail.value);
 				console.log(this.b)
 			},
 			checkboxChange3: function (e) {				
-				this.c = parseInt(e.detail.value);
+				this.c = Number(e.detail.value);
 				console.log(this.c)
 			},
 			checkboxChange4: function (e) {				
-				this.d = parseInt(e.detail.value);
+				this.d = Number(e.detail.value);
 				console.log(this.d)
 			},
 			checkboxChange5: function (e) {				
-				this.e = parseInt(e.detail.value);
+				this.e = Number(e.detail.value);
 				console.log(this.e)
 			},
 			checkboxChange6: function (e) {				
-				this.f = parseInt(e.detail.value);
+				this.f = Number(e.detail.value);
 				console.log(this.f)
 			},
 			checkboxChange7: function (e) {				
-				this.g = parseInt(e.detail.value);
+				this.g = Number(e.detail.value);
 				console.log(this.g)
 			},	
 			checkboxChange8: function (e) {				
-				this.h = parseInt(e.detail.value);
+				this.h = Number(e.detail.value);
 				console.log(this.h)
 			},	
 			checkboxChange9: function (e) {				
-				this.i = parseInt(e.detail.value);
+				this.i = Number(e.detail.value);
 				console.log(this.i)
 			},	
 			checkboxChange10: function (e) {				
-				this.j = parseInt(e.detail.value);
+				this.j = Number(e.detail.value);
 				console.log(this.j)
 			},	
 			checkboxChange11: function (e) {				
-				this.k = parseInt(e.detail.value);
+				this.k = Number(e.detail.value);
 				console.log(this.k)
 			},
 			checkboxChange12: function (e) {				
-				this.l = parseInt(e.detail.value);
+				this.l = Number(e.detail.value);
 				console.log(this.l)
 			},
 			checkboxChange13: function (e) {				
-				this.m = parseInt(e.detail.value);
+				this.m = Number(e.detail.value);
 				console.log(this.m)
 			},
 			checkboxChange14: function (e) {				
-				this.n = parseInt(e.detail.value);
+				this.n = Number(e.detail.value);
 				console.log(this.n)
 			},
 			checkboxChange15: function (e) {				
-				this.o = parseInt(e.detail.value);
+				this.o = Number(e.detail.value);
 			},
 			checkboxChange16: function (e) {				
-				this.p = parseInt(e.detail.value);
+				this.p = Number(e.detail.value);
 			},
 			checkboxChange17: function (e) {				
-				this.q = parseInt(e.detail.value);
+				this.q = Number(e.detail.value);
 			},
 			checkboxChange18: function (e) {				
-				this.r = parseInt(e.detail.value);
+				this.r = Number(e.detail.value);
 			},																																											checkboxChange19: function (e) {				
-				this.s = parseInt(e.detail.value);
+				this.s = Number(e.detail.value);
 			},
 			checkboxChange20: function (e) {				
-				this.t = parseInt(e.detail.value);
+				this.t = Number(e.detail.value);
 			},
 			checkboxChange21: function (e) {				
-				this.u = parseInt(e.detail.value);
+				this.u = Number(e.detail.value);
 			},
 			checkboxChange22: function (e) {				
-				this.v = parseInt(e.detail.value);
+				this.v = Number(e.detail.value);
 			},
 			checkboxChange23: function (e) {				
-				this.w = parseInt(e.detail.value);
+				this.w = Number(e.detail.value);
 			},
 			checkboxChange24: function (e) {				
-				this.x = parseInt(e.detail.value);
+				this.x = Number(e.detail.value);
 			},
 			checkboxChange25: function (e) {				
-				this.y = parseInt(e.detail.value);
+				this.y = Number(e.detail.value);
 			},
 			checkboxChange26: function (e) {				
-				this.z = parseInt(e.detail.value);
+				this.z = Number(e.detail.value);
 			},
 			checkboxChange27: function (e) {				
-				this.xixi = parseInt(e.detail.value);
+				this.xixi = Number(e.detail.value);
 			},
 			checkboxChange28: function (e) {				
-				this.haha = parseInt(e.detail.value);
+				this.haha = Number(e.detail.value);
 			},
 			checkboxChange29: function (e) {				
-				this.hehe = parseInt(e.detail.value);
+				this.hehe = Number(e.detail.value);
 			},																																												
 			UploadImg1() {
 			_self = this;
@@ -549,41 +549,40 @@ var _self;
 									aqxc: _self.index4,
 									sfyyh: _self.index5,
 									zg: _self.index6,
-									lq: _self.a,
-									rqgdyzxs: _self.b,
-									syzpsrsq: _self.c,
-									rqrsqbgf: _self.d,
-									xjrgps: _self.e,
-									sqy: _self.f,
-									rqssjgws: _self.g,
-									
-									frqzyfm: _self.h,
-									wgk: _self.i,
-									yzxs: _self.j,
-									wxhbh: _self.k,
-									xhbhsl: _self.l,
-									cgsynx: _self.m,
-									fzzcgn: _self.n,
-									frqzyjg: _self.o,
-									xjrgcq: _self.p,
-									xjglh: _self.q,
-									xjgcc: _self.r,
-									xjgcq: _self.s,
-									azblg: _self.t,
-									srfs: _self.u,
-									pzrg: _self.v,
-									jlbg: _self.w,
-									crdxhdg: _self.x,
-									szgz: _self.y,
-									ambgf: _self.z,
-									acf: _self.xixi,
-									kfscf: _self.haha,
-									krzw: _self.hehe,																														
-									content: _self.contant,
-									jin_img: _self.jinBase64,
-									yuan_img: _self.yuanBase64,
-									texie_img: _self.teBase64,
-									hui_img: _self.gaozhiBase64
+									lq: this.a,
+									rqgdyzxs: this.b,
+									syzpsrsq: this.c,
+									rqrsqbgf: this.d,
+									xjrgps: this.e,
+									sqy: this.f,
+									rqssjgws: this.g,									
+									frqzyfm: this.h,
+									wgk: this.i,
+									yzxs: this.j,
+									wxhbh: this.k,
+									xhbhsl: this.l,
+									cgsynx: this.m,
+									fzzcgn: this.n,
+									frqzyjg: this.o,
+									xjrgcq: this.p,
+									xjglh: this.q,
+									xjgcc: this.r,
+									xjgcq: this.s,
+									azblg: this.t,
+									srfs: this.u,
+									pzrg: this.v,
+									jlbg: this.w,
+									crdxhdg: this.x,
+									szgz: this.y,
+									ambgf: this.z,
+									acf: this.xixi,
+									kfscf: this.haha,
+									krzw: this.hehe,																														
+									content: this.contant,
+									jin_img: this.jinBase64,
+									yuan_img: this.yuanBase64,
+									texie_img: this.teBase64,
+									hui_img: this.gaozhiBase64 
 								},
 								success: (res) => {
 									console.log(res.data);

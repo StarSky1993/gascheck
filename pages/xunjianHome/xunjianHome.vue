@@ -33,6 +33,7 @@ var _self;
 				lat2: '',
 				lng2: '',
 				time: '',
+				tuisong: {},
 				distance: '',
 				coordinate2: '',
 				timer: null,
@@ -42,12 +43,36 @@ var _self;
 			}
 		},
 		onLoad() {
-			
+
 			_self = this;
+			
 			uni.showLoading({
 				title: '加载中'
 			})
+			
+			uni.showModal({
+				title: '消息推送',
+				content: '您有新任务！',
+				showCancel: false,
+				success: function (res) {
+					if (res.confirm) {
+						uni.request({
+							url: 'http://bdh-ranqi.qhd58.net/api/Jk/xiaoxi_xun',
+							data: {
+								username: _self.username,
+								password: _self.password
 
+							},
+							success: (res) => {
+								
+								this.tuisong = res;
+
+							}						
+						});	
+						
+					}
+				}
+			});
 			clearInterval(run)
 			const run = setInterval(() => {
 				_self.realTime
@@ -145,8 +170,15 @@ var _self;
 								password: _self.password
 							},
 							success: (res) => {
-								_self.lng3 = res.data.jing;
-								_self.lat3 = res.data.wei;	
+								if(res.data == null) {
+									_self.lng3 = _self.lng1;
+									_self.lat3 = _self.lat1;	
+								}else {
+									_self.lng3 = res.data.jing;
+									_self.lat3 = res.data.wei;	
+								}
+								
+								
 								uni.getLocation({
 									type: 'gcj02',
 									success: (res) => {
@@ -184,9 +216,6 @@ var _self;
 
 							}
 						})
-
-	
-						
 					},_self.time)					
 				}
 			})										

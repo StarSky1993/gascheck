@@ -20,7 +20,9 @@
 					"username": '',
 					"password": '',
 					//防止表单重复提交开关
-					isDisable: false
+					isDisable: false,
+					userPhone: '',
+					Password: ''
 				}				
 			}
 		},
@@ -37,21 +39,31 @@
 					},
 					success: (res) => {	
 
-						uni.setStorage({
-							key: 'user',
-							data: this.user,
-							success: function() {
-								console.log('success')
-							}
-						})
-						uni.setStorageSync('userPhone',this.user.username);
-						uni.setStorageSync('Password',this.user.password);
 						if(res.data === 1) {
 							this.isDisable = true;
-							uni.navigateTo({
-								//巡检主页
-								url: '/pages/xunjianHome/xunjianHome'
+							uni.setStorage({
+								key: 'user',
+								data: this.user,
+								success: function() {
+									console.log('success')
+								}
 							})
+							uni.setStorageSync('userPhone',this.user.username);
+							uni.setStorageSync('Password',this.user.password);
+							this.userPhone = uni.getStorageSync('userPhone');
+							this.Password = uni.getStorageSync('Password');
+							console.log(this.userPhone)
+							if(this.user.username == this.userPhone) {
+								uni.navigateTo({
+									//巡检主页
+									url: '/pages/xunjianHome/xunjianHome'
+								})
+							}else if(this.user.username !== this.userPhone) {
+								uni.showToast({
+									title: '请使用指定账号登陆！'
+								})
+							}
+
 						}else if(res.data === 2) {
 							this.isDisable = true;
 							uni.navigateTo({
@@ -108,8 +120,6 @@
 						}						
 					}
 				});
-
-
 			}
 		},
 		onLoad() {
@@ -118,8 +128,8 @@
 				keepScreenOn: true
 			})
 			//页面加载完成，获取本地存储的用户名及密码
-			const userPhone = uni.getStorageSync('userPhone');
-			const Password = uni.getStorageSync('Password');
+			_self.userPhone = uni.getStorageSync('userPhone');
+			_self.Password = uni.getStorageSync('Password');
 			if(userPhone && Password) {
 				_self.user.username = userPhone;
 				_self.user.password = Password;
