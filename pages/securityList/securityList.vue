@@ -49,18 +49,13 @@ var _self;
 				num: 1
 			}
 		},
-		onLoad() {
+		onLoad(options) {
 			_self = this;
 			uni.showLoading({
 				title: '加载中'
 			})
-			uni.getStorage({
-				key: 'user',
-				success: function (res) {
-					_self.username = res.data.username;
-					_self.password = res.data.password;
-				}
-			});
+			_self.username = options.username;
+			_self.password = options.password;
 			uni.request({
 				url: "http://bdh-ranqi.qhd58.net/api/jk/xiaoqu",
 				data: {
@@ -72,7 +67,7 @@ var _self;
 				},
 				success: (res) => {	
 					uni.hideLoading();
-					_self.name = res.data[0].name;
+					_self.name = res.data.name;
 					console.log(_self.name)					
 					this.securityData = res.data;
 				},

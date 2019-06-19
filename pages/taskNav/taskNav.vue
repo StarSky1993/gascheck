@@ -64,13 +64,8 @@ var _self;
 				title: '加载中',
 				mask: true
 			})
-			uni.getStorage({
-				key: 'user',
-				success: function (res) {
-					_self.username = res.data.username;
-					_self.password = res.data.password;
-				}
-			});			
+			_self.username = uni.getStorageSync('userPhone');
+			_self.password = uni.getStorageSync('Password');
 			_self.name = options.name;
 			uni.getLocation({
 				type: 'gcj02',

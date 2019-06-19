@@ -81,13 +81,8 @@ export default {
 				_self.status = res.data;
 			}
 		});
-		uni.getStorage({
-			key: 'user',
-			success: function (res) {				
-				_self.username = res.data.username;
-				_self.password = res.data.password;
-			}
-		});
+		_self.username = uni.getStorageSync('userPhone');
+		_self.password = uni.getStorageSync('Password');
 		uni.request({
 			url: 'http://bdh-ranqi.qhd58.net/api/jk/find',
 			method: 'POST',

@@ -26,8 +26,23 @@
 				}				
 			}
 		},
+		onLoad() {
+			_self = this;
+			// uni.removeStorageSync('userPhone');
+			// uni.removeStorageSync('Password');
+			uni.setKeepScreenOn({
+				keepScreenOn: true
+			})
+			_self.userPhone = uni.getStorageSync('userPhone');
+			_self.Password = uni.getStorageSync('Password');
+			if(_self.userPhone && _self.Password) {
+				_self.user.username = _self.userPhone;
+				_self.user.password = _self.Password;
+			}
+		},
 		methods: {
 			login() {
+
 				uni.request({
 					url: 'http://bdh-ranqi.qhd58.net/api/jk/denglu',
 					data: {
@@ -38,40 +53,43 @@
 						'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 					},
 					success: (res) => {	
-
 						if(res.data === 1) {
 							this.isDisable = true;
-							uni.setStorage({
-								key: 'user',
-								data: this.user,
-								success: function() {
-									console.log('success')
-								}
-							})
-							uni.setStorageSync('userPhone',this.user.username);
-							uni.setStorageSync('Password',this.user.password);
-							this.userPhone = uni.getStorageSync('userPhone');
-							this.Password = uni.getStorageSync('Password');
-							console.log(this.userPhone)
-							if(this.user.username == this.userPhone) {
+
+							if(!this.userPhone&& !this.Password) {
+								uni.setStorageSync('userPhone',this.user.username);
+								uni.setStorageSync('Password',this.user.password);
 								uni.navigateTo({
 									//巡检主页
-									url: '/pages/xunjianHome/xunjianHome'
+									url: `/pages/xunjianHome/xunjianHome?username=${this.user.username}&password=${this.user.password}`
 								})
-							}else if(this.user.username !== this.userPhone) {
-								uni.showToast({
-									title: '请使用指定账号登陆！'
-								})
-							}
 
+							}else if(this.userPhone && this.Password) {
+								if(this.userPhone == this.user.username && this.Password == this.user.password) {
+									uni.navigateTo({
+										//巡检主页
+										url: `/pages/xunjianHome/xunjianHome?username=${this.user.username}&password=${this.user.password}`
+									})
+								}else {
+									uni.showToast({
+										title: '请使用指定账号登陆！',
+										icon: "none"
+									})
+								}
+
+							}
 						}else if(res.data === 2) {
 							this.isDisable = true;
+							uni.setStorageSync('userPhone',this.user.username);
+							uni.setStorageSync('Password',this.user.password);
 							uni.navigateTo({
 								//安检列表
-								url: '/pages/securityList/securityList'
+								url: `/pages/securityList/securityList?username=${this.user.username}&password=${this.user.password}`
 							})
 						}else if(res.data === 3) {
 							this.isDisable = true;
+							uni.setStorageSync('userPhone',this.user.username);
+							uni.setStorageSync('Password',this.user.password);
 							uni.setStorage({
 								key: 'status',
 								data: res.data,
@@ -81,10 +99,12 @@
 							})
 							uni.navigateTo({
 								//维修工页面1
-								url: "/pages/Task/currentTask"
+								url: `/pages/Task/currentTask?username=${this.user.username}&password=${this.user.password}`
 							})
 						}else if(res.data === 4) {
 							this.isDisable = true;
+							uni.setStorageSync('userPhone',this.user.username);
+							uni.setStorageSync('Password',this.user.password);
 							uni.setStorage({
 								key: 'status2',
 								data: res.data,
@@ -93,8 +113,8 @@
 								}
 							})
 							uni.navigateTo({
-								//维修工页面1
-								url: "/pages/Task2/currentTask2"
+								//维修工页面2
+								url: '/pages/Task2/currentTask2'
 							})
 						}
 						else if(res.data === 0) {
@@ -111,38 +131,12 @@
 								icon: 'none',
 								duration: 2000
 							});	
-							uni.removeStorage({
-								key: 'user',
-								success: function (res) {
-									console.log('移除成功！');
-								}
-							});						
+							uni.removeStorageSync('userPhone');
+							uni.removeStorageSync('Password');				
 						}						
 					}
 				});
 			}
-		},
-		onLoad() {
-			_self = this;
-			uni.setKeepScreenOn({
-				keepScreenOn: true
-			})
-			//页面加载完成，获取本地存储的用户名及密码
-			_self.userPhone = uni.getStorageSync('userPhone');
-			_self.Password = uni.getStorageSync('Password');
-			if(userPhone && Password) {
-				_self.user.username = userPhone;
-				_self.user.password = Password;
-			}
-		},
-		onShow() {
-			
-		},
-		onReady() {
-			
-		},
-		onHide() {
-			
 		}
 	}
 </script>

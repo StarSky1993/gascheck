@@ -49,13 +49,8 @@ var _self;
 		onLoad(options) {
 			_self = this;
 			_self.ming = options.name;
-			uni.getStorage({
-				key: 'user',
-				success: function (res) {
-					_self.username = res.data.username;
-					_self.password = res.data.password;
-				}
-			});
+			_self.username = uni.getStorageSync('userPhone');
+			_self.password = uni.getStorageSync('Password');
 			uni.showLoading({
 				title: '加载中',
 				mask: true

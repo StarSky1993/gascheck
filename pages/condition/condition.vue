@@ -87,6 +87,8 @@ var _self;
 			}
 		},
 		onLoad(options) {
+			this.id = options.id;
+			console.log(this.id)
 			uni.showLoading({
 				title: '加载中',
 				mask: true
@@ -97,13 +99,8 @@ var _self;
 			_self = this;
 			_self.id = options.id;
 			_self.name = options.name;
-			uni.getStorage({
-				key: 'user',
-				success: function (res) {
-					_self.username = res.data.username;
-					_self.password = res.data.password;
-				}
-			});
+			_self.username = uni.getStorageSync('userPhone');
+			_self.password = uni.getStorageSync('Password');
 			uni.getLocation({
 				type: 'gcj02',
 				success: function (res) {
@@ -157,6 +154,7 @@ var _self;
 						})
 						pathToBase64(_self.jin).then(base64 => {
 							_self.jinBase64 = base64;
+							console.log(_self.jinBase64)
 							uni.hideLoading();
 						}) 
 						

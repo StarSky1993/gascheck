@@ -8,25 +8,25 @@
         </view>	
 		<view class="form">	
 				<view class="picker">
-					<view class="uni-input">管道漏气：{{array[index]}}</view><text class="text7 eosfont">&#xe60b;</text>				
+					<view class="uni-input">管道漏气：{{array[index]}}</view>
 				</view>
 				<view class="picker">
-					<view class="uni-input">管道漏气：{{array[index]}}</view><text class="text7 eosfont">&#xe60b;</text>				
+					<view class="uni-input">管道漏气：{{array[index]}}</view>
 				</view>
 				<view class="picker">
-					<view class="uni-input">管道施工：{{array2[index2]}}</view><text class="text8 eosfont">&#xe60b;</text>				
+					<view class="uni-input">管道施工：{{array2[index2]}}</view>				
 				</view>										
 				<view class="picker">
-					<view class="uni-input">阀门师维护：{{array3[index3]}}</view><text class="text9 eosfont">&#xe60b;</text>				
+					<view class="uni-input">阀门师维护：{{array3[index3]}}</view>
 				</view>										
 				<view class="picker">
-					<view class="uni-input">调压站箱维护：{{array4[index4]}}</view><text class="text10 eosfont">&#xe60b;</text>
+					<view class="uni-input">调压站箱维护：{{array4[index4]}}</view>
 				</view>											
 				<view class="picker">
-					<view class="uni-input">其他：{{array5[index5]}}</view><text class="text11 eosfont">&#xe60b;</text>
+					<view class="uni-input">其他：{{array5[index5]}}</view>
 				</view>															
 			<text class="text6">详细描述：</text>
-			<view class="textarea">{{showDetail.content}}</view>
+			<view class="textarea" v-if="showDetail.content !== null">{{showDetail.content}}</view>
 			<view class="upload">
 				<view>
 					<text class="center">近景</text>					
@@ -92,7 +92,6 @@ var _self;
 					this.index4 = this.showDetail.tyzxwh;
 					this.index5 = this.showDetail.qita;
 					
-					console.log(this.array[this.index])
 					uni.hideLoading()
 					
 				},

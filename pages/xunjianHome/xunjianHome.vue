@@ -3,6 +3,7 @@
         <view class="container">
             <text class="text1">电子巡查管理系统</text>
             <text class="text2">姓名：{{name}}</text>
+			<text class="position" style="position: absolute;right: 50upx;top: 18%; font-size: 30upx; color: #fff; border-radius: 40upx; background: #FF4400; padding: 6upx 20upx;" @click="zhuxiao">注销</text>
             <text class="text3">部门名称：巡检部</text>
             <text class="text4">我的功能</text>
             <view class="nav">
@@ -33,46 +34,64 @@ var _self;
 				lat2: '',
 				lng2: '',
 				time: '',
-				tuisong: {},
 				distance: '',
 				coordinate2: '',
 				timer: null,
 				onlinetime: null,
 				realTime: this.$realTime.wakeLock(),
-				releaseWakeLock: this.$realTime.releaseWakeLock()				
+				releaseWakeLock: this.$realTime.releaseWakeLock(),
+				tuisong: ''
 			}
 		},
-		onLoad() {
+		onLoad(options) {
 
 			_self = this;
-			
+			_self.username = options.username;
+			_self.password = options.password;
+			console.log(_self.username)
+			console.log(_self.password)
 			uni.showLoading({
 				title: '加载中'
 			})
+			uni.request({
+				url: 'http://bdh-ranqi.qhd58.net/api/Jk/xiaoxi_xun',
+				data: {
+					username: _self.username,
+					password: _self.password
 			
-			uni.showModal({
-				title: '消息推送',
-				content: '您有新任务！',
-				showCancel: false,
-				success: function (res) {
-					if (res.confirm) {
-						uni.request({
-							url: 'http://bdh-ranqi.qhd58.net/api/Jk/xiaoxi_xun',
-							data: {
-								username: _self.username,
-								password: _self.password
-
-							},
-							success: (res) => {
-								
-								this.tuisong = res;
-
-							}						
-						});	
-						
+				},
+				success: (res) => {
+					console.log(res.data)
+					_self.tuisong = res.data;
+					console.log(_self.tuisong)
+					if(res.data) {
+						uni.showModal({
+							title: '消息推送',
+							content: '您有新任务！',
+							showCancel: false,
+							success: function (res) {
+								if (res.confirm) {
+									uni.request({
+										url: 'http://bdh-ranqi.qhd58.net/api/Jk/xiaoxi_xx',
+										data: {
+											username: _self.username,
+											password: _self.password,
+											renwu_sb: _self.tuisong
+										},
+										success: (res) => {
+											
+										}						
+									});	
+									
+								}
+							}
+						});
 					}
-				}
-			});
+					
+			
+				}						
+			});	
+
 			clearInterval(run)
 			const run = setInterval(() => {
 				_self.realTime
@@ -93,14 +112,6 @@ var _self;
 				}
 			});
 
-						
-			uni.getStorage({
-				key: 'user',
-				success: function (res) {
-					_self.username = res.data.username;
-					_self.password = res.data.password;
-				}
-			});
 			uni.getLocation({
 				type: 'gcj02',
 				success: function (res) {
@@ -122,7 +133,8 @@ var _self;
 						success: (res) => {
 							if(res.data !== 0 && res.data !== 1) {
 								uni.showToast({
-									title: '自动获取坐标失败，请重新登录！'
+									title: '自动获取坐标失败，请重新登录！',
+									icon: "none"
 								});
 							}
 							uni.hideLoading();
@@ -318,6 +330,25 @@ var _self;
 				uni.makePhoneCall({
 					phoneNumber: '0335-8888888'
 				});
+			},
+			//注销
+			zhuxiao() {
+				uni.showModal({
+					title: '提示',
+					content: '您确定注销该账号吗？（请慎重）',
+					success: function (res) {
+						if (res.confirm) {
+							uni.removeStorageSync("userPhone");
+							uni.removeStorageSync("Password");
+							uni.redirectTo({
+								url: '/pages/login/login'
+							})
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				});
+
 			}
 
         }

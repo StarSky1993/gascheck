@@ -66,8 +66,7 @@ export default {
 		_self = this;
 		_self.id = options.id;
 		console.log(_self.id)
-		console.log(_self.xun)
-		console.log(_self.id)
+
 		uni.getStorage({
 			key: 'status',
 			success: function (res) {
