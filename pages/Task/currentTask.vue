@@ -58,11 +58,11 @@ export default {
     },
     onLoad(options) {
 		_self = this;
+		_self.username = options.username;
+		_self.password = options.password;		
 		uni.showLoading({
 			title: '加载中...'
 		})
-		_self.username = options.username;
-		_self.password = options.password;
 		uni.request({
 			url: 'http://bdh-ranqi.qhd58.net/api/jk/weixiu_xun',
 			method: 'POST',
@@ -88,7 +88,7 @@ export default {
     methods: {
 		onDetail(id) {
 			uni.navigateTo({
-				url: `/pages/maintain/maintain?id=${id}`
+				url: `/pages/maintain/maintain?id=${id}&username=${_self.username}&password=${_self.password}`
 			})
 		},
 		ywclick(id) {

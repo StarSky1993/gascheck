@@ -52,7 +52,38 @@
 			"path": "pages/maintain3/maintain3"
 		},
 		{
+			"path": "pages/maintain4/maintain4"
+		},		
+		{
 			"path": "pages/Look2/look2"
+		},
+		//村
+		{
+			"path": "pages/village/village"
+		},
+		{
+			"path": "pages/factory/factory"
+		},
+		// 村二
+		{
+			"path": "pages/cun/cun"
+		},
+		{
+			"path": "pages/hu/hu"
+		},
+		{
+			"path": "pages/cunweixiu/cunweixiu"
+		},
+		{
+			"path": "pages/gongweixiu/gongweixiu"
+		},
+		//工厂的户
+		{
+			"path": "pages/gong/gong"
+		},
+		//工建户表单上传
+		{
+			"path": "pages/condition/condition3"
 		}
 	],
 	"globalStyle": {

@@ -44,7 +44,6 @@ var _self;
 			}
 		},
 		onLoad(options) {
-
 			_self = this;
 			_self.username = options.username;
 			_self.password = options.password;
@@ -79,7 +78,7 @@ var _self;
 											renwu_sb: _self.tuisong
 										},
 										success: (res) => {
-											
+											console.log(res.data)
 										}						
 									});	
 									
@@ -131,12 +130,14 @@ var _self;
 							mm: _self.distance
 						},
 						success: (res) => {
+							console.log(res.data)
 							if(res.data !== 0 && res.data !== 1) {
 								uni.showToast({
 									title: '自动获取坐标失败，请重新登录！',
 									icon: "none"
 								});
 							}
+							
 							uni.hideLoading();
 
 						},
@@ -190,7 +191,6 @@ var _self;
 									_self.lat3 = res.data.wei;	
 								}
 								
-								
 								uni.getLocation({
 									type: 'gcj02',
 									success: (res) => {
@@ -213,7 +213,12 @@ var _self;
 												mm: _self.distance2
 											},
 											success: (res) => {
-																						
+												console.log(res.data)
+												if(res.data == 9) {
+													uni.redirectTo({
+														url: '/pages/login/login'
+													})
+												}
 											},
 											fail: (res) => {
 												uni.showToast({
@@ -314,9 +319,11 @@ var _self;
             },
             taskNav() {
 				_self = this;
+				console.log(_self.username)
+				console.log(_self.password)
 				uni.navigateTo({
 					//任务导航
-					url: `/pages/taskNav/taskNav?name=${_self.name}`
+					url: `/pages/taskNav/taskNav?name=${_self.name}&username=${_self.username}&password=${_self.password}`
 				})                
             },
 			condition() {

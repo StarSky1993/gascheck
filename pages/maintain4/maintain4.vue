@@ -1,3 +1,4 @@
+
 <template>
     <view class="maintain">
 		<view class="title">
@@ -7,13 +8,12 @@
 		    <text>资料上传</text>
 		    <text></text>
 		</view>
-		<view class="dizhi" v-if="showData.xiaoqu">{{showData.xiaoqu}}&nbsp;&nbsp;{{showData.dong}}-{{showData.danyuan}}-{{showData.menpai}}</view>
-		<view class="dizhi" v-else>{{showData.cun}}--{{showData.hu}}</view>
+		<view class="dizhi" v-if="showData.gongjianhu">{{showData.gongjianhu}}</view>
 		<view class="time">
 			<text class="eosfont">&#xe60a;</text>
 			<text class="shijian">{{showData.add_time}}</text>
 		</view>
-		<view class="content">{{showData.content}}</view>
+		<view class="content" v-if="showData.aj_wz !== null">{{showData.aj_wz}}</view>
 		<view class="wimg">问题图片</view>
 		<view class="yuan">
 			<text>远景:</text>
@@ -74,10 +74,12 @@ export default {
 		_self = this;
 		_self.username = options.username;
 		_self.password = options.password;
+		console.log(_self.username)
+		console.log(_self.password)
 		_self.id = options.id;
 		console.log(_self.id)
 		uni.request({
-			url: 'http://bdh-ranqi.qhd58.net/api/jk/find?xun=4',
+			url: 'http://bdh-ranqi.qhd58.net/api/jk/find?xun=5',
 			method: 'POST',
 			data: {
 				id: _self.id
@@ -85,7 +87,6 @@ export default {
 			success: (res) => {
 				uni.hideLoading()
 				_self.showData = res.data;
-				console.log(_self.showData.jin_img)
 			}
 		});
     },
@@ -174,12 +175,8 @@ export default {
 		},
 		upload() {
 			_self = this;
-			console.log(_self.id)
-			console.log(_self.jinBase64)
-			
-			console.log(_self.yuanBase64)
-			console.log(_self.teBase64)
-			console.log(_self.content)
+			console.log(_self.username)
+			console.log(_self.password)
 			uni.showModal({
 				title: '是否提交数据？',
 				content: '确认无误后即可提交数据',
@@ -189,37 +186,8 @@ export default {
 						uni.showLoading({
 							title: '提交中...'
 						})
-						if(_self.showData.xiaoqu) {
 							uni.request({
-								url: 'http://bdh-ranqi.qhd58.net/api/jk/weixiu_qk',
-								method: 'POST',
-								data: {
-									id: _self.id,
-									wei_jin: _self.jinBase64,
-									wei_yuan: _self.yuanBase64,
-									wei_te: _self.teBase64,
-									wei_content: _self.content
-								},
-								success: (res) => {
-									uni.hideLoading();
-									console.log(res.data)
-									if(res.data === 1) {
-										uni.showToast({
-											title: '提交成功！'
-										})
-										uni.redirectTo({
-											url: '/pages/Task2/currentTask2'
-										});
-									}else {
-										uni.showToast({
-											title: '提交失败,请重新提交！'
-										})
-									}
-								}
-							});	
-						}else {
-							uni.request({
-								url: 'http://bdh-ranqi.qhd58.net/api/jk/weixiu_qk?xun=4',
+								url: 'http://bdh-ranqi.qhd58.net/api/jk/weixiu_qk?xun=5',
 								method: 'POST',
 								data: {
 									username: _self.username,
@@ -246,8 +214,7 @@ export default {
 										})
 									}
 								}
-							});								
-						}
+							});									
 					
 					}else if (res.cancel) {
 						console.log('用户点击取消');

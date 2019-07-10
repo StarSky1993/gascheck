@@ -81,7 +81,6 @@ export default {
 				xun: 3
 			},
 			success: (res) => {
-				
 				console.log(_self.status)
 				uni.hideLoading()
 				_self.showData = res.data;

@@ -9,14 +9,14 @@
             <text></text>
         </view>
 		<view class="tabs">
-			<text class="cun" @click="cun">村村通</text>
-			<text class="gong" @click="gong">工建户</text>
+			<text class="cun" @click="back">小区</text>
+			<text class="gong" @click="gongjian">工建户</text>
 		</view>
         <view class="list" v-show="idx==1">
             <view class="item" v-for="(item,index) in anjianList" :key="index" @click="onDetail(item.id)" >
                 <view class="img"></view>
                 <view class="content">
-                    <view class="title2">{{item.xiaoqu}}&nbsp;&nbsp;{{item.dong}}-{{item.danyuan}}-{{item.menpai}}</view>
+                    <view class="title2">{{item.cun}}-{{item.hu}}</view>
                     <view class="content2" v-if="item.aj_wz !== null">{{item.aj_wz}}</view>
                     <view class="time-box">
                         <text class="time_ico eosfont">&#xe60a;</text>
@@ -29,8 +29,8 @@
 		    <view class="item" v-for="(items,index) in ywList" :key="index" @click="ywclick(items.id)">
 		        <view class="img2"></view>
 		        <view class="content">
-		            <view class="title2">{{items.xiaoqu}}&nbsp;&nbsp;{{items.dong}}-{{items.danyuan}}-{{items.menpai}}</view>
-		            <view class="content2">{{items.wx_wz}}</view>
+		            <view class="title2">{{items.cun}}-{{items.hu}}</view>
+		            <view class="content2" v-if="items.wx_wz !== null">{{items.wx_wz}}</view>
 		            <view class="time-box">
 		                <text class="time_ico eosfont">&#xe60a;</text>
 		                <text class="time">{{items.wx_time}}</text>
@@ -56,7 +56,7 @@ export default {
 			anjianList: [],
 			ywList: [],
 			username: '',
-			password: ''
+			password: ''			
         }
     },
     onLoad(options) {
@@ -66,7 +66,7 @@ export default {
 			title: '加载中...'
 		})
 		uni.request({
-			url: 'http://bdh-ranqi.qhd58.net/api/jk/weixiu_an',
+			url: 'http://bdh-ranqi.qhd58.net/api/jk/weixiu_cun',
 			method: 'POST',
 			success: (res) => {
 				uni.hideLoading()
@@ -74,8 +74,12 @@ export default {
 			}
 		});
 		uni.request({
-			url: 'http://bdh-ranqi.qhd58.net/api/jk/yw',
+			url: 'http://bdh-ranqi.qhd58.net/api/jk/yw?xun=4',
 			method: 'POST',
+			data: {
+				username: this.username,
+				password: this.password
+			},
 			success: (res) => {
 				uni.hideLoading()
 				this.ywList = res.data;
@@ -85,12 +89,12 @@ export default {
     methods: {
 		onDetail(id) {
 			uni.navigateTo({
-				url: `/pages/maintain3/maintain3?id=${id}`
+				url: `/pages/maintain3/maintain3?id=${id}&username=${this.username}&password=${this.password}`
 			})
 		},
 		ywclick(id) {
 			uni.navigateTo({
-				url: `/pages/Look2/look2?id=${id}`
+				url: `/pages/Look2/look2?id=${id}&xun=4`
 			})
 		},
 		goback() {
@@ -108,14 +112,14 @@ export default {
 				}
 			});
 		},
-		cun() {
-			uni.navigateTo({
-				url: `/pages/cunweixiu/cunweixiu?username=${this.username}&password=${this.password}`
+		//返回小区
+		back() {
+			uni.navigateBack({
+				delta: 1
 			})
 		},
-		gong() {
-			console.log(this.username)
-			console.log(this.password)
+		//进入工建户
+		gongjian() {
 			uni.navigateTo({
 				url: `/pages/gongweixiu/gongweixiu?username=${this.username}&password=${this.password}`
 			})			

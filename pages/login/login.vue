@@ -4,7 +4,7 @@
 			
 		</view>
 		<view class="form">
-			<text class="icon1 eosfont">&#xe768;</text><input type="number" v-model="user.username" :value="user.username" maxlength="11" placeholder="请输入您的手机号" />
+			<text class="icon1 eosfont">&#xe768;</text><input type="text" v-model="user.username" :value="user.username" maxlength="11" placeholder="请输入您的账号" />
 			<text class="icon2 eosfont">&#xe64c;</text><input type="text" v-model="user.password" :value="user.password" class="input2" placeholder="请输入密码" />
 			<button @click="login" :disabled="isDisable">登陆</button>
 		</view>
@@ -52,7 +52,8 @@
 					header: {
 						'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 					},
-					success: (res) => {	
+					success: (res) => {
+						console.log(res.data)
 						if(res.data === 1) {
 							this.isDisable = true;
 
@@ -114,7 +115,7 @@
 							})
 							uni.navigateTo({
 								//维修工页面2
-								url: '/pages/Task2/currentTask2'
+								url: `/pages/Task2/currentTask2?username=${this.user.username}&password=${this.user.password}`
 							})
 						}
 						else if(res.data === 0) {

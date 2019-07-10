@@ -4,7 +4,11 @@
 			<text class="text0 eosfont" @click="goback">&#xe62f;</text>
             <text class="text1">安检列表</text>
             <text class="text2">用户名：{{name}}</text>
-            <text class="text3">部门：安检部</text>
+            <view class="flx">
+				<text class="text3">部门：安检部</text>
+				<text class="cun" @click="cun">村村通</text>
+				<text class="gong" @click="gong">工建户</text>				
+			</view>
         </view>	
 		<view class="form">
             <view class="item" v-for="(item,index) in securityData" :key="index" @click="onItem(item.xiaoqu,item.renwu_name)">
@@ -51,25 +55,30 @@ var _self;
 		},
 		onLoad(options) {
 			_self = this;
+			_self.username = options.username;
+			_self.password = options.password;
+			console.log(_self.username)
+			console.log(_self.password)
 			uni.showLoading({
 				title: '加载中'
 			})
-			_self.username = options.username;
-			_self.password = options.password;
+
 			uni.request({
 				url: "http://bdh-ranqi.qhd58.net/api/jk/xiaoqu",
 				data: {
-					username: _self.username,
-					password: _self.password
+					username: 2,
+					password: 2
 				},
 				header: {
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 				},
 				success: (res) => {	
 					uni.hideLoading();
-					_self.name = res.data.name;
+					
+					_self.securityData = res.data;
+					_self.name = _self.securityData[0].name;
 					console.log(_self.name)					
-					this.securityData = res.data;
+					
 				},
 				fail: (res) => {
 					uni.hideLoading();
@@ -98,6 +107,18 @@ var _self;
 				uni.navigateTo({
 					url: `/pages/securityList2/securityList2?name=${_self.name}&xiaoqu=${xiaoqu}&renwuname=${renwuname}&username=${_self.username}&password=${_self.password}`
 				})				
+			},
+			//点击进入村村通
+			cun(renwuname) {
+				uni.navigateTo({
+					url: `/pages/village/village?username=${_self.username}&password=${_self.password}&name=${_self.name}`
+				})
+			},
+			//工建户
+			gong() {
+				uni.navigateTo({
+					url: `/pages/factory/factory?username=${_self.username}&password=${_self.password}&name=${_self.name}`
+				})
 			}
         } 
 	}
@@ -137,10 +158,20 @@ var _self;
                 font-size: 30upx;
                 color: #fff;
             }
-            .text3 {
+            .flx {
+				display: flex;
                 margin-top: 20upx;
                 font-size: 30upx;
                 color: #fff;
+				align-items: center;
+				.cun,.gong {
+					margin-left: 40upx;
+					padding: 6upx 18upx;
+					border-radius: 30upx;
+					background: lightgreen;
+					color: #fff;
+					font-size: 46upx;
+				}
             }
             .row {
                 margin-top: 20upx;

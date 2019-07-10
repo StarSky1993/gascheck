@@ -31,20 +31,21 @@
 			}
 		},
 		onLoad(options) {
-			uni.showLoading({
-				title: '加载中'
-			})
+			this.username = options.username;
+			this.password = options.password;
 			this.name = options.name;
 			this.xiaoqu = options.xiaoqu;
 			this.renwuname = options.renwuname;
-			console.log(this.renwuname)
+			uni.showLoading({
+				title: '加载中'
+			})
 			uni.request({
 				url: "http://bdh-ranqi.qhd58.net/api/jk/dong",
 				data: {
 					xiaoqu: this.xiaoqu,
 					rhhf_name: this.renwuname,
-					username: options.username,
-					password: options.password
+					username: this.username,
+					password: this.password
 				},
 				header: {
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
@@ -77,7 +78,7 @@
 			},
 			onItem(dong) {
 				uni.navigateTo({
-					url: `/pages/securityList3/securityList3?name=${this.name}&xiaoqu=${this.xiaoqu}&dong=${dong}&renwuname=${this.renwuname}`
+					url: `/pages/securityList3/securityList3?name=${this.name}&xiaoqu=${this.xiaoqu}&dong=${dong}&renwuname=${this.renwuname}&username=${this.username}&password=${this.password}`
 				})
 			}
         } 

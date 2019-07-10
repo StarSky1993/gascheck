@@ -7,7 +7,9 @@
 		    <text>资料上传</text>
 		    <text></text>
 		</view>
-		<view class="dizhi">{{showData.xiaoqu}}&nbsp;&nbsp;{{showData.dong}}-{{showData.danyuan}}-{{showData.menpai}}</view>
+		<view class="dizhi" v-if="showData.xiaoqu">{{showData.xiaoqu}}&nbsp;&nbsp;{{showData.dong}}-{{showData.danyuan}}-{{showData.menpai}}</view>
+		<view class="dizhi" v-else-if="showData.cun">{{showData.cun}}-{{showData.hu}}</view>
+		<view class="dizhi" v-else-if="showData.gongjianhu">{{showData.gongjianhu}}</view>
 		<view class="time">
 			<text class="eosfont">&#xe60a;</text>
 			<text class="shijian">{{showData.wx_time}}</text>
@@ -59,12 +61,14 @@ export default {
 			id: '',
 			placeholderSrc: '../../static/images/common/abc.png',
 			show: false,
-			loaded: false
+			loaded: false,
+			xun: ''
         }
     },
     onLoad(options) {
 		_self = this;
 		_self.id = options.id;
+		_self.xun = options.xun;
 		console.log(_self.id)
 		uni.getStorage({
 			key: 'status',
@@ -76,13 +80,15 @@ export default {
 			url: 'http://bdh-ranqi.qhd58.net/api/jk/find_wx',
 			method: 'POST',
 			data: {
-				id: _self.id
+				id: _self.id,
+				xun: _self.xun
 			},
 			success: (res) => {
 				
 				console.log(_self.status)
 				uni.hideLoading()
 				_self.showData = res.data;
+				console.log(_self.showData)
 			}
 		});
     },

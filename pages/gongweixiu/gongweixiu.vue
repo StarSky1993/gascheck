@@ -9,14 +9,14 @@
             <text></text>
         </view>
 		<view class="tabs">
+			<text class="cun" @click="back">小区</text>
 			<text class="cun" @click="cun">村村通</text>
-			<text class="gong" @click="gong">工建户</text>
 		</view>
         <view class="list" v-show="idx==1">
             <view class="item" v-for="(item,index) in anjianList" :key="index" @click="onDetail(item.id)" >
                 <view class="img"></view>
                 <view class="content">
-                    <view class="title2">{{item.xiaoqu}}&nbsp;&nbsp;{{item.dong}}-{{item.danyuan}}-{{item.menpai}}</view>
+                    <view class="title2">{{item.gongjianhu}}</view>
                     <view class="content2" v-if="item.aj_wz !== null">{{item.aj_wz}}</view>
                     <view class="time-box">
                         <text class="time_ico eosfont">&#xe60a;</text>
@@ -29,7 +29,7 @@
 		    <view class="item" v-for="(items,index) in ywList" :key="index" @click="ywclick(items.id)">
 		        <view class="img2"></view>
 		        <view class="content">
-		            <view class="title2">{{items.xiaoqu}}&nbsp;&nbsp;{{items.dong}}-{{items.danyuan}}-{{items.menpai}}</view>
+		            <view class="title2">{{items.gongjianhu}}</view>
 		            <view class="content2">{{items.wx_wz}}</view>
 		            <view class="time-box">
 		                <text class="time_ico eosfont">&#xe60a;</text>
@@ -62,11 +62,13 @@ export default {
     onLoad(options) {
 		this.username = options.username;
 		this.password = options.password;
+		console.log(this.username)
+		console.log(this.password)
 		uni.showLoading({
 			title: '加载中...'
 		})
 		uni.request({
-			url: 'http://bdh-ranqi.qhd58.net/api/jk/weixiu_an',
+			url: 'http://bdh-ranqi.qhd58.net/api/jk/weixiu_gong',
 			method: 'POST',
 			success: (res) => {
 				uni.hideLoading()
@@ -74,23 +76,28 @@ export default {
 			}
 		});
 		uni.request({
-			url: 'http://bdh-ranqi.qhd58.net/api/jk/yw',
+			url: 'http://bdh-ranqi.qhd58.net/api/jk/yw?xun=5',
 			method: 'POST',
+			data: {
+				username: this.username,
+				password: this.password
+			},
 			success: (res) => {
 				uni.hideLoading()
 				this.ywList = res.data;
+				console.log(this.ywList)
 			}
 		});	
     },
     methods: {
 		onDetail(id) {
 			uni.navigateTo({
-				url: `/pages/maintain3/maintain3?id=${id}`
+				url: `/pages/maintain4/maintain4?id=${id}&username=${this.username}&password=${this.password}`
 			})
 		},
 		ywclick(id) {
 			uni.navigateTo({
-				url: `/pages/Look2/look2?id=${id}`
+				url: `/pages/Look2/look2?id=${id}&xun=5`
 			})
 		},
 		goback() {
@@ -108,24 +115,24 @@ export default {
 				}
 			});
 		},
-		cun() {
-			uni.navigateTo({
-				url: `/pages/cunweixiu/cunweixiu?username=${this.username}&password=${this.password}`
-			})
-		},
-		gong() {
-			console.log(this.username)
-			console.log(this.password)
-			uni.navigateTo({
-				url: `/pages/gongweixiu/gongweixiu?username=${this.username}&password=${this.password}`
-			})			
-		},
 		call() {
 			//拨打电话
 			uni.makePhoneCall({
 				phoneNumber: '0335-8888888'
 			});
-		}		
+		},
+		//返回小区
+		back() {
+			uni.navigateBack({
+				delta: 1
+			})
+		},
+		//进入工建户
+		cun() {
+			uni.navigateTo({
+				url: `/pages/cunweixiu/cunweixiu?username=${this.username}&password=${this.password}`
+			})			
+		},				
     } 
 }
 </script>

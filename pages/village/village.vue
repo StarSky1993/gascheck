@@ -1,13 +1,35 @@
 <template>
-	<view class="securityList" >
+	<view class="village" >
+        <view class="container">
+			<text class="text0 eosfont" @click="goback">&#xe62f;</text>
+            <text class="text1">安检列表</text>
+            <text class="text2">用户名：{{name}}</text>
+            <view class="flx">
+				<text class="text3">部门：安检部</text>
+				<text class="cun" @click="cun">小区</text>
+				<text class="gong" @click="gong">工建户</text>				
+			</view>
+        </view>	
 		<view class="form">
-            <view class="item" v-for="(item,index) in menpaiData" :key="index" @click="onItem(item.menpai)">
+            <view class="item" v-for="(item,index) in securityData" :key="index" @click="onItem(item.id,item.renwu_name)">
                 <view class="inner">
                     <view class="title">
                         <view>编号：<text>#{{index+1}}</text></view>
+                        <view class="fd" v-if="item.st_time !== null">{{item.time}}</view>
                     </view>
                     <view class="info">
-						<view>{{item.menpai}}号</view>
+                        <view>
+                            <text>任务内容：</text>
+                            <text class="huise" v-if="item.renwu_name !== null">{{item.renwu_name}}</text>
+                        </view>
+                        <view>
+                            <text>任务时间：</text>
+                            <text class="huise" v-if="item.end_time !== null">{{item.end}}</text>
+                        </view>
+                        <view>
+                            <text>任务地址：</text>
+                            <text class="huise" v-if="item.xiaoqu !== null">{{item.cun}}</text>
+                        </view>                
                     </view>  
                     <view class="tab">
                         <text @click="call">呼叫调度中心</text>
@@ -19,58 +41,47 @@
 </template>
 
 <script>
+var _self;
 	export default {
 		data() {
 			return {
+				name: '',
+				securityData: [],
+				xiaoqu: '',
 				username: '',
 				password: '',
-				name: '',
-				menpaiData: [],
-				xiaoqu: '',
-				dong: '',
-				danyuan: '',
-				menpai: '',
-				renwuname: ''
+				num: 1
 			}
 		},
 		onLoad(options) {
+			_self = this;
+			_self.username = options.username;
+			_self.password = options.password;
+			_self.name = options.name;
+			console.log(_self.username)
+			console.log(_self.password)
 			uni.showLoading({
 				title: '加载中'
 			})
-			this.name = options.name;
-			this.xiaoqu = options.xiaoqu;
-			console.log(this.xiaoqu)
-			this.dong = options.dong;
-			this.danyuan = options.danyuan;
-			this.renwuname = options.renwuname;
-			this.username = options.username;
-			this.password = options.password;			
-			console.log(this.renwuname)
+
 			uni.request({
-				url: "http://bdh-ranqi.qhd58.net/api/jk/menpai",
+				url: "http://bdh-ranqi.qhd58.net/api/jk/cuncuntong",
 				data: {
-					xiaoqu: this.xiaoqu,
-					dong: this.dong,
-					danyuan: this.danyuan,
-					rhhf_name: this.renwuname
+					username: _self.username,
+					password: _self.username
 				},
 				header: {
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 				},
 				success: (res) => {	
-					console.log(res.data)
-					uni.hideLoading();
-					this.menpaiData = res.data;
+					uni.hideLoading();					
+					_self.securityData = res.data;
+					console.log(_self.securityData)
 				},
 				fail: (res) => {
 					uni.hideLoading();
-					uni.showToast({
-						title: "位置获取失败,请检查网络",
-						icon: "none",
-						duration: 2000
-					})
 				}
-			});
+			});			
 		},
 		methods: {
 			goback() {
@@ -84,16 +95,29 @@
 					phoneNumber: '0335-8888888'
 				});
 			},
-			onItem(menpai) {
+			onItem(id,renwuname) {
+				console.log(renwuname)
 				uni.navigateTo({
-					url: `/pages/condition/condition2?name=${this.name}&xiaoqu=${this.xiaoqu}&dong=${this.dong}&danyuan=${this.danyuan}&menpai=${menpai}&renwuname=${this.renwuname}&username=${this.username}&password=${this.password}`
+					url: `/pages/cun/cun?id=${id}&username=${_self.username}&password=${_self.password}&name=${_self.name}&renwuname=${renwuname}`
+				})
+			},
+			//返回
+			cun() {
+				uni.navigateTo({
+					url: '/pages/securityList/securityList'
+				})
+			},
+			//工建户
+			gong() {
+				uni.navigateTo({
+					url: '/pages/factory/factory'
 				})
 			}
         } 
 	}
 </script>
 <style lang="scss" scoped>
-	.securityList {
+	.village {
 		width: 100%;
 		height: 100%;
 		position: absolute;
@@ -111,9 +135,9 @@
 			position: relative;
 			.text0 {
 				position: absolute;
-				left: 30upx;
-				top: 105upx;
-				font-size: 40upx;
+				left: 50upx;
+				top: 90upx;
+				font-size: 60upx;
 				color: #fff;
 			}
 			.text1 {
@@ -127,10 +151,20 @@
                 font-size: 30upx;
                 color: #fff;
             }
-            .text3 {
+            .flx {
+				display: flex;
                 margin-top: 20upx;
                 font-size: 30upx;
                 color: #fff;
+				align-items: center;
+				.cun,.gong {
+					margin-left: 40upx;
+					padding: 6upx 18upx;
+					border-radius: 30upx;
+					background: lightgreen;
+					color: #fff;
+					font-size: 46upx;
+				}
             }
             .row {
                 margin-top: 20upx;
@@ -142,12 +176,12 @@
             }
 		}
 		.form {
+			width: 100%;
+			height: 72%;
 			box-sizing: border-box;
 			border-radius: 30upx 30upx 0 0;
 			position: absolute;
-			top: 80upx;
 			bottom: 0;
-			right: 0;
 			left: 0;
 			background: #fff;
             .item {
@@ -169,13 +203,27 @@
                             font-size: 22upx;
                             color: #8f8f8f;
                         }
+						.fd {
+							font-size: 26upx;
+						}
                     }
                     .info {
                         view {
-                            font-size: 50upx;
-							text-align: center;
+                            display: flex;
+                            justify-content: space-between;
+                            font-size: 24upx;
+                            height: 50upx;
+                            line-height: 50upx;
                             .huise {
+								display: block;
+								width: 200upx;
                                 color: #6d6d6d;
+								overflow:hidden;
+								text-overflow:ellipsis;
+								white-space:nowrap;
+								text-align: right;
+								font-size: 26upx;
+								
                             }
                         }
                         border-bottom: 1upx solid #c4c4c4;

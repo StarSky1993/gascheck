@@ -87,8 +87,14 @@ var _self;
 			}
 		},
 		onLoad(options) {
-			this.id = options.id;
-			console.log(this.id)
+			_self = this;
+			_self.id = options.id;
+			_self.name = options.name;
+			_self.username = options.username;
+			_self.password = options.password;
+			console.log(_self.name);
+			console.log(_self.username);
+			console.log(_self.password);
 			uni.showLoading({
 				title: '加载中',
 				mask: true
@@ -96,11 +102,6 @@ var _self;
 			setTimeout(function () {
 				uni.hideLoading();
 			}, 1500);
-			_self = this;
-			_self.id = options.id;
-			_self.name = options.name;
-			_self.username = uni.getStorageSync('userPhone');
-			_self.password = uni.getStorageSync('Password');
 			uni.getLocation({
 				type: 'gcj02',
 				success: function (res) {
@@ -244,18 +245,20 @@ var _self;
 									texie_img: _self.teBase64
 								},
 								success: (res) => {
+									console.log(_self.id);
+									console.log(_self.username);
+									console.log(_self.password);
+									console.log(res.data);
 									uni.hideLoading()
 									uni.showToast({
 										title: '提交成功！',
 										duration: 2000
 									})
-									console.log(res.data);
-									console.log(_self.jinBase64);
-									console.log(_self.yuanBase64);
-									console.log(_self.teBase64);
-									uni.navigateTo({
-										url: '/pages/taskNav/taskNav'
-									})
+									setTimeout(() => {
+										uni.navigateTo({
+											url: `/pages/taskNav/taskNav?username=${_self.username}&password=${_self.password}&id=${_self.id}&name=${_self.name}`
+										})
+									},1000)
 								}
 							});
 						} else if (res.cancel) {

@@ -1,76 +1,267 @@
 <template>
-	<view class="securityList" >
+	<view class="condition">
+        <view class="container">
+			<text class="text0 eosfont" @click="goback">&#xe62f;</text>
+            <text class="text1">安检情况</text>
+            <text class="text2">用户名：{{name}}</text>
+            <text class="text3">部门：安检部</text>
+        </view>	
 		<view class="form">
-            <view class="item" v-for="(item,index) in menpaiData" :key="index" @click="onItem(item.menpai)">
-                <view class="inner">
-                    <view class="title">
-                        <view>编号：<text>#{{index+1}}</text></view>
-                    </view>
-                    <view class="info">
-						<view>{{item.menpai}}号</view>
-                    </view>  
-                    <view class="tab">
-                        <text @click="call">呼叫调度中心</text>
-                    </view>  
-                </view>
-            </view>
+			<view class="yzyh">
+				<text>一级隐患:</text>
+				<view>
+					<checkbox-group @change="checkboxChange">
+						<label>
+							燃气漏气<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange2">
+						<label>
+							使用直排式热水器<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange3">
+						<label>
+							锅炉、热水器无烟道<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange4">
+						<label>
+							锅炉、热水器烟道未有效伸出室外<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange5">
+						<label>
+							锅炉、热水器烟道可见部分破损、密封不严<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange6">
+						<label>
+							预留口未封堵<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>	
+					<checkbox-group @change="checkboxChange7">
+						<label>
+							燃气管道极严重锈蚀<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+																																		
+				</view>				
+			</view>
+			<view class="ybyh">
+				<text>二级隐患</text>
+				<checkbox-group @change="checkboxChange8">
+					<label>
+						软管有接口、承插式软管无管卡<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange9">
+					<label>
+						双气合用、安装燃气设施的房间住人<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange10">
+					<label>
+						软管受损、软管受热辐射<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange11">
+					<label>
+						燃气表、燃气管道严重锈蚀<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange12">
+					<label>
+						擅自安装、改装、拆除户内燃气设施和燃气计量装置<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange14">
+					<label>
+						密闭空间、地下室、半地下室无安全设施、没有报警器、没有切断装置、无机械送排风装置、无其他安全设施<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange15">
+					<label>
+						未按规定安装报警器;报警器未插电<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange16">
+					<label>
+						燃气设施被踩踏；燃气设施为设置保护装置<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>																																							<checkbox-group @change="checkboxChange17">
+					<label>
+						燃气设施缠绕电线或搭挂重物<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange18">
+					<label>
+						燃气管道一般锈蚀<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange19">
+					<label>
+						燃气管道暗封/暗埋<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange20">
+					<label>
+						燃气表露天无遮雨设施<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange21">
+					<label>
+						燃气表暗封/暗埋<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange22">
+					<label>
+						用户私自改变用气环境，使用气房间通风不良<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange23">
+					<label>
+						放散管高度不足<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange24">
+					<label>
+						电磁阀不工作<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange25">
+					<label>
+						报警器探头未定期校验<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>																																							<checkbox-group @change="checkboxChange26">
+					<label>
+						用气房间为设泄露报警装置<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>	
+				<checkbox-group @change="checkboxChange27">
+					<label>
+						安全宣传提示未张贴或无法辨认<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange28">
+					<label>
+						燃气表中度锈蚀以下<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange29">
+					<label>
+						安全管理隐患<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+			</view>
+			<text class="text6">详细描述：</text>
+			<textarea placeholder-style="color:#F76260" placeholder="请输入具体内容" v-model="contant" />
+			<view class="upload">
+				<view @click="UploadImg1">
+					<text class="center">远景:</text>
+					<view class="uploadImg"><image :src="yuan"></image></view>
+				</view>
+				<view @click="UploadImg2">
+					<text class="center">近景:</text>
+					<view class="uploadImg"><image :src="jin"></image></view>
+				</view>
+				<view @click="UploadImg3">
+					<text class="center">特写:</text>
+					<view class="uploadImg"><image :src="te"></image></view>
+				</view>
+				<view @click="UploadImg4">
+					<text class="center ln">告知单:</text>
+					<view class="uploadImg"><image :src="gaozhi"></image></view>
+				</view>				
+			</view>
+			<view class="btn" @click="currentTask">上传</view>
 		</view>		
 	</view>
 </template>
 
 <script>
+import { pathToBase64, base64ToPath } from '../../js_sdk/gsq-image-tools/image-tools/index.js'
+
+var _self;
 	export default {
 		data() {
 			return {
-				username: '',
-				password: '',
 				name: '',
-				menpaiData: [],
-				xiaoqu: '',
-				dong: '',
-				danyuan: '',
-				menpai: '',
-				renwuname: ''
+				array: ['皮膜式机械表','皮膜式IC卡表','室外挂表'],
+				array2: ['灶具','热水器','壁挂炉','长寿命软管'],
+				array3: ['口头','发放安全宣传单','已告知整改建议'],
+				array5: ['现场整改','用户自行整改','委托公司整改'],
+				arrayContant: "",
+				array2Contant: "",
+				array3Contant: "",
+				array4Contant: "",
+				array5Contant: "",
+				array6Contant: "",
+				index: 0,
+				index2: 0,
+				index3: 0,
+				index4: 0,
+				index5: 0,
+				a: 0,
+				b: 0,
+				c: 0,
+				d: 0,
+				e: 0,
+				f: 0,
+				g: 0,
+				h: 0,
+				i: 0,
+				j: 0,
+				k: 0,
+				l: 0,
+				m: 0,
+				n: 0,
+				o: 0,
+				p: 0,
+				q: 0,
+				r: 0,
+				s: 0,
+				t: 0,
+				u: 0,
+				v: 0,
+				w: 0,
+				x: 0,
+				y: 0,
+				z: 0,
+				xixi: 0,
+				haha: 0,
+				hehe: 0,
+				jin: '',
+				yuan: '',
+				te: '',
+				gaozhi: '',
+				contant: '',
+				jinBase64: '',
+				yuanBase64: '',
+				teBase64: '',
+				gaozhiBase64: '',
+				renwuname: '',
+				id: '',
+				
 			}
 		},
 		onLoad(options) {
-			uni.showLoading({
-				title: '加载中'
-			})
-			this.name = options.name;
-			this.xiaoqu = options.xiaoqu;
-			console.log(this.xiaoqu)
-			this.dong = options.dong;
-			this.danyuan = options.danyuan;
-			this.renwuname = options.renwuname;
-			this.username = options.username;
-			this.password = options.password;			
-			console.log(this.renwuname)
-			uni.request({
-				url: "http://bdh-ranqi.qhd58.net/api/jk/menpai",
-				data: {
-					xiaoqu: this.xiaoqu,
-					dong: this.dong,
-					danyuan: this.danyuan,
-					rhhf_name: this.renwuname
-				},
-				header: {
-					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
-				},
-				success: (res) => {	
-					console.log(res.data)
-					uni.hideLoading();
-					this.menpaiData = res.data;
-				},
-				fail: (res) => {
-					uni.hideLoading();
-					uni.showToast({
-						title: "位置获取失败,请检查网络",
-						icon: "none",
-						duration: 2000
-					})
+			_self = this;
+			_self.name = options.name;
+			console.log(_self.name)
+			_self.id = options.id;
+			console.log(_self.id)
+			_self.gongjianhu = options.gongjianhu;
+			console.log(_self.gongjianhu)
+			_self.dizhi = options.dizhi;
+			console.log(_self.dizhi)
+			uni.getStorage({
+				key: 'ming',
+				success: function (res) {
+					_self.ming = res.data;
 				}
 			});
+			
 		},
 		methods: {
 			goback() {
@@ -78,22 +269,391 @@
 					delta: 1
 				});
 			},
-			call() {
-				//拨打电话
-				uni.makePhoneCall({
-					phoneNumber: '0335-8888888'
-				});
+			bindPickerChange: function(e) {				
+				this.index = e.target.value;
+				console.log(this.index)
+				// this.arrayContant = this.array[this.index];
+				// console.log(this.arrayContant)
 			},
-			onItem(menpai) {
-				uni.navigateTo({
-					url: `/pages/condition/condition2?name=${this.name}&xiaoqu=${this.xiaoqu}&dong=${this.dong}&danyuan=${this.danyuan}&menpai=${menpai}&renwuname=${this.renwuname}&username=${this.username}&password=${this.password}`
-				})
+			bindPickerChange2: function(e) {				
+				this.index2 = e.target.value;
+				console.log(this.index2)
+			},
+			bindPickerChange3: function(e) {				
+				this.index3 = e.target.value;				
+				console.log(this.index3)
+			},
+			bindPickerChange4: function(e) {				
+				this.index4 = e.target.value;
+				console.log(this.index4)
+			},
+			bindPickerChange5: function(e) {				
+				this.index5 = e.target.value;
+				console.log(this.index5)
+			},
+			checkboxChange: function (e) {				
+				this.a = Number(e.detail.value);
+				console.log(this.a)
+			},
+			checkboxChange2: function (e) {				
+				this.b = Number(e.detail.value);
+				console.log(this.b)
+			},
+			checkboxChange3: function (e) {				
+				this.c = Number(e.detail.value);
+				console.log(this.c)
+			},
+			checkboxChange4: function (e) {				
+				this.d = Number(e.detail.value);
+				console.log(this.d)
+			},
+			checkboxChange5: function (e) {				
+				this.e = Number(e.detail.value);
+				console.log(this.e)
+			},
+			checkboxChange6: function (e) {				
+				this.f = Number(e.detail.value);
+				console.log(this.f)
+			},
+			checkboxChange7: function (e) {				
+				this.g = Number(e.detail.value);
+				console.log(this.g)
+			},	
+			checkboxChange8: function (e) {				
+				this.h = Number(e.detail.value);
+				console.log(this.h)
+			},	
+			checkboxChange9: function (e) {				
+				this.i = Number(e.detail.value);
+				console.log(this.i)
+			},	
+			checkboxChange10: function (e) {				
+				this.j = Number(e.detail.value);
+				console.log(this.j)
+			},	
+			checkboxChange11: function (e) {				
+				this.k = Number(e.detail.value);
+				console.log(this.k)
+			},
+			checkboxChange12: function (e) {				
+				this.l = Number(e.detail.value);
+				console.log(this.l)
+			},
+			checkboxChange14: function (e) {				
+				this.n = Number(e.detail.value);
+				console.log(this.n)
+			},
+			checkboxChange15: function (e) {				
+				this.o = Number(e.detail.value);
+			},
+			checkboxChange16: function (e) {				
+				this.p = Number(e.detail.value);
+			},
+			checkboxChange17: function (e) {				
+				this.q = Number(e.detail.value);
+			},
+			checkboxChange18: function (e) {				
+				this.r = Number(e.detail.value);
+			},																															checkboxChange19: function (e) {				
+				this.s = Number(e.detail.value);
+			},
+			checkboxChange20: function (e) {				
+				this.t = Number(e.detail.value);
+			},
+			checkboxChange21: function (e) {				
+				this.u = Number(e.detail.value);
+			},
+			checkboxChange22: function (e) {				
+				this.v = Number(e.detail.value);
+			},
+			checkboxChange23: function (e) {				
+				this.w = Number(e.detail.value);
+			},
+			checkboxChange24: function (e) {				
+				this.x = Number(e.detail.value);
+			},
+			checkboxChange25: function (e) {				
+				this.y = Number(e.detail.value);
+			},
+			checkboxChange26: function (e) {				
+				this.z = Number(e.detail.value);
+			},
+			checkboxChange27: function (e) {				
+				this.xixi = Number(e.detail.value);
+			},
+			checkboxChange28: function (e) {				
+				this.haha = Number(e.detail.value);
+			},
+			checkboxChange29: function (e) {				
+				this.hehe = Number(e.detail.value);
+			},
+			UploadImg1() {
+			_self = this;
+			uni.chooseImage({
+			count: 1, //默认9
+			sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
+			sourceType: ['album','camera'], //从相册选择
+			success: function (res) {
+			console.log(res.tempFilePaths[0]);
+			_self.yuan = res.tempFilePaths[0];
+			// 预览图片
+			uni.previewImage({
+				urls: res.tempFilePaths
+			});
+			uni.showLoading({
+				title: '读取中...'
+			})
+			pathToBase64(_self.yuan)
+			.then(base64 => {
+				_self.yuanBase64 = base64;	
+				uni.hideLoading();
+			})
+			.catch(error => {
+				console.error(error);
+			})					
+			}
+			});				
+			},
+			UploadImg2() {
+				_self = this;
+				uni.chooseImage({
+					count: 1, //默认9
+					sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album','camera'], //从相册选择
+					success: function (res) {
+						console.log(res.tempFilePaths[0]);
+						_self.jin = res.tempFilePaths[0];
+						// 预览图片
+						uni.previewImage({
+							urls: res.tempFilePaths
+						});
+						uni.showLoading({
+							title: '读取中...'
+						})
+						pathToBase64(_self.jin).then(base64 => {
+							_self.jinBase64 = base64;
+							uni.hideLoading();
+						}) 
+						
+					}
+				});													
+			},
+			UploadImg3() {
+			_self = this;
+			uni.chooseImage({
+				count: 1, //默认9
+				sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
+				sourceType: ['album','camera'], //从相册选择
+				success: function (res) {
+					console.log(res.tempFilePaths[0]);
+					_self.te = res.tempFilePaths[0];
+					// 预览图片
+					uni.previewImage({
+						urls: res.tempFilePaths
+					});
+					uni.showLoading({
+						title: '读取中...'
+					})
+					pathToBase64(_self.te)
+					.then(base64 => {
+						_self.teBase64 = base64;
+						uni.hideLoading();
+					})
+					.catch(error => {
+						console.error(error);
+					})					
+				}
+			});													
+			},
+			UploadImg4() {
+				_self = this;
+				uni.chooseImage({
+					count: 1, //默认9
+					sizeType: ['compressed'],//可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album','camera'], //从相册选择
+					success: function (res) {
+						_self.gaozhi = res.tempFilePaths[0];
+						// 预览图片
+						uni.previewImage({
+							urls: res.tempFilePaths
+						});
+						uni.showLoading({
+							title: '读取中...'
+						})
+						pathToBase64(_self.gaozhi)
+						.then(base64 => {
+							_self.gaozhiBase64 = base64;
+							uni.hideLoading();
+						})
+						.catch(error => {
+							console.error(error);
+						})					
+					}
+				});														
+			},			
+			currentTask() {
+				
+				_self = this;
+				console.log(_self.arrayContant)
+				uni.showModal({
+					title: '是否提交数据？',
+					content: '确认无误后即可提交数据',
+					success: function (res) {
+						if (res.confirm) {
+							console.log('用户点击确定');
+							uni.showLoading({
+								title: '提交中...'
+							})
+							if(_self.id) {
+								uni.request({
+									url: 'http://bdh-ranqi.qhd58.net/api/jk/gong_qk',
+									method: 'POST',
+									data: {
+										gongjianhu: _self.gongjianhu,
+										dizhi: _self.dizhi,
+										name: _self.name,
+										id: _self.id,
+										bj: _self.index,
+										rqyj: _self.index2,
+										aqxc: _self.index3,
+										sfyyh: _self.index4,
+										zg: _self.index5,
+										rqxl: _self.a,
+										zpsrsq: _self.b,
+										glwyd: _self.c,
+										wsc: _self.d,
+										psmfby: _self.e,
+										ylkwd: _self.f,
+										yzxs: _self.g,
+										yjk: _self.h,
+										zr: _self.i,
+										rfs: _self.j,
+										sqbsx: _self.k,
+										gz: _self.l,
+										waqss: _self.n,
+										wcd: _self.o,
+										ctwbh: _self.p,
+										srdx: _self.q,
+										ybxs: _self.r,
+										afam: _self.s,
+										wzyss: _self.t,
+										rqbam: _self.u,
+										szgbyq: _self.v,
+										fsggdbz: _self.w,
+										dcfbgz: _self.x,
+										bjqwxy: _self.y,
+										wsxlbjq: _self.z,
+										aqxcwfbr: _self.xixi,
+										rqbzdxsyx: _self.haha,
+										aqglyh: _self.hehe,
+										content: _self.contant,
+										jin_img: _self.jinBase64,
+										yuan_img: _self.yuanBase64,
+										texie_img: _self.teBase64,
+										hui_img: _self.gaozhiBase64 
+									},
+									success: (res) => {
+										console.log(res.data);
+										
+										uni.hideLoading()
+										if(res.data === 1) {
+											uni.showToast({
+												title: '提交成功！',
+												duration: 2000
+											})
+											uni.navigateTo({
+												url: `/pages/securityList/securityList?username=${_self.username}&password=${_self.password}`
+											})
+										}else {
+											uni.showToast({
+												title: '提交失败,请重新提交！',
+												icon: "none"
+											})
+										}
+									}
+								});								
+							}else {
+								uni.request({
+									url: 'http://bdh-ranqi.qhd58.net/api/jk/anjian_qk',
+									method: 'POST',
+									data: {
+										rhhf_name: _self.renwuname,
+										name: _self.name,
+										xiaoqu: _self.xiaoqu,
+										dong: _self.dong,
+										danyuan: _self.danyuan,
+										menpai: _self.menpai,
+										yhqtqk: _self.index,
+										bj: _self.index2,
+										rqyj: _self.index3,
+										aqxc: _self.index4,
+										sfyyh: _self.index5,
+										zg: _self.index6,
+										lq: _self.a,
+										rqgdyzxs: _self.b,
+										syzpsrsq: _self.c,
+										rqrsqbgf: _self.d,
+										xjrgps: _self.e,
+										sqy: _self.f,
+										rqssjgws: _self.g,									
+										frqzyfm: _self.h,
+										wgk: _self.i,
+										yzxs: _self.j,
+										wxhbh: _self.k,
+										xhbhsl: _self.l,
+										cgsynx: _self.m,
+										fzzcgn: _self.n,
+										frqzyjg: _self.o,
+										xjrgcq: _self.p,
+										xjglh: _self.q,
+										xjgcc: _self.r,
+										xjgcq: _self.s,
+										azblg: _self.t,
+										srfs: _self.u,
+										pzrg: _self.v,
+										jlbg: _self.w,
+										crdxhdg: _self.x,
+										szgz: _self.y,
+										ambgf: _self.z,
+										acf: _self.xixi,
+										kfscf: _self.haha,
+										krzw: _self.hehe,																														
+										content: _self.contant,
+										jin_img: _self.jinBase64,
+										yuan_img: _self.yuanBase64,
+										texie_img: _self.teBase64,
+										hui_img: _self.gaozhiBase64 
+									},
+									success: (res) => {
+										console.log(res.data);
+										uni.hideLoading()
+										if(res.data === 1) {
+											uni.showToast({
+												title: '提交成功！',
+												duration: 2000
+											})
+											uni.navigateTo({
+												url: `/pages/securityList/securityList?username=${_self.username}&password=${_self.password}`
+											})
+										}else {
+											uni.showToast({
+												title: '提交失败,请重新提交！'
+											})
+										}
+									}
+								});
+							}
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				});	
 			}
         } 
 	}
 </script>
 <style lang="scss" scoped>
-	.securityList {
+	.condition {
 		width: 100%;
 		height: 100%;
 		position: absolute;
@@ -111,9 +671,9 @@
 			position: relative;
 			.text0 {
 				position: absolute;
-				left: 30upx;
-				top: 105upx;
-				font-size: 40upx;
+				left: 50upx;
+				top: 90upx;
+				font-size: 60upx;
 				color: #fff;
 			}
 			.text1 {
@@ -135,63 +695,152 @@
             .row {
                 margin-top: 20upx;
                 font-size: 30upx;
-                color: #fff;
+				color: #fff;
+				position: relative;
 				.text4 {
 					margin-right: 92upx;
+				}
+				.text12 {
+					display: block;
+					width: 80upx;
+					height: 40upx;
+					line-height: 40upx;
+					border-radius: 10upx;
+					font-size: 20upx;
+					text-align: center;
+					color: #fff;
+					background: #22ac38;
+					position: absolute;
+					right: 0;
+					top: 0;
 				}
             }
 		}
 		.form {
+			width: 100%;
+			height: 72%;
+			padding: 0 44upx;
 			box-sizing: border-box;
 			border-radius: 30upx 30upx 0 0;
 			position: absolute;
-			top: 80upx;
 			bottom: 0;
-			right: 0;
 			left: 0;
 			background: #fff;
-            .item {
-                border-bottom: 4upx solid #000;
-                .inner {
-                    padding: 0 33upx;
-                    .title {
-                        height: 85upx;
-                        line-height: 85upx;
-                        display: flex;
-                        justify-content: space-between;
-                        font-size: 30upx;
-                        border-bottom: 1upx solid #c4c4c4;
-                        text {
-                            font-size: 28upx;
-                            color: red;
-                        }
-                        view {
-                            font-size: 22upx;
-                            color: #8f8f8f;
-                        }
-                    }
-                    .info {
-                        view {
-                            font-size: 50upx;
-							text-align: center;
-                            .huise {
-                                color: #6d6d6d;
-                            }
-                        }
-                        border-bottom: 1upx solid #c4c4c4;
-                        padding-bottom: 10upx;
-                    }
-                    .tab {
-                        display: flex;
-                        justify-content: center;
-                        font-size: 24upx;
-                        color: #6e6e6e;
-                        height: 82upx;
-                        line-height: 82upx;
-                        position: relative;
-                    }
-                }
-            }
+				
+			picker {
+				margin-top: 26upx;
+				.uni-input {
+					height: 60upx;
+					line-height: 60upx;
+					font-size: 30upx;
+					border-bottom: 2upx solid #f6f6fb;
+					position: relative;
+				}
+				text {
+					color: #000;
+					font-size: 30upx;
+					position: absolute;
+					right: 60upx;	
+				}
+				.text7 {
+					top: 40upx;	
+				}
+				.text8 {
+					top: 105upx;
+				}
+				.text9 {
+					top: 165upx;
+				}												
+				.text10 {
+					top: 225upx;
+				}
+				.text11 {
+					top: 285upx;
+				}
+			}
+			.text6 {
+				font-size: 30upx;	
+			}
+			textarea {
+				margin-top: 15upx;
+				width: 100%;
+				height: 200upx;
+				border: 3upx solid #f6f6fb;
+				font-size: 28upx;
+				padding: 10upx;
+				box-sizing: border-box;
+				margin-bottom: 40upx;
+			}
+			.upload {
+				display: flex;
+				flex-direction: column;
+				margin-top: 19upx;
+				
+				view {
+					display: flex;
+					margin-bottom: 36upx;
+					overflow: hidden;
+					.center {
+						display: block;
+						font-size: 30upx;
+						margin-bottom: 10upx;
+						margin-top: 10upx;
+						letter-spacing:20upx;
+					}
+					.ln {
+						letter-spacing: 9upx;
+					}
+					.uploadImg {
+						width: 164upx;
+						height: 164upx;
+						background: #f6f2ef url('~@/static/images/condition/add.png') center center no-repeat;
+						background-size: 46upx;
+						border-radius: 10upx;
+						border: 1upx dashed #bababa;
+						position: relative;
+						image {
+							width: 164upx;
+							height: 164upx;
+							position: absolute;
+							left: 0;
+							top: 0;
+						}
+					}
+				}
+
+			}
+			.btn {
+				width: 410upx;
+				height: 72upx;
+				margin: 0 auto;
+				margin-bottom: 30upx;
+				line-height: 72upx;
+				border-radius: 20upx;
+				background: #5497f7;
+				text-align: center;
+				color: #fff;
+				font-size: 30upx;
+			}
+			.yzyh {
+				font-size: 40upx;
+				margin-top: 30upx;
+				text {
+					color: red;
+				}
+				checkbox-group {
+					margin-top: 15upx;
+				}
+			}
+			.ybyh {
+				margin-top: 30upx;
+				font-size: 40upx;
+				text {
+					color: #F40;
+				}
+				checkbox-group {
+					margin-top: 15upx;
+				}								
+			}
 		}
 	}
 </style>

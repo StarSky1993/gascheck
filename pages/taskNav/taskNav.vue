@@ -59,14 +59,18 @@ var _self;
 			}
 		},
 		onLoad(options) {
+
 			_self = this;
+			_self.username = options.username;
+			_self.password = options.password;
+			_self.name = options.name;
+			console.log(_self.username);
+			console.log(_self.password);
+			console.log(_self.name);
 			uni.showLoading({
 				title: '加载中',
 				mask: true
 			})
-			_self.username = uni.getStorageSync('userPhone');
-			_self.password = uni.getStorageSync('Password');
-			_self.name = options.name;
 			uni.getLocation({
 				type: 'gcj02',
 				success: function (res) {
@@ -119,7 +123,7 @@ var _self;
 			onItem(id) {
 				_self = this;
 				uni.navigateTo({
-					url: `/pages/condition/condition?id=${id}&name=${_self.name}`
+					url: `/pages/condition/condition?id=${id}&name=${_self.name}&username=${_self.username}&password=${_self.password}`
 				})
 			}
         } 

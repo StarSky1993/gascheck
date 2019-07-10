@@ -28,6 +28,8 @@
 	export default {
 		data() {
 			return {
+				username: '',
+				password: '',				
 				name: '',
 				danyuanData: [],
 				xiaoqu: '',
@@ -40,6 +42,8 @@
 			uni.showLoading({
 				title: '加载中'
 			})
+			this.username = options.username;
+			this.password = options.password;			
 			this.name = options.name;
 			this.xiaoqu = options.xiaoqu;
 			this.dong = options.dong;
@@ -83,7 +87,7 @@
 			},
 			onItem(danyuan) {
 				uni.navigateTo({
-					url: `/pages/securityList4/securityList4?name=${this.name}&xiaoqu=${this.xiaoqu}&dong=${this.dong}&danyuan=${danyuan}&renwuname=${this.renwuname}`
+					url: `/pages/securityList4/securityList4?name=${this.name}&xiaoqu=${this.xiaoqu}&dong=${this.dong}&danyuan=${danyuan}&renwuname=${this.renwuname}&username=${this.username}&password=${this.password}`
 				})
 			}
         } 

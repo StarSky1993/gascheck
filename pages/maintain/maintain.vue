@@ -75,14 +75,14 @@ export default {
     onLoad(options) {
 		_self = this;
 		_self.id = options.id;
+		_self.username = options.username;
+		_self.password = options.password;
 		uni.getStorage({
 			key: 'status',
 			success: function (res) {
 				_self.status = res.data;
 			}
 		});
-		_self.username = uni.getStorageSync('userPhone');
-		_self.password = uni.getStorageSync('Password');
 		uni.request({
 			url: 'http://bdh-ranqi.qhd58.net/api/jk/find',
 			method: 'POST',
@@ -220,8 +220,8 @@ export default {
 									uni.showToast({
 										title: '提交成功！'
 									})
-									uni.redirectTo({
-										url: '/pages/Task/currentTask'
+									uni.navigateTo({
+										url: `/pages/Task/currentTask?username=${_self.username}&password=${_self.password}`
 									});
 								}else {
 									uni.showToast({

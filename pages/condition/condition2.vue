@@ -16,9 +16,6 @@
 			<picker @change="bindPickerChange3" :value="index3" :range="array3">
 				<view class="uni-input">安全宣传：{{array3[index3]}}</view><text class="text9 eosfont">&#xe60b;</text>					
 			</picker>
-			<picker @change="bindPickerChange4" :value="index4" :range="array4">
-				<view class="uni-input">是否有隐患：{{array4[index4]}}</view><text class="text10 eosfont">&#xe60b;</text>						
-			</picker>
 			<picker @change="bindPickerChange5" :value="index5" :range="array5">
 				<view class="uni-input">整改方式：{{array5[index5]}}</view><text class="text11 eosfont">&#xe60b;</text>					
 			</picker>
@@ -172,7 +169,57 @@
 					<label>
 						用气房间堆放可燃杂物<checkbox value="1" style="transform:scale(0.7)" />
 					</label>
-				</checkbox-group>																
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange30">
+					<label>
+						到访不遇<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange31">
+					<label>
+						查无此户<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange32">
+					<label>
+						拒绝安检<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange33">
+					<label>
+						户内无管<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange34">
+					<label>
+						户内无表<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange35">
+					<label>
+						未开通<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange36">
+					<label>
+						重复户<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange37">
+					<label>
+						拒签<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange38">
+					<label>
+						拆除户<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange39">
+					<label>
+						拆迁户<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>																				
 			</view>
 			
 			
@@ -210,6 +257,10 @@ var _self;
 	export default {
 		data() {
 			return {
+				cun: '',
+				hu: '',
+				username: '',
+				password: '',
 				name: '',
 				xiaoqu: '',
 				dong: '',
@@ -218,7 +269,6 @@ var _self;
 				array: ['皮膜式机械表','皮膜式IC卡表','室外挂表'],
 				array2: ['灶具','热水器','壁挂炉','长寿命软管'],
 				array3: ['口头','发放安全宣传单','已告知整改建议'],
-				array4: ['是','否'],
 				array5: ['现场整改','用户自行整改','委托公司整改'],
 				arrayContant: "",
 				array2Contant: "",
@@ -260,6 +310,16 @@ var _self;
 				xixi: 0,
 				haha: 0,
 				hehe: 0,
+				aa: 0,
+				bb: 0,
+				cc: 0,
+				dd: 0,
+				ee: 0,
+				ff: 0,
+				gg: 0,
+				hh: 0,
+				ii: 0,
+				jj: 0,								
 				jin: '',
 				yuan: '',
 				te: '',
@@ -269,17 +329,24 @@ var _self;
 				yuanBase64: '',
 				teBase64: '',
 				gaozhiBase64: '',
-				renwuname: ''
+				renwuname: '',
+				id: ''
 			}
 		},
 		onLoad(options) {
-			this.renwuname = options.renwuname;
-			this.name = options.name;
-			this.xiaoqu = options.xiaoqu;
-			this.dong = options.dong;
-			this.danyuan = options.danyuan;
-			this.menpai = options.menpai;			
 			_self = this;
+			_self.renwuname = options.renwuname;
+			_self.name = options.name;
+			_self.id = options.id;
+			_self.xiaoqu = options.xiaoqu;
+			_self.dong = options.dong;
+			_self.danyuan = options.danyuan;
+			_self.menpai = options.menpai;
+			_self.username = options.username;
+			_self.password = options.password;	
+			_self.cun = options.cun;
+			_self.hu = options.hu;
+			console.log(_self.cun)
 			uni.getStorage({
 				key: 'ming',
 				success: function (res) {
@@ -383,7 +450,7 @@ var _self;
 			},
 			checkboxChange18: function (e) {				
 				this.r = Number(e.detail.value);
-			},																																											checkboxChange19: function (e) {				
+			},																															checkboxChange19: function (e) {				
 				this.s = Number(e.detail.value);
 			},
 			checkboxChange20: function (e) {				
@@ -415,7 +482,36 @@ var _self;
 			},
 			checkboxChange29: function (e) {				
 				this.hehe = Number(e.detail.value);
-			},																																												
+			},																																										checkboxChange30: function (e) {				
+				this.aa = Number(e.detail.value);
+			},
+			checkboxChange31: function (e) {				
+				this.bb = Number(e.detail.value);
+			},
+			checkboxChange32: function (e) {				
+				this.cc = Number(e.detail.value);
+			},
+			checkboxChange33: function (e) {				
+				this.dd = Number(e.detail.value);
+			},
+			checkboxChange34: function (e) {				
+				this.ee = Number(e.detail.value);
+			},
+			checkboxChange35: function (e) {				
+				this.ff = Number(e.detail.value);
+			},
+			checkboxChange36: function (e) {				
+				this.gg = Number(e.detail.value);
+			},
+			checkboxChange37: function (e) {				
+				this.hh = Number(e.detail.value);
+			},
+			checkboxChange38: function (e) {				
+				this.ii = Number(e.detail.value);
+			},
+			checkboxChange39: function (e) {				
+				this.jj = Number(e.detail.value);
+			},					
 			UploadImg1() {
 			_self = this;
 			uni.chooseImage({
@@ -533,75 +629,165 @@ var _self;
 							uni.showLoading({
 								title: '提交中...'
 							})
-							uni.request({
-								url: 'http://bdh-ranqi.qhd58.net/api/jk/anjian_qk',
-								method: 'POST',
-								data: {
-									rhhf_name: _self.renwuname,
-									name: _self.name,
-									xiaoqu: _self.xiaoqu,
-									dong: _self.dong,
-									danyuan: _self.danyuan,
-									menpai: _self.menpai,
-									yhqtqk: _self.index,
-									bj: _self.index2,
-									rqyj: _self.index3,
-									aqxc: _self.index4,
-									sfyyh: _self.index5,
-									zg: _self.index6,
-									lq: this.a,
-									rqgdyzxs: this.b,
-									syzpsrsq: this.c,
-									rqrsqbgf: this.d,
-									xjrgps: this.e,
-									sqy: this.f,
-									rqssjgws: this.g,									
-									frqzyfm: this.h,
-									wgk: this.i,
-									yzxs: this.j,
-									wxhbh: this.k,
-									xhbhsl: this.l,
-									cgsynx: this.m,
-									fzzcgn: this.n,
-									frqzyjg: this.o,
-									xjrgcq: this.p,
-									xjglh: this.q,
-									xjgcc: this.r,
-									xjgcq: this.s,
-									azblg: this.t,
-									srfs: this.u,
-									pzrg: this.v,
-									jlbg: this.w,
-									crdxhdg: this.x,
-									szgz: this.y,
-									ambgf: this.z,
-									acf: this.xixi,
-									kfscf: this.haha,
-									krzw: this.hehe,																														
-									content: this.contant,
-									jin_img: this.jinBase64,
-									yuan_img: this.yuanBase64,
-									texie_img: this.teBase64,
-									hui_img: this.gaozhiBase64 
-								},
-								success: (res) => {
-									console.log(res.data);
-									uni.hideLoading()
-									if(res.data === 1) {
-										uni.showToast({
-											title: '提交成功！',
-											duration: 2000
-										})
-										uni.redirectTo({
-											url: '/pages/securityList/securityList'
-										})
-									}else {
-										uni.showToast({
-											title: '提交失败,请重新提交！'
-										})
+							if(_self.id) {
+								uni.request({
+									url: 'http://bdh-ranqi.qhd58.net/api/jk/cun_qk',
+									method: 'POST',
+									data: {
+										cun: _self.cun,
+										hu: _self.hu,
+										name: _self.name,
+										id: _self.id,
+										bj: _self.index,
+										rqyj: _self.index2,
+										aqxc: _self.index3,
+										sfyyh: _self.index4,
+										zg: _self.index5,
+										lq: _self.a,
+										rqgdyzxs: _self.b,
+										syzpsrsq: _self.c,
+										rqrsqbgf: _self.d,
+										xjrgps: _self.e,
+										sqy: _self.f,
+										rqssjgws: _self.g,									
+										frqzyfm: _self.h,
+										wgk: _self.i,
+										yzxs: _self.j,
+										wxhbh: _self.k,
+										xhbhsl: _self.l,
+										cgsynx: _self.m,
+										fzzcgn: _self.n,
+										frqzyjg: _self.o,
+										xjrgcq: _self.p,
+										xjglh: _self.q,
+										xjgcc: _self.r,
+										xjgcq: _self.s,
+										azblg: _self.t,
+										srfs: _self.u,
+										pzrg: _self.v,
+										jlbg: _self.w,
+										crdxhdg: _self.x,
+										szgz: _self.y,
+										ambgf: _self.z,
+										acf: _self.xixi,
+										kfscf: _self.haha,
+										krzw: _self.hehe,
+										dfby: _self.aa,
+										cwch: _self.bb,
+										jjaj: _self.cc,
+										hnwg: _self.dd,
+										hnwb: _self.ee,
+										wkt: _self.ff,
+										cfh: _self.gg,
+										jq: _self.hh,
+										cch: _self.ii,
+										cqh: _self.jj,
+										content: _self.contant,
+										jin_img: _self.jinBase64,
+										yuan_img: _self.yuanBase64,
+										texie_img: _self.teBase64,
+										hui_img: _self.gaozhiBase64 
+									},
+									success: (res) => {
+										console.log(res.data);
+										
+										uni.hideLoading()
+										if(res.data === 1) {
+											uni.showToast({
+												title: '提交成功！',
+												duration: 2000
+											})
+											uni.navigateTo({
+												url: `/pages/securityList/securityList?username=${_self.username}&password=${_self.password}`
+											})
+										}else {
+											uni.showToast({
+												title: '提交失败,请重新提交！'
+											})
+										}
 									}
-								}
-							});
+								});								
+							}else {
+								uni.request({
+									url: 'http://bdh-ranqi.qhd58.net/api/jk/anjian_qk',
+									method: 'POST',
+									data: {
+										rhhf_name: _self.renwuname,
+										name: _self.name,
+										xiaoqu: _self.xiaoqu,
+										dong: _self.dong,
+										danyuan: _self.danyuan,
+										menpai: _self.menpai,
+										yhqtqk: _self.index,
+										bj: _self.index2,
+										rqyj: _self.index3,
+										aqxc: _self.index4,
+										sfyyh: _self.index5,
+										zg: _self.index6,
+										lq: _self.a,
+										rqgdyzxs: _self.b,
+										syzpsrsq: _self.c,
+										rqrsqbgf: _self.d,
+										xjrgps: _self.e,
+										sqy: _self.f,
+										rqssjgws: _self.g,									
+										frqzyfm: _self.h,
+										wgk: _self.i,
+										yzxs: _self.j,
+										wxhbh: _self.k,
+										xhbhsl: _self.l,
+										cgsynx: _self.m,
+										fzzcgn: _self.n,
+										frqzyjg: _self.o,
+										xjrgcq: _self.p,
+										xjglh: _self.q,
+										xjgcc: _self.r,
+										xjgcq: _self.s,
+										azblg: _self.t,
+										srfs: _self.u,
+										pzrg: _self.v,
+										jlbg: _self.w,
+										crdxhdg: _self.x,
+										szgz: _self.y,
+										ambgf: _self.z,
+										acf: _self.xixi,
+										kfscf: _self.haha,
+										krzw: _self.hehe,
+										dfby: _self.aa,
+										cwch: _self.bb,
+										jjaj: _self.cc,
+										hnwg: _self.dd,
+										hnwb: _self.ee,
+										wkt: _self.ff,
+										cfh: _self.gg,
+										jq: _self.hh,
+										cch: _self.ii,
+										cqh: _self.jj,
+										content: _self.contant,
+										jin_img: _self.jinBase64,
+										yuan_img: _self.yuanBase64,
+										texie_img: _self.teBase64,
+										hui_img: _self.gaozhiBase64 
+									},
+									success: (res) => {
+										console.log(res.data);
+										uni.hideLoading()
+										if(res.data === 1) {
+											uni.showToast({
+												title: '提交成功！',
+												duration: 2000
+											})
+											uni.navigateTo({
+												url: `/pages/securityList/securityList?username=${_self.username}&password=${_self.password}`
+											})
+										}else {
+											uni.showToast({
+												title: '提交失败,请重新提交！'
+											})
+										}
+									}
+								});
+							}
 						} else if (res.cancel) {
 							console.log('用户点击取消');
 						}
