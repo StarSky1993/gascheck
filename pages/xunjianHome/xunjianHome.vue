@@ -264,6 +264,8 @@ var _self;
 			},
 			//获取位置
 			GetLocation() {
+				console.log(_self.lng1);
+				console.log(_self.lat1);
 				uni.showLoading({
 					title: '位置采集中...',
 					icon: "none"
@@ -285,7 +287,7 @@ var _self;
 						console.log(res.data);
 						if(res.data === 0) {
 							uni.showToast({
-								title: '位置采集失败!',
+								title: '请在规定位置内打卡!',
 								icon: "none",
 								duration: 1000
 							})

@@ -101,16 +101,16 @@ var _self;
 					url: `/pages/cun/cun?id=${id}&username=${_self.username}&password=${_self.password}&name=${_self.name}&renwuname=${renwuname}`
 				})
 			},
-			//返回
+			//小区
 			cun() {
 				uni.navigateTo({
-					url: '/pages/securityList/securityList'
+					url: `/pages/securityList/securityList?username=${_self.username}&password=${_self.password}`
 				})
 			},
 			//工建户
 			gong() {
 				uni.navigateTo({
-					url: '/pages/factory/factory'
+					url: `/pages/factory/factory?username=${_self.username}&password=${_self.password}`
 				})
 			}
         } 

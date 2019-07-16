@@ -110,12 +110,16 @@ var _self;
 			},
 			//点击进入村村通
 			cun(renwuname) {
+				console.log(_self.username)
+				console.log(_self.password)
 				uni.navigateTo({
 					url: `/pages/village/village?username=${_self.username}&password=${_self.password}&name=${_self.name}`
 				})
 			},
 			//工建户
 			gong() {
+				console.log(_self.username)
+				console.log(_self.password)
 				uni.navigateTo({
 					url: `/pages/factory/factory?username=${_self.username}&password=${_self.password}&name=${_self.name}`
 				})

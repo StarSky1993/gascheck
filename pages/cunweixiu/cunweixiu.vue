@@ -62,6 +62,8 @@ export default {
     onLoad(options) {
 		this.username = options.username;
 		this.password = options.password;
+		console.log(this.username)
+		console.log(this.password)
 		uni.showLoading({
 			title: '加载中...'
 		})

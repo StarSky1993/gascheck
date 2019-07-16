@@ -20,6 +20,7 @@
         "distribute" : {
             /* 应用发布信息 */
             "android" : {
+                "UIBackgroundModes" : [ "location" ],
                 /* android打包配置 */
                 "permissions" : [
                     "<uses-feature android:name=\"android.hardware.camera\"/>",
@@ -48,7 +49,9 @@
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
                 ]
             },
-            "ios" : {},
+            "ios" : {
+                "UIBackgroundModes" : ""
+            },
             /* ios打包配置 */
             "sdkConfigs" : {
                 "maps" : {
@@ -60,7 +63,7 @@
             },
             "icons" : {
                 "ios" : {
-                    "appstore" : "C:/Users/Administrator/Desktop/logo.png",
+                    "appstore" : "",
                     "ipad" : {
                         "app" : "unpackage/res/icons/76x76.png",
                         "app@2x" : "unpackage/res/icons/152x152.png",

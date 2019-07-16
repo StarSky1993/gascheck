@@ -107,16 +107,16 @@ var _self;
 					url: `/pages/gong/gong?id=${id}&name=${_self.name}`
 				})				
 			},
-			//返回上一页
+			//小区
 			cun() {
 				uni.navigateTo({
-					url: '/pages/securityList/securityList'
+					url: `/pages/securityList/securityList?username=${_self.username}&password=${_self.password}`
 				})
 			},
 			//村村通
 			gong() {
 				uni.navigateTo({
-					url: '/pages/village/village'
+					url: `/pages/village/village?username=${_self.username}&password=${_self.password}`
 				})
 			}
         } 

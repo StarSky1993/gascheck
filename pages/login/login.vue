@@ -28,8 +28,8 @@
 		},
 		onLoad() {
 			_self = this;
-			// uni.removeStorageSync('userPhone');
-			// uni.removeStorageSync('Password');
+			uni.removeStorageSync('userPhone');
+			uni.removeStorageSync('Password');
 			uni.setKeepScreenOn({
 				keepScreenOn: true
 			})
