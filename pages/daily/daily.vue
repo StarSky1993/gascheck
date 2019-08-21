@@ -87,7 +87,7 @@ var _self;
 			call() {
 				//拨打电话
 				uni.makePhoneCall({
-					phoneNumber: '0335-8888888'
+					phoneNumber: '13903355649'
 				});
 			},
 			detail(id) {

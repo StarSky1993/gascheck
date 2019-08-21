@@ -10,7 +10,7 @@
         </view>
 		<view class="tabs">
 			<text class="cun" @click="back">小区</text>
-			<text class="gong" @click="gongjian">工建户</text>
+			<text class="gong" @click="gongjian">公建户</text>
 		</view>
         <view class="list" v-show="idx==1">
             <view class="item" v-for="(item,index) in anjianList" :key="index" @click="onDetail(item.id)" >

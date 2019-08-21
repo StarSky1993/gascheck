@@ -1,7 +1,7 @@
 <template>
 	<view class="securityList" >
 		<view class="form">
-            <view class="item" v-for="(item,index) in menpaiData" :key="index" @click="onItem(item.menpai)">
+            <view class="item" v-for="(item,index) in menpaiData" :key="index" @click="onItem(item.menpai,item.lianxiren,item.dianhua)">
                 <view class="inner">
                     <view class="title">
                         <view>编号：<text>#{{index+1}}</text></view>
@@ -14,7 +14,8 @@
                     </view>  
                 </view>
             </view>
-		</view>		
+		</view>
+		<tui-footer copyright="Copyright © 2019 北戴河燃气公司." :navigate="navigate" bgcolor="#fafafa"></tui-footer>		
 	</view>
 </template>
 
@@ -30,7 +31,12 @@
 				dong: '',
 				danyuan: '',
 				menpai: '',
-				renwuname: ''
+				renwuname: '',
+				navigate: [{
+					delta: 3,
+					type: "navigateBack",
+					text: "返回首页"
+				}]
 			}
 		},
 		onLoad(options) {
@@ -72,6 +78,36 @@
 				}
 			});
 		},
+		onShow() {
+			uni.showLoading({
+				title: '加载中'
+			})
+			uni.request({
+				url: "http://bdh-ranqi.qhd58.net/api/jk/menpai",
+				data: {
+					xiaoqu: this.xiaoqu,
+					dong: this.dong,
+					danyuan: this.danyuan,
+					rhhf_name: this.renwuname
+				},
+				header: {
+					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
+				},
+				success: (res) => {	
+					console.log(res.data)
+					uni.hideLoading();
+					this.menpaiData = res.data;
+				},
+				fail: (res) => {
+					uni.hideLoading();
+					uni.showToast({
+						title: "位置获取失败,请检查网络",
+						icon: "none",
+						duration: 2000
+					})
+				}
+			});
+		},
 		methods: {
 			goback() {
 				uni.navigateBack({
@@ -81,12 +117,12 @@
 			call() {
 				//拨打电话
 				uni.makePhoneCall({
-					phoneNumber: '0335-8888888'
+					phoneNumber: '03357093716'
 				});
 			},
-			onItem(menpai) {
+			onItem(menpai,lianxiren,dianhua) {
 				uni.navigateTo({
-					url: `/pages/condition/condition2?name=${this.name}&xiaoqu=${this.xiaoqu}&dong=${this.dong}&danyuan=${this.danyuan}&menpai=${menpai}&renwuname=${this.renwuname}&username=${this.username}&password=${this.password}`
+					url: `/pages/condition/condition2?name=${this.name}&xiaoqu=${this.xiaoqu}&dong=${this.dong}&danyuan=${this.danyuan}&menpai=${menpai}&renwuname=${this.renwuname}&username=${this.username}&password=${this.password}&lianxiren=${lianxiren}&dianhua=${dianhua}`
 				})
 			}
         } 
@@ -142,14 +178,14 @@
             }
 		}
 		.form {
+			width: 100%;
 			box-sizing: border-box;
 			border-radius: 30upx 30upx 0 0;
 			position: absolute;
 			top: 80upx;
-			bottom: 0;
-			right: 0;
 			left: 0;
 			background: #fff;
+			padding-bottom: 200upx;
             .item {
                 border-bottom: 4upx solid #000;
                 .inner {
@@ -162,11 +198,11 @@
                         font-size: 30upx;
                         border-bottom: 1upx solid #c4c4c4;
                         text {
-                            font-size: 28upx;
+                            font-size: 36upx;
                             color: red;
                         }
                         view {
-                            font-size: 22upx;
+                            font-size: 36upx;
                             color: #8f8f8f;
                         }
                     }
@@ -184,7 +220,7 @@
                     .tab {
                         display: flex;
                         justify-content: center;
-                        font-size: 24upx;
+                        font-size: 36upx;
                         color: #6e6e6e;
                         height: 82upx;
                         line-height: 82upx;

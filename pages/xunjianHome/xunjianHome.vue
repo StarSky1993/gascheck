@@ -12,16 +12,23 @@
                 <view class="nav3" @click="daily(name)"></view>
                 <view class="nav4" @click="taskNav"></view>
             </view>
-            <view class="footer" @click="call">调度中心：0335-8888888</view>
+            <view class="footer" @click="call">调度中心：13903355649</view>
         </view>
+		<tui-modal :show="modal3" @click="handleClick3" @cancel="hide3" :content="contant" :button="button3"></tui-modal>
 	</view>
 </template>
 
 <script>
 import {coordinate} from '../../common/js/coordinate.js';
+import tuiButton from "@/components/button"
+import tuiModal from "@/components/modal"
 var _self;
 
 	export default {
+		components:{
+			tuiButton,
+			tuiModal
+		},
 		data() {
 			return {
 				//定义经纬度坐标集合
@@ -36,11 +43,19 @@ var _self;
 				time: '',
 				distance: '',
 				coordinate2: '',
+				coordinate6: '',
 				timer: null,
 				onlinetime: null,
 				realTime: this.$realTime.wakeLock(),
 				releaseWakeLock: this.$realTime.releaseWakeLock(),
-				tuisong: ''
+				tuisong: '',
+				//采集弹框
+				modal3: false,
+				contant: '',
+				button3: [{
+					text: "确定",
+					type: 'red'
+				}]
 			}
 		},
 		onLoad(options) {
@@ -81,35 +96,12 @@ var _self;
 											console.log(res.data)
 										}						
 									});	
-									
 								}
 							}
 						});
 					}
-					
-			
 				}						
 			});	
-
-			clearInterval(run)
-			const run = setInterval(() => {
-				_self.realTime
-			},300000)
-			uni.onNetworkStatusChange(function (res) {
-				if(!res.isConnected) {
-					clearInterval(_self.onlinetime)
-					_self.onlinetime = setInterval(() => {
-						_self.realTime
-						uni.showToast({
-							title: '获取坐标失败，请检查网络状态！',
-							icon: "none"
-						})
-					},4000)
-				}else {
-					_self.realTime
-					clearInterval(_self.onlinetime)
-				}
-			});
 
 			uni.getLocation({
 				type: 'gcj02',
@@ -174,7 +166,6 @@ var _self;
 					clearInterval(_self.timer)
 					_self.timer = null;
 					_self.timer = setInterval(()=> {
-						
 						uni.request({
 							url: 'http://bdh-ranqi.qhd58.net/api/jk/fandian',
 							method: "GET",
@@ -190,7 +181,6 @@ var _self;
 									_self.lng3 = res.data.jing;
 									_self.lat3 = res.data.wei;	
 								}
-								
 								uni.getLocation({
 									type: 'gcj02',
 									success: (res) => {
@@ -237,7 +227,6 @@ var _self;
 				}
 			})										
 		},
-		
 		onUnload(){ 
 			_self = this;				  			 
 			clearInterval(_self.timer);  
@@ -263,55 +252,57 @@ var _self;
 				return s;
 			},
 			//获取位置
-			GetLocation() {
-				console.log(_self.lng1);
-				console.log(_self.lat1);
-				uni.showLoading({
-					title: '位置采集中...',
-					icon: "none"
-				});
+			GetLocation(e) {
 				_self = this;
-				//请求获取当前位置接口
-				uni.request({
-					url: "http://bdh-ranqi.qhd58.net/api/jk/caiji",
-					data: {
-						username: _self.username,
-						password: _self.password,
-						jing: _self.lng1,
-						wei: _self.lat1
-					},
-					header: {
-						'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
-					},
-					success: (res) => {	
-						console.log(res.data);
-						if(res.data === 0) {
-							uni.showToast({
-								title: '请在规定位置内打卡!',
-								icon: "none",
-								duration: 1000
-							})
-						}
-						if(res.data === 1) {
-							console.log(_self.coordinate.bd_lng);
-							console.log(_self.coordinate.bd_lat);
-							uni.hideLoading()
-							uni.showToast({
-								title: '位置采集成功!',
-								icon: "none",
-								duration: 1000
-							})
-						}
-
-					},
-					fail: (res) => {
-						uni.showToast({
-							title: "位置获取失败,请检查网络",
-							icon: "none",
-							duration: 2000
-						})
+				uni.getLocation({
+					type: 'gcj02',
+					success: (res) => {
+						_self.coordinate6 = coordinate(res.longitude,res.latitude);
+						/* 这里到底是等于lat1,还有_self.coordinate.bd_lat待测试 */
+						var lng6 = _self.coordinate6.bd_lng;
+						var lat6 = _self.coordinate6.bd_lat;
+					//请求获取当前位置接口
+						uni.request({
+							url: "http://bdh-ranqi.qhd58.net/api/jk/caiji",
+							data: {
+								username: _self.username,
+								password: _self.password,
+								jing: lng6,
+								wei: lat6
+							},
+							header: {
+								'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
+							},
+							success: (res) => {	
+								console.log(res.data);
+								if(res.data === 0) {
+									_self.modal3 = true;
+									this.contant = '请在指定地点采集！';
+								}
+								if(res.data === 1) {
+									console.log(lng6,lat6)
+									console.log(_self.username,_self.password)
+									uni.hideLoading()
+									_self.modal3= true;	
+									this.contant = '采集成功！';
+								}
+							},
+							fail: (res) => {
+								uni.showToast({
+									title: "位置获取失败,请检查网络",
+									icon: "none",
+									duration: 2000
+								})
+							}
+						});
 					}
-				});				
+				})
+			},
+			handleClick3() {
+				this.hide3()
+			},
+			hide3() {
+				this.modal3= false;
 			},
             daily(name) {
 				uni.navigateTo({
@@ -337,7 +328,7 @@ var _self;
 			call() {
 				//拨打电话
 				uni.makePhoneCall({
-					phoneNumber: '0335-8888888'
+					phoneNumber: '13903355649'
 				});
 			},
 			//注销
@@ -347,7 +338,7 @@ var _self;
 					content: '您确定注销该账号吗？（请慎重）',
 					success: function (res) {
 						if (res.confirm) {
-							uni.removeStorageSync("userPhone");
+							// uni.removeStorageSync("userPhone");
 							uni.removeStorageSync("Password");
 							uni.redirectTo({
 								url: '/pages/login/login'
@@ -357,11 +348,8 @@ var _self;
 						}
 					}
 				});
-
 			}
-
         }
-		
 	}
 </script>
 

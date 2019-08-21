@@ -42,7 +42,7 @@
 					<view class="uploadImg"><lazy-image  :realSrc="'http://bdh-ranqi.qhd58.net' + showDetail.texie_img" :placeholdSrc="placeholderSrc"></lazy-image></view>
 				</view>		
 			</view>
-		</view>		
+		</view>
 	</view>
 </template>
 

@@ -16,7 +16,7 @@
 			"path": "pages/condition/condition"			
 		},
 		{	//安检列表小区
-			"path": "pages/securityList/securityList"	
+			"path": "pages/securityList/securityList"
 		},
 		{	//安检列表栋数
 			"path": "pages/securityList2/securityList2"
@@ -59,10 +59,32 @@
 		},
 		//村
 		{
-			"path": "pages/village/village"
+			"path": "pages/village/village",
+			"style": {
+				"navigationStyle":"custom",
+				"app-plus": {
+					"titleNView": {
+						"type": "default",
+						"titleText": "",
+						"backgroundColor": "#5297f6",
+						"autoBackButton": false
+					}
+				}
+			}
 		},
 		{
-			"path": "pages/factory/factory"
+			"path": "pages/factory/factory",
+			"style": {
+				"navigationStyle":"custom",
+				"app-plus": {
+					"titleNView": {
+						"type": "default",
+						"titleText": "",
+						"backgroundColor": "#5297f6",
+						"autoBackButton": false
+					}
+				}
+			}
 		},
 		// 村二
 		{

@@ -5,8 +5,139 @@
             <text class="text1">安检情况</text>
             <text class="text2">用户名：{{name}}</text>
             <text class="text3">部门：安检部</text>
+			<text class="text3" v-if="lianxiren">联系人：{{lianxiren}}</text>
+			<text class="text3" v-if="dianhua" @click="callphone">电话：{{dianhua}}</text>
         </view>	
 		<view class="form">
+			<picker @change="bindPickerChange6" :value="index6" :range="array6" style="font-size: 50upx;">
+				<view class="uni-input">安全宣传：{{array6[index6]}}</view>					
+			</picker>
+			<view class="yzyh">
+				<text>泄漏:</text>
+				<view>
+					<checkbox-group @change="checkboxChange32">
+						<label>
+							无<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange33">
+						<label>
+							表具<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange34">
+						<label>
+							燃气具<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange35">
+						<label>
+							户内管道及管件<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange36">
+						<label>
+							阀门<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange37">
+						<label>
+							软管<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>	
+					<checkbox-group @change="checkboxChange38">
+						<label>
+							其他<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+
+				</view>				
+			</view>
+			<view class="yzyh">
+				<text>表具:</text>
+				<view>
+					<checkbox-group @change="checkboxChange39">
+						<label>
+							表封等损坏<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange40">
+						<label>
+							暗封、暗埋<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange41">
+						<label>
+							露天无遮雨设施<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange42">
+						<label>
+							计量异常<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange43">
+						<label>
+							表油不足<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>	
+				</view>				
+			</view>
+			<view class="yzyh">
+				<text>用气设备:</text>
+				<view>
+					<checkbox-group @change="checkboxChange44">
+						<label>
+							锅炉<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange45">
+						<label>
+							热水器<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange46">
+						<label>
+							壁挂炉<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange47">
+						<label>
+							直排式热水器<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange48">
+						<label>
+							其他用气设备<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+				</view>				
+			</view>
+			<view class="yzyh">
+				<text>用气环境:</text>
+				<view>
+					<checkbox-group @change="checkboxChange49">
+						<label>
+							良好<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange50">
+						<label>
+							燃气设施房间住人<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange51">
+						<label>
+							混用多种燃料<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange52">
+						<label>
+							私改用气环境，造成通风不良<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+				</view>
+			</view>
 			<view class="yzyh">
 				<text>一级隐患:</text>
 				<view>
@@ -153,6 +284,16 @@
 						安全管理隐患<checkbox value="1" style="transform:scale(0.7)" />
 					</label>
 				</checkbox-group>
+				<checkbox-group @change="checkboxChange30">
+					<label>
+						到访不遇<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange31">
+					<label>
+						拒签<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
 			</view>
 			<text class="text6">详细描述：</text>
 			<textarea placeholder-style="color:#F76260" placeholder="请输入具体内容" v-model="contant" />
@@ -191,6 +332,7 @@ var _self;
 				array2: ['灶具','热水器','壁挂炉','长寿命软管'],
 				array3: ['口头','发放安全宣传单','已告知整改建议'],
 				array5: ['现场整改','用户自行整改','委托公司整改'],
+				array6: ['口头','发放安全宣传单','张贴安检标贴','已告知整改建议'],
 				arrayContant: "",
 				array2Contant: "",
 				array3Contant: "",
@@ -202,6 +344,7 @@ var _self;
 				index3: 0,
 				index4: 0,
 				index5: 0,
+				index6: 0,
 				a: 0,
 				b: 0,
 				c: 0,
@@ -231,6 +374,35 @@ var _self;
 				xixi: 0,
 				haha: 0,
 				hehe: 0,
+				aa: 0,
+				bb: 0,
+				cc: 0,
+				dd: 0,
+				ee: 0,
+				ff: 0,
+				gg: 0,
+				hh: 0,
+				ii: 0,
+				jj: 0,
+				kk: 0,
+				ll: 0,
+				mm: 0,
+				nn: 0,
+				oo: 0,
+				pp: 0,
+				qq: 0,
+				rr: 0,
+				ss: 0,
+				tt: 0,
+				uu: 0,
+				vv: 0,
+				ww: 0,
+				xx: 0,
+				yy: 0,
+				zz: 0,
+				
+				dfby: 0,
+				juqian: 0,
 				jin: '',
 				yuan: '',
 				te: '',
@@ -242,7 +414,8 @@ var _self;
 				gaozhiBase64: '',
 				renwuname: '',
 				id: '',
-				
+				lianxiren: '',
+				dianhua: ''
 			}
 		},
 		onLoad(options) {
@@ -255,6 +428,8 @@ var _self;
 			console.log(_self.gongjianhu)
 			_self.dizhi = options.dizhi;
 			console.log(_self.dizhi)
+			_self.lianxiren = options.lianxiren;
+			_self.dianhua = options.dianhua;
 			uni.getStorage({
 				key: 'ming',
 				success: function (res) {
@@ -264,6 +439,12 @@ var _self;
 			
 		},
 		methods: {
+			callphone() {
+				console.log("xcdfgdsfuighsdag", _self.id)
+				uni.makePhoneCall({
+					phoneNumber: `${_self.dianhua}`
+				});
+			},
 			goback() {
 				uni.navigateBack({
 					delta: 1
@@ -290,6 +471,10 @@ var _self;
 			bindPickerChange5: function(e) {				
 				this.index5 = e.target.value;
 				console.log(this.index5)
+			},
+			bindPickerChange6: function(e) {
+				this.index6 = e.target.value;
+				console.log(this.index6)
 			},
 			checkboxChange: function (e) {				
 				this.a = Number(e.detail.value);
@@ -354,7 +539,8 @@ var _self;
 			},
 			checkboxChange18: function (e) {				
 				this.r = Number(e.detail.value);
-			},																															checkboxChange19: function (e) {				
+			},
+			checkboxChange19: function (e) {
 				this.s = Number(e.detail.value);
 			},
 			checkboxChange20: function (e) {				
@@ -386,6 +572,75 @@ var _self;
 			},
 			checkboxChange29: function (e) {				
 				this.hehe = Number(e.detail.value);
+			},
+			checkboxChange30: function (e) {				
+				this.dfby = Number(e.detail.value);
+			},
+			checkboxChange31: function (e) {				
+				this.juqian = Number(e.detail.value);
+			},
+			checkboxChange32: function (e) {
+				this.aa = Number(e.detail.value);
+			},
+			checkboxChange33: function (e) {
+				this.bb = Number(e.detail.value);
+			},
+			checkboxChange34: function (e) {
+				this.cc = Number(e.detail.value);
+			},
+			checkboxChange35: function (e) {
+				this.dd = Number(e.detail.value);
+			},
+			checkboxChange36: function (e) {
+				this.ee = Number(e.detail.value);
+			},
+			checkboxChange37: function (e) {
+				this.ff = Number(e.detail.value);
+			},
+			checkboxChange38: function (e) {
+				this.gg = Number(e.detail.value);
+			},
+			checkboxChange39: function (e) {
+				this.hh = Number(e.detail.value);
+			},
+			checkboxChange40: function (e) {
+				this.ii = Number(e.detail.value);
+			},
+			checkboxChange41: function (e) {
+				this.jj = Number(e.detail.value);
+			},
+			checkboxChange42: function (e) {
+				this.kk = Number(e.detail.value);
+			},
+			checkboxChange43: function (e) {
+				this.ll = Number(e.detail.value);
+			},
+			checkboxChange44: function (e) {
+				this.mm = Number(e.detail.value);
+			},
+			checkboxChange45: function (e) {
+				this.nn = Number(e.detail.value);
+			},
+			checkboxChange46: function (e) {
+				this.oo = Number(e.detail.value);
+			},
+			checkboxChange47: function (e) {
+				this.pp = Number(e.detail.value);
+			},
+			checkboxChange48: function (e) {
+				this.qq = Number(e.detail.value);
+			},
+			checkboxChange49: function (e) {
+				this.rr = Number(e.detail.value);
+			},
+			checkboxChange50: function (e) {
+				this.ss = Number(e.detail.value);
+			},
+			checkboxChange51: function (e) {
+				this.tt = Number(e.detail.value);
+			},
+			checkboxChange52: function (e) {
+				this.uu = Number(e.detail.value);
 			},
 			UploadImg1() {
 			_self = this;
@@ -491,8 +746,8 @@ var _self;
 					}
 				});														
 			},			
-			currentTask() {
-				
+			currentTask:function() {
+				console.log(_self.gongjianhu)
 				_self = this;
 				console.log(_self.arrayContant)
 				uni.showModal({
@@ -504,6 +759,7 @@ var _self;
 							uni.showLoading({
 								title: '提交中...'
 							})
+							console.log(_self.id)
 							if(_self.id) {
 								uni.request({
 									url: 'http://bdh-ranqi.qhd58.net/api/jk/gong_qk',
@@ -513,11 +769,11 @@ var _self;
 										dizhi: _self.dizhi,
 										name: _self.name,
 										id: _self.id,
-										bj: _self.index,
-										rqyj: _self.index2,
-										aqxc: _self.index3,
-										sfyyh: _self.index4,
-										zg: _self.index5,
+										xl: _self.index,
+										bbjj: _self.index2,
+										yqsb: _self.index3,
+										yqhj2: _self.index4,
+										aqxc2: _self.index5,
 										rqxl: _self.a,
 										zpsrsq: _self.b,
 										glwyd: _self.c,
@@ -543,14 +799,40 @@ var _self;
 										dcfbgz: _self.x,
 										bjqwxy: _self.y,
 										wsxlbjq: _self.z,
+										
+										xlw: _self.aa,
+										xlb: _self.bb,
+										xlrqj: _self.cc,
+										xlgd: _self.dd,
+										xlfm: _self.ee,
+										xlrg: _self.ff,
+										xlqt: _self.gg,
+										bjsh: _self.hh,
+										bjam: _self.ii,
+										bjwz: _self.jj,
+										bjyc: _self.kk,
+										bjby: _self.ll,
+										yqgl: _self.mm,
+										yqrs: _self.nn,
+										yqbl: _self.oo,
+										yqzp: _self.pp,
+										yqqt: _self.qq,
+										yqlh: _self.rr,
+										yqzr: _self.ss,
+										yqhh: _self.tt,
+										yqsg: _self.uu,
+										aqxc2: _self.index6,
+										
 										aqxcwfbr: _self.xixi,
 										rqbzdxsyx: _self.haha,
 										aqglyh: _self.hehe,
+										dfby: _self.dfby,
+										jq: _self.juqian,
 										content: _self.contant,
 										jin_img: _self.jinBase64,
 										yuan_img: _self.yuanBase64,
 										texie_img: _self.teBase64,
-										hui_img: _self.gaozhiBase64 
+										hui_img: _self.gaozhiBase64
 									},
 									success: (res) => {
 										console.log(res.data);
@@ -558,12 +840,13 @@ var _self;
 										uni.hideLoading()
 										if(res.data === 1) {
 											uni.showToast({
-												title: '提交成功！',
-												duration: 2000
+												title: '提交成功！'
 											})
-											uni.navigateTo({
-												url: `/pages/securityList/securityList?username=${_self.username}&password=${_self.password}`
-											})
+											setTimeout(() => {
+												uni.navigateBack({
+													delta: 1
+												});
+											},1500)
 										}else {
 											uni.showToast({
 												title: '提交失败,请重新提交！',
@@ -632,8 +915,8 @@ var _self;
 												title: '提交成功！',
 												duration: 2000
 											})
-											uni.navigateTo({
-												url: `/pages/securityList/securityList?username=${_self.username}&password=${_self.password}`
+											uni.navigateBack({
+												delta: 1
 											})
 										}else {
 											uni.showToast({
@@ -718,7 +1001,7 @@ var _self;
 		}
 		.form {
 			width: 100%;
-			height: 72%;
+			height: 65%;
 			padding: 0 44upx;
 			box-sizing: border-box;
 			border-radius: 30upx 30upx 0 0;

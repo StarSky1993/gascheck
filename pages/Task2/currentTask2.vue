@@ -1,16 +1,13 @@
 <template>
     <view class="currentTask">
         <view class="title">
-            <view class="goback">
-                <text class="eosfont" @click="goback">&#xef07;退出</text>
-            </view>
             <text v-if="idx==1" :class="{active:idx==1}">当前任务</text>
             <text v-else :class="{active2:idx==2}">已完成任务</text>	
             <text></text>
         </view>
 		<view class="tabs">
 			<text class="cun" @click="cun">村村通</text>
-			<text class="gong" @click="gong">工建户</text>
+			<text class="gong" @click="gong">公建户</text>
 		</view>
         <view class="list" v-show="idx==1">
             <view class="item" v-for="(item,index) in anjianList" :key="index" @click="onDetail(item.id)" >
@@ -123,7 +120,7 @@ export default {
 		call() {
 			//拨打电话
 			uni.makePhoneCall({
-				phoneNumber: '0335-8888888'
+				phoneNumber: '03357093716'
 			});
 		}		
     } 
@@ -146,7 +143,7 @@ export default {
             width: 100%;
             height: 87upx;
             line-height: 87upx;
-            justify-content: space-between;
+            justify-content: center;
             padding: 0 21upx;
             position: fixed;
             box-sizing: border-box;
@@ -156,7 +153,7 @@ export default {
             background: #ff9000;
 			color: #fff;
             .goback {
-                font-size: 30upx;
+                font-size: 36upx;
             }
         }
 		.tabs {
@@ -169,7 +166,7 @@ export default {
 			left: 0;
 			background-color: #ff9000;
 			text {
-				font-size: 30upx;
+				font-size: 36upx;
 				color: #fff;
 				background-color: green;
 				border-radius: 30upx;
@@ -204,7 +201,7 @@ export default {
 					display: flex;
 					flex-direction: column;
 					.title2 {
-						font-size: 30upx;
+						font-size: 36upx;
 						font-weight: bold;
 					}
 					.content2 {
@@ -214,7 +211,7 @@ export default {
 						display: -webkit-box;
 						-webkit-line-clamp: 2;
 						-webkit-box-orient: vertical;
-						font-size: 24upx;
+						font-size: 36upx;
 						color: #888;
 						line-height: 30upx;
 					}
@@ -222,12 +219,12 @@ export default {
 						line-height: 20upx;
 						.time_ico {
 							top: 4upx;
-							font-size: 20upx;
+							font-size: 36upx;
 							color: #b4b4b4;
 						}
 						.time {
 							line-height: 20upx;
-							font-size: 20upx;
+							font-size: 36upx;
 							color: #b3b3b3;
 						}
 					}
@@ -246,7 +243,7 @@ export default {
 				display: flex;
 				justify-content: space-around;
 				text {
-					font-size: 22upx;
+					font-size: 36upx;
 					padding-top: 27upx;
 				}
 				.t1 {
@@ -254,7 +251,7 @@ export default {
 				}
 				.t1::before {
 					position: absolute;
-					left: 18upx;
+					left: 44upx;
 					top: 35upx;
 					display: block;
 					width: 56upx;
@@ -269,7 +266,7 @@ export default {
 				}
 				.active::before {			
 					position: absolute;
-					left: 18upx;
+					left: 44upx;
 					top: 35upx;
 					display: block;
 					width: 56upx;
@@ -283,7 +280,7 @@ export default {
 				}
 				.t2::before {
 					position: absolute;
-					left: 25upx;
+					left: 62upx;
 					top: 23upx;
 					display: block;
 					width: 56upx;
@@ -298,7 +295,7 @@ export default {
 				}
 				.active2::before {			
 					position: absolute;
-					left: 25upx;
+					left: 62upx;
 					top: 23upx;
 					display: block;
 					width: 56upx;
@@ -316,13 +313,12 @@ export default {
 			margin-top: -50upx;
 			width: 100upx;
 			height: 100upx;
+			line-height: 100upx;
 			border-radius: 50%;
 			background: rgba(120,120,120,.5);
 			color: #fff;
-			font-size: 22upx;
-			line-height: 30upx;
+			font-size: 24upx;
 			text-align: center;
-			padding-top: 20upx;
 			box-sizing: border-box;
 			
 		}

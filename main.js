@@ -14,6 +14,11 @@ App.mpType = 'app'
 //引入保持后台运行方法
 import realTime from "./common/js/realTime.js"
 Vue.prototype.$realTime = realTime;
+
+//引入返回首页
+import tuiFooter from "./components/footer"
+Vue.component('tuiFooter',tuiFooter)
+
 const app = new Vue({
     ...App
 })

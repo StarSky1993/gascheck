@@ -73,6 +73,34 @@
 				}
 			});
 		},
+		onShow() {
+			uni.showLoading({
+				title: '加载中'
+			})
+			uni.request({
+				url: "http://bdh-ranqi.qhd58.net/api/jk/danyuan",
+				data: {
+					xiaoqu: this.xiaoqu,
+					dong: this.dong,
+					rhhf_name: this.renwuname
+				},
+				header: {
+					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
+				},
+				success: (res) => {	
+					uni.hideLoading();
+					this.danyuanData = res.data;
+				},
+				fail: (res) => {
+					uni.hideLoading();
+					uni.showToast({
+						title: "位置获取失败,请检查网络",
+						icon: "none",
+						duration: 2000
+					})
+				}
+			});
+		},
 		methods: {
 			goback() {
 				uni.navigateBack({
@@ -82,7 +110,7 @@
 			call() {
 				//拨打电话
 				uni.makePhoneCall({
-					phoneNumber: '0335-8888888'
+					phoneNumber: '03357093716'
 				});
 			},
 			onItem(danyuan) {
@@ -163,11 +191,11 @@
                         font-size: 30upx;
                         border-bottom: 1upx solid #c4c4c4;
                         text {
-                            font-size: 28upx;
+                            font-size: 36upx;
                             color: red;
                         }
                         view {
-                            font-size: 22upx;
+                            font-size: 36upx;
                             color: #8f8f8f;
                         }
                     }
@@ -185,7 +213,7 @@
                     .tab {
                         display: flex;
                         justify-content: center;
-                        font-size: 24upx;
+                        font-size: 36upx;
                         color: #6e6e6e;
                         height: 82upx;
                         line-height: 82upx;

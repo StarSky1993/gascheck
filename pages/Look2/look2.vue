@@ -1,9 +1,6 @@
 <template>
     <view class="maintain">
 		<view class="title">
-		    <view class="goback">
-		        <text class="eosfont" @click="goback">&#xef07;返回</text>
-		    </view>
 		    <text>资料上传</text>
 		    <text></text>
 		</view>
@@ -122,7 +119,7 @@ export default {
 		width: 100%;
 		height: 137upx;
 		line-height: 87upx;
-		justify-content: space-between;
+		justify-content: center;
 		padding: 0 21upx;
 		position: fixed;
 		box-sizing: border-box;

@@ -13,6 +13,7 @@
 </script>
 
 <style>
+	@import "./common/app.css";
 	/*每个页面公共css */
 	@import "./static/iconfont/eosfont.css";
 </style>

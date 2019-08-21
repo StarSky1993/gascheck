@@ -7,14 +7,14 @@
             <view class="flx">
 				<text class="text3">部门：安检部</text>
 				<text class="cun" @click="cun">村村通</text>
-				<text class="gong" @click="gong">工建户</text>				
+				<text class="gong" @click="gong">公建户</text>				
 			</view>
         </view>	
 		<view class="form">
             <view class="item" v-for="(item,index) in securityData" :key="index" @click="onItem(item.xiaoqu,item.renwu_name)">
                 <view class="inner">
                     <view class="title">
-                        <view>编号：<text>#{{index+1}}</text></view>
+                        <view>编号：<text style="font-size: 36upx;">#{{index+1}}</text></view>
                         <view class="fd" v-if="item.st_time !== null">{{item.st_time}}</view>
                     </view>
                     <view class="info">
@@ -66,8 +66,8 @@ var _self;
 			uni.request({
 				url: "http://bdh-ranqi.qhd58.net/api/jk/xiaoqu",
 				data: {
-					username: 2,
-					password: 2
+					username: _self.username,
+					password: _self.password
 				},
 				header: {
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
@@ -90,6 +90,38 @@ var _self;
 				}
 			});			
 		},
+		onShow() {
+			uni.showLoading({
+				title: '加载中'
+			})
+			_self = this;
+			uni.request({
+				url: "http://bdh-ranqi.qhd58.net/api/jk/xiaoqu",
+				data: {
+					username: _self.username,
+					password: _self.password
+				},
+				header: {
+					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
+				},
+				success: (res) => {	
+					uni.hideLoading();
+					
+					_self.securityData = res.data;
+					_self.name = _self.securityData[0].name;
+					console.log(_self.name)					
+					
+				},
+				fail: (res) => {
+					uni.hideLoading();
+					uni.showToast({
+						title: "位置获取失败,请检查网络",
+						icon: "none",
+						duration: 2000
+					})
+				}
+			});	
+		},
 		methods: {
 			goback() {
 				uni.navigateBack({
@@ -99,7 +131,7 @@ var _self;
 			call() {
 				//拨打电话
 				uni.makePhoneCall({
-					phoneNumber: '0335-8888888'
+					phoneNumber: '03357093716'
 				});
 			},
 			onItem(xiaoqu,renwuname) {
@@ -159,13 +191,13 @@ var _self;
             }
             .text2 {
                 margin-top: 65upx;
-                font-size: 30upx;
+                font-size: 44upx;
                 color: #fff;
             }
             .flx {
 				display: flex;
                 margin-top: 20upx;
-                font-size: 30upx;
+                font-size: 44upx;
                 color: #fff;
 				align-items: center;
 				.cun,.gong {
@@ -179,7 +211,7 @@ var _self;
             }
             .row {
                 margin-top: 20upx;
-                font-size: 30upx;
+                font-size: 44upx;
                 color: #fff;
 				.text4 {
 					margin-right: 92upx;
@@ -188,7 +220,7 @@ var _self;
 		}
 		.form {
 			width: 100%;
-			height: 72%;
+			height: 67%;
 			box-sizing: border-box;
 			border-radius: 30upx 30upx 0 0;
 			position: absolute;
@@ -204,7 +236,7 @@ var _self;
                         line-height: 85upx;
                         display: flex;
                         justify-content: space-between;
-                        font-size: 30upx;
+                        font-size: 44upx;
                         border-bottom: 1upx solid #c4c4c4;
                         text {
                             font-size: 28upx;
@@ -215,25 +247,25 @@ var _self;
                             color: #8f8f8f;
                         }
 						.fd {
-							font-size: 26upx;
+							font-size: 36upx;
 						}
                     }
                     .info {
                         view {
                             display: flex;
                             justify-content: space-between;
-                            font-size: 24upx;
+                            font-size: 36upx;
                             height: 50upx;
                             line-height: 50upx;
                             .huise {
 								display: block;
-								width: 200upx;
+								width: 500upx;
                                 color: #6d6d6d;
 								overflow:hidden;
 								text-overflow:ellipsis;
 								white-space:nowrap;
 								text-align: right;
-								font-size: 26upx;
+								font-size: 36upx;
 								
                             }
                         }
@@ -243,7 +275,7 @@ var _self;
                     .tab {
                         display: flex;
                         justify-content: center;
-                        font-size: 24upx;
+                        font-size: 36upx;
                         color: #6e6e6e;
                         height: 82upx;
                         line-height: 82upx;

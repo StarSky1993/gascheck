@@ -4,7 +4,7 @@
 			
 		</view>
 		<view class="form">
-			<text class="icon1 eosfont">&#xe768;</text><input type="text" v-model="user.username" :value="user.username" maxlength="11" placeholder="请输入您的账号" />
+			<text class="icon1 eosfont">&#xe768;</text><input type="text" v-model="user.username" :value="user.username" placeholder="请输入您的账号" />
 			<text class="icon2 eosfont">&#xe64c;</text><input type="text" v-model="user.password" :value="user.password" class="input2" placeholder="请输入密码" />
 			<button @click="login" :disabled="isDisable">登陆</button>
 		</view>
@@ -28,16 +28,17 @@
 		},
 		onLoad() {
 			_self = this;
-			uni.removeStorageSync('userPhone');
-			uni.removeStorageSync('Password');
+			// uni.removeStorageSync('userPhone');
+			// uni.removeStorageSync('Password');
 			uni.setKeepScreenOn({
 				keepScreenOn: true
 			})
 			_self.userPhone = uni.getStorageSync('userPhone');
 			_self.Password = uni.getStorageSync('Password');
-			if(_self.userPhone && _self.Password) {
+			if(_self.userPhone) {
 				_self.user.username = _self.userPhone;
 				_self.user.password = _self.Password;
+				console.log(_self.user.password)
 			}
 		},
 		methods: {
@@ -56,28 +57,31 @@
 						console.log(res.data)
 						if(res.data === 1) {
 							this.isDisable = true;
+							uni.setStorageSync('userPhone',this.user.username);
+							uni.setStorageSync('Password',this.user.password);
+							if(!this.userPhone && !this.Password) {
 
-							if(!this.userPhone&& !this.Password) {
-								uni.setStorageSync('userPhone',this.user.username);
-								uni.setStorageSync('Password',this.user.password);
 								uni.navigateTo({
 									//巡检主页
 									url: `/pages/xunjianHome/xunjianHome?username=${this.user.username}&password=${this.user.password}`
 								})
 
-							}else if(this.userPhone && this.Password) {
-								if(this.userPhone == this.user.username && this.Password == this.user.password) {
-									uni.navigateTo({
-										//巡检主页
-										url: `/pages/xunjianHome/xunjianHome?username=${this.user.username}&password=${this.user.password}`
-									})
-								}else {
-									uni.showToast({
-										title: '请使用指定账号登陆！',
-										icon: "none"
-									})
-								}
-
+							}else if(this.userPhone && !this.Password) {
+								uni.navigateTo({
+									//巡检主页
+									url: `/pages/xunjianHome/xunjianHome?username=${this.user.username}&password=${this.user.password}`
+								})
+							}
+							else if(this.userPhone != this.user.username) {
+								uni.showToast({
+									title: '请使用指定账号登陆！',
+									icon: "none"
+								})
+							}else {
+								uni.navigateTo({
+									//巡检主页
+									url: `/pages/xunjianHome/xunjianHome?username=${this.user.username}&password=${this.user.password}`
+								})
 							}
 						}else if(res.data === 2) {
 							this.isDisable = true;

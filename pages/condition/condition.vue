@@ -16,19 +16,19 @@
         </view>	
 		<view class="form">
 			<picker @change="bindPickerChange" :value="index" :range="array">
-				<view class="uni-input">管道漏气：{{array[index]}}</view><text class="text7 eosfont">&#xe60b;</text>					
+				<view class="uni-input">管道漏气：{{array[index]}}</view>					
 			</picker>
 			<picker @change="bindPickerChange2" :value="index2" :range="array2">
-				<view class="uni-input">管道施工：{{array2[index2]}}</view><text class="text8 eosfont">&#xe60b;</text>					
+				<view class="uni-input">管道施工：{{array2[index2]}}</view>					
 			</picker>
 			<picker @change="bindPickerChange3" :value="index3" :range="array3">
-				<view class="uni-input">阀门师维护：{{array3[index3]}}</view><text class="text9 eosfont">&#xe60b;</text>					
+				<view class="uni-input">阀门师维护：{{array3[index3]}}</view>					
 			</picker>
 			<picker @change="bindPickerChange4" :value="index4" :range="array4">
-				<view class="uni-input">调压站箱维护：{{array4[index4]}}</view><text class="text10 eosfont">&#xe60b;</text>						
+				<view class="uni-input">调压站箱维护：{{array4[index4]}}</view>						
 			</picker>
 			<picker @change="bindPickerChange5" :value="index5" :range="array5">
-				<view class="uni-input">其他：{{array5[index5]}}</view><text class="text11 eosfont">&#xe60b;</text>					
+				<view class="uni-input">其他：{{array5[index5]}}</view>
 			</picker>
 			<text class="text6">详细描述：</text>
 			<textarea placeholder-style="color:#F76260" placeholder="请输入具体内容" v-model="content" />
@@ -216,7 +216,7 @@ var _self;
 			}
 			});														
 			},
-			currentTask() {
+			currentTask:function() {
 				_self = this;
 				uni.showModal({
 					title: '是否提交数据？',
@@ -251,12 +251,11 @@ var _self;
 									console.log(res.data);
 									uni.hideLoading()
 									uni.showToast({
-										title: '提交成功！',
-										duration: 2000
+										title: '提交成功！'
 									})
 									setTimeout(() => {
-										uni.navigateTo({
-											url: `/pages/taskNav/taskNav?username=${_self.username}&password=${_self.password}&id=${_self.id}&name=${_self.name}`
+										uni.navigateBack({
+											delta: 1
 										})
 									},1000)
 								}

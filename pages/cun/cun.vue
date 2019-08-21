@@ -72,7 +72,7 @@
 			call() {
 				//拨打电话
 				uni.makePhoneCall({
-					phoneNumber: '0335-8888888'
+					phoneNumber: '03357093716'
 				});
 			},
 			onItem(cun) {
@@ -116,11 +116,11 @@
                         font-size: 30upx;
                         border-bottom: 1upx solid #c4c4c4;
                         text {
-                            font-size: 28upx;
+                            font-size: 36upx;
                             color: red;
                         }
                         view {
-                            font-size: 22upx;
+                            font-size: 36upx;
                             color: #8f8f8f;
                         }
                     }
@@ -138,7 +138,7 @@
                     .tab {
                         display: flex;
                         justify-content: center;
-                        font-size: 24upx;
+                        font-size: 36upx;
                         color: #6e6e6e;
                         height: 82upx;
                         line-height: 82upx;

@@ -5,20 +5,110 @@
             <text class="text1">安检情况</text>
             <text class="text2">用户名：{{name}}</text>
             <text class="text3">部门：安检部</text>
+			<text class="text3" v-if="lianxiren">联系人：{{lianxiren}}</text>
+			<text class="text3" v-if="dianhua" @click="callphone">电话：{{dianhua}}</text>
         </view>	
 		<view class="form">
-			<picker @change="bindPickerChange" :value="index" :range="array">
-				<view class="uni-input">表具：{{array[index]}}</view><text class="text7 eosfont">&#xe60b;</text>					
-			</picker>
-			<picker @change="bindPickerChange2" :value="index2" :range="array2">
-				<view class="uni-input">燃气用具：{{array2[index2]}}</view><text class="text8 eosfont">&#xe60b;</text>
-			</picker>
-			<picker @change="bindPickerChange3" :value="index3" :range="array3">
-				<view class="uni-input">安全宣传：{{array3[index3]}}</view><text class="text9 eosfont">&#xe60b;</text>					
-			</picker>
-			<picker @change="bindPickerChange5" :value="index5" :range="array5">
-				<view class="uni-input">整改方式：{{array5[index5]}}</view><text class="text11 eosfont">&#xe60b;</text>					
-			</picker>
+			<view class="yzyh">
+				<text>用户其他情况:</text>
+				<view>
+					<checkbox-group @change="checkboxChange40">
+						<label>
+							租房户<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange41">
+						<label>
+							老人独居<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+				</view>				
+			</view>
+			<view class="yzyh">
+				<text>表具:</text>
+				<view>
+					<checkbox-group @change="checkboxChange42">
+						<label>
+							皮膜式机械表<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange43">
+						<label>
+							皮膜式IC卡表<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange44">
+						<label>
+							室外挂表<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+				</view>				
+			</view>
+			<view class="yzyh">
+				<text>燃气用具:</text>
+				<view>
+					<checkbox-group @change="checkboxChange45">
+						<label>
+							灶具<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange46">
+						<label>
+							热水器<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange47">
+						<label>
+							壁挂炉<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange48">
+						<label>
+							长寿命软管<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+				</view>				
+			</view>
+			<view class="yzyh">
+				<text>安全宣传:</text>
+				<view>
+					<checkbox-group @change="checkboxChange49">
+						<label>
+							口头<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange50">
+						<label>
+							发放安全宣传单<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange51">
+						<label>
+							已告知整改建议<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+				</view>				
+			</view>
+			<view class="yzyh">
+				<text>整改建议:</text>
+				<view>
+					<checkbox-group @change="checkboxChange52">
+						<label>
+							现场整改<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange53">
+						<label>
+							用户自行整改<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange54">
+						<label>
+							委托公司整改<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+				</view>				
+			</view>						
 			<view class="yzyh">
 				<text>严重隐患:</text>
 				<view>
@@ -222,9 +312,6 @@
 				</checkbox-group>																				
 			</view>
 			
-			
-			
-			
 			<text class="text6">详细描述：</text>
 			<textarea placeholder-style="color:#F76260" placeholder="请输入具体内容" v-model="contant" />
 			<view class="upload">
@@ -266,16 +353,6 @@ var _self;
 				dong: '',
 				danyuan: '',
 				menpai: '',
-				array: ['皮膜式机械表','皮膜式IC卡表','室外挂表'],
-				array2: ['灶具','热水器','壁挂炉','长寿命软管'],
-				array3: ['口头','发放安全宣传单','已告知整改建议'],
-				array5: ['现场整改','用户自行整改','委托公司整改'],
-				arrayContant: "",
-				array2Contant: "",
-				array3Contant: "",
-				array4Contant: "",
-				array5Contant: "",
-				array6Contant: "",
 				index: 0,
 				index2: 0,
 				index3: 0,
@@ -319,7 +396,23 @@ var _self;
 				gg: 0,
 				hh: 0,
 				ii: 0,
-				jj: 0,								
+				jj: 0,
+				kk: 0,
+				ll: 0,
+				mm: 0,
+				nn: 0,
+				oo: 0,
+				pp: 0,
+				qq: 0,
+				rr: 0,
+				ss: 0,
+				tt: 0,
+				uu: 0,
+				vv: 0,
+				ww: 0,
+				xx: 0,
+				yy: 0,
+				zz: 0,
 				jin: '',
 				yuan: '',
 				te: '',
@@ -330,7 +423,9 @@ var _self;
 				teBase64: '',
 				gaozhiBase64: '',
 				renwuname: '',
-				id: ''
+				id: '',
+				lianxiren: '',
+				dianhua: ''
 			}
 		},
 		onLoad(options) {
@@ -346,7 +441,8 @@ var _self;
 			_self.password = options.password;	
 			_self.cun = options.cun;
 			_self.hu = options.hu;
-			console.log(_self.cun)
+			_self.lianxiren = options.lianxiren;
+			_self.dianhua = options.dianhua;
 			uni.getStorage({
 				key: 'ming',
 				success: function (res) {
@@ -450,7 +546,8 @@ var _self;
 			},
 			checkboxChange18: function (e) {				
 				this.r = Number(e.detail.value);
-			},																															checkboxChange19: function (e) {				
+			},
+			checkboxChange19: function (e) {
 				this.s = Number(e.detail.value);
 			},
 			checkboxChange20: function (e) {				
@@ -511,7 +608,55 @@ var _self;
 			},
 			checkboxChange39: function (e) {				
 				this.jj = Number(e.detail.value);
-			},					
+			},
+			checkboxChange40: function (e) {
+				this.kk = Number(e.detail.value);
+			},
+			checkboxChange41: function (e) {
+				this.ll = Number(e.detail.value);
+			},
+			checkboxChange42: function (e) {
+				this.mm = Number(e.detail.value);
+			},
+			checkboxChange43: function (e) {
+				this.nn = Number(e.detail.value);
+			},
+			checkboxChange44: function (e) {
+				this.oo = Number(e.detail.value);
+			},
+			checkboxChange45: function (e) {
+				this.pp = Number(e.detail.value);
+			},
+			checkboxChange46: function (e) {
+				this.qq = Number(e.detail.value);
+			},
+			checkboxChange47: function (e) {
+				this.rr = Number(e.detail.value);
+			},
+			checkboxChange48: function (e) {
+				this.ss = Number(e.detail.value);
+			},
+			checkboxChange49: function (e) {
+				this.tt = Number(e.detail.value);
+			},
+			checkboxChange50: function (e) {
+				this.uu = Number(e.detail.value);
+			},
+			checkboxChange51: function (e) {
+				this.vv = Number(e.detail.value);
+			},
+			checkboxChange52: function (e) {
+				this.ww = Number(e.detail.value);
+			},
+			checkboxChange53: function (e) {
+				this.xx = Number(e.detail.value);
+			},
+			checkboxChange54: function (e) {
+				this.yy = Number(e.detail.value);
+			},
+			checkboxChange55: function (e) {
+				this.zz = Number(e.detail.value);
+			},
 			UploadImg1() {
 			_self = this;
 			uni.chooseImage({
@@ -616,7 +761,7 @@ var _self;
 					}
 				});														
 			},			
-			currentTask() {
+			currentTask:function() {
 				
 				_self = this;
 				console.log(_self.arrayContant)
@@ -638,11 +783,6 @@ var _self;
 										hu: _self.hu,
 										name: _self.name,
 										id: _self.id,
-										bj: _self.index,
-										rqyj: _self.index2,
-										aqxc: _self.index3,
-										sfyyh: _self.index4,
-										zg: _self.index5,
 										lq: _self.a,
 										rqgdyzxs: _self.b,
 										syzpsrsq: _self.c,
@@ -682,6 +822,21 @@ var _self;
 										jq: _self.hh,
 										cch: _self.ii,
 										cqh: _self.jj,
+										qt_zfh: _self.kk,
+										qt_lrdj: _self.ll,
+										bj_jxb: _self.mm,
+										bj_ickb: _self.nn,
+										bj_sygb: _self.oo,
+										rq_zj: _self.pp,
+										rq_rsq: _self.qq,
+										rq_bgl: _self.rr,
+										rq_rg: _self.ss,
+										xc_kt: _self.tt,
+										xc_xcd: _self.uu,
+										xc_zgjy: _self.vv,
+										fs_xc: _self.ww,
+										fs_zx: _self.xx,
+										fs_wt: _self.yy,
 										content: _self.contant,
 										jin_img: _self.jinBase64,
 										yuan_img: _self.yuanBase64,
@@ -690,16 +845,17 @@ var _self;
 									},
 									success: (res) => {
 										console.log(res.data);
-										
+										console.log(this.index5);
 										uni.hideLoading()
 										if(res.data === 1) {
 											uni.showToast({
-												title: '提交成功！',
-												duration: 2000
+												title: '提交成功！'
 											})
-											uni.navigateTo({
-												url: `/pages/securityList/securityList?username=${_self.username}&password=${_self.password}`
-											})
+											setTimeout(() => {
+												uni.navigateBack({
+													delta: 1
+												});
+											},1500)
 										}else {
 											uni.showToast({
 												title: '提交失败,请重新提交！'
@@ -718,12 +874,6 @@ var _self;
 										dong: _self.dong,
 										danyuan: _self.danyuan,
 										menpai: _self.menpai,
-										yhqtqk: _self.index,
-										bj: _self.index2,
-										rqyj: _self.index3,
-										aqxc: _self.index4,
-										sfyyh: _self.index5,
-										zg: _self.index6,
 										lq: _self.a,
 										rqgdyzxs: _self.b,
 										syzpsrsq: _self.c,
@@ -763,6 +913,21 @@ var _self;
 										jq: _self.hh,
 										cch: _self.ii,
 										cqh: _self.jj,
+										qt_zfh: _self.kk,
+										qt_lrdj: _self.ll,
+										bj_jxb: _self.mm,
+										bj_ickb: _self.nn,
+										bj_sygb: _self.oo,
+										rq_zj: _self.pp,
+										rq_rsq: _self.qq,
+										rq_bgl: _self.rr,
+										rq_rg: _self.ss,
+										xc_kt: _self.tt,
+										xc_xcd: _self.uu,
+										xc_zgjy: _self.vv,
+										fs_xc: _self.ww,
+										fs_zx: _self.xx,
+										fs_wt: _self.yy,
 										content: _self.contant,
 										jin_img: _self.jinBase64,
 										yuan_img: _self.yuanBase64,
@@ -774,12 +939,13 @@ var _self;
 										uni.hideLoading()
 										if(res.data === 1) {
 											uni.showToast({
-												title: '提交成功！',
-												duration: 2000
+												title: '提交成功！'
 											})
-											uni.navigateTo({
-												url: `/pages/securityList/securityList?username=${_self.username}&password=${_self.password}`
-											})
+											setTimeout(() => {
+												uni.navigateBack({
+													delta: 1
+												});
+											},1500)
 										}else {
 											uni.showToast({
 												title: '提交失败,请重新提交！'
@@ -793,6 +959,11 @@ var _self;
 						}
 					}
 				});	
+			},
+			callphone() {
+				uni.makePhoneCall({
+					phoneNumber: `${_self.dianhua}`
+				});
 			}
         } 
 	}
@@ -829,17 +1000,17 @@ var _self;
             }
             .text2 {
                 margin-top: 65upx;
-                font-size: 30upx;
+                font-size: 44upx;
                 color: #fff;
             }
             .text3 {
                 margin-top: 20upx;
-                font-size: 30upx;
+                font-size: 44upx;
                 color: #fff;
             }
             .row {
                 margin-top: 20upx;
-                font-size: 30upx;
+                font-size: 44upx;
 				color: #fff;
 				position: relative;
 				.text4 {
@@ -863,13 +1034,10 @@ var _self;
 		}
 		.form {
 			width: 100%;
-			height: 72%;
+			height: auto;
 			padding: 0 44upx;
+			padding-top: 10upx;
 			box-sizing: border-box;
-			border-radius: 30upx 30upx 0 0;
-			position: absolute;
-			bottom: 0;
-			left: 0;
 			background: #fff;
 				
 			picker {
@@ -877,13 +1045,13 @@ var _self;
 				.uni-input {
 					height: 60upx;
 					line-height: 60upx;
-					font-size: 30upx;
+					font-size: 44upx;
 					border-bottom: 2upx solid #f6f6fb;
 					position: relative;
 				}
 				text {
 					color: #000;
-					font-size: 30upx;
+					font-size: 44upx;
 					position: absolute;
 					right: 60upx;	
 				}
@@ -903,8 +1071,11 @@ var _self;
 					top: 285upx;
 				}
 			}
+			uni-picker .uni-picker-item {
+				font-size: 46upx !important;
+			}
 			.text6 {
-				font-size: 30upx;	
+				font-size: 44upx;	
 			}
 			textarea {
 				margin-top: 15upx;
@@ -927,7 +1098,7 @@ var _self;
 					overflow: hidden;
 					.center {
 						display: block;
-						font-size: 30upx;
+						font-size: 44upx;
 						margin-bottom: 10upx;
 						margin-top: 10upx;
 						letter-spacing:20upx;
@@ -964,10 +1135,10 @@ var _self;
 				background: #5497f7;
 				text-align: center;
 				color: #fff;
-				font-size: 30upx;
+				font-size: 44upx;
 			}
 			.yzyh {
-				font-size: 40upx;
+				font-size: 45upx;
 				margin-top: 30upx;
 				text {
 					color: red;
@@ -978,7 +1149,7 @@ var _self;
 			}
 			.ybyh {
 				margin-top: 30upx;
-				font-size: 40upx;
+				font-size: 44upx;
 				text {
 					color: #F40;
 				}

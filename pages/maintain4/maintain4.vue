@@ -205,9 +205,11 @@ export default {
 										uni.showToast({
 											title: '提交成功！'
 										})
-										uni.redirectTo({
-											url: '/pages/Task2/currentTask2'
-										});
+										setTimeout(() => {
+											uni.navigateBack({
+												delta: 1
+											});
+										},1500)
 									}else {
 										uni.showToast({
 											title: '提交失败,请重新提交！'
@@ -240,7 +242,7 @@ export default {
 		width: 100%;
 		height: 137upx;
 		line-height: 87upx;
-		justify-content: space-between;
+		justify-content: center;
 		padding: 0 21upx;
 		position: fixed;
 		box-sizing: border-box;
@@ -250,7 +252,7 @@ export default {
 		background: #fff;
 		border-top: 50upx solid #000;
 		.goback {
-			font-size: 30upx;
+			font-size: 36upx;
 		}
 	}
 	.dizhi {
@@ -258,7 +260,7 @@ export default {
 		font-size: 40upx;
 	}
 	.time {
-		font-size: 30upx;
+		font-size: 36upx;
 		color: #bababa;
 		position: relative;
 		padding-bottom: 10upx;
@@ -272,7 +274,7 @@ export default {
 		}
 	}
 	.content {
-		font-size: 28upx;
+		font-size: 36upx;
 		line-height: 38upx;
 		margin-top: 19upx;
 		color: #888888;
@@ -284,7 +286,7 @@ export default {
 	}
 	.yuan,.jin,.te {
 		margin-top: 27upx;
-		font-size: 30upx;
+		font-size: 36upx;
 	}
 	.dispose {
 		font-size: 40upx;
@@ -298,7 +300,7 @@ export default {
 		.center {
 			text-align: center;
 			display: block;
-			font-size: 30upx;
+			font-size: 36upx;
 			margin-bottom: 10upx;
 		}
 		.uploadImg {
@@ -321,14 +323,14 @@ export default {
 	.content5 {
 		margin-top: 30upx;
 		.text6 {
-			font-size: 30upx;	
+			font-size: 36upx;	
 		}
 		textarea {
 			margin-top: 15upx;
 			width: 100%;
 			height: 200upx;
 			border: 3upx solid #f6f6fb;
-			font-size: 28upx;
+			font-size: 36upx;
 			padding: 10upx;
 			box-sizing: border-box;
 			margin-bottom: 40upx;
@@ -344,7 +346,7 @@ export default {
 		background: #5497f7;
 		text-align: center;
 		color: #fff;
-		font-size: 30upx;
+		font-size: 36upx;
 	}
 }
 

@@ -39,7 +39,8 @@
                     </view>  
                 </view>
             </view>
-		</view>		
+		</view>
+		<tui-footer copyright="Copyright © 2019 北戴河燃气公司." :navigate="navigate" bgcolor="#fafafa"></tui-footer>
 	</view>
 </template>
 
@@ -55,7 +56,12 @@ var _self;
 				username: '',
 				password: '',
 				lat: '',
-				lng: ''
+				lng: '',
+				navigate: [{
+					delta: 1,
+					type: "navigateBack",
+					text: "返回首页"
+				}],
 			}
 		},
 		onLoad(options) {
@@ -117,7 +123,7 @@ var _self;
 			call() {
 				//拨打电话
 				uni.makePhoneCall({
-					phoneNumber: '0335-8888888'
+					phoneNumber: '13903355649'
 				});				
 			},
 			onItem(id) {
@@ -180,13 +186,14 @@ var _self;
 		}
 		.form {
 			width: 100%;
-			height: 65%;
+
 			box-sizing: border-box;
 			border-radius: 30upx 30upx 0 0;
 			position: absolute;
-			bottom: 0;
+			top: 460upx;
 			left: 0;
 			background: #fff;
+			padding-bottom: 200upx;
             .item {
                 border-bottom: 4upx solid #000;
                 .inner {
