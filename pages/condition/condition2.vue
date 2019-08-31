@@ -579,7 +579,7 @@ var _self;
 			},
 			checkboxChange29: function (e) {				
 				this.hehe = Number(e.detail.value);
-			},																																										checkboxChange30: function (e) {				
+			},																																						checkboxChange30: function (e) {				
 				this.aa = Number(e.detail.value);
 			},
 			checkboxChange31: function (e) {				

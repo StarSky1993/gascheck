@@ -153,7 +153,7 @@ var _self;
 								username: _self.username,
 								password: _self.password
 							},
-							success: (res) => {	
+							success: (res) => {
 								
 								_self.lng2 = res.data.jing;
 								_self.lat2 = res.data.wei;	
@@ -161,14 +161,9 @@ var _self;
 								console.log(_self.lat2)
 								if(_self.lng2 == 0 && _self.lat2 == 0) {
 									_self.distance = _self.getDistance(_self.lat1, _self.lng1, _self.lat1, _self.lng1)
-									console.log(_self.distance)
-									
 								}else {
 									_self.distance = _self.getDistance(_self.lat1, _self.lng1, _self.lat2, _self.lng2)
-									console.log(_self.distance)
 								}
-								
-								// console.log(_self.distance)
 								uni.request({
 									url: 'http://bdh-ranqi.qhd58.net/api/Jk/zuobiao',
 									data: {
@@ -370,11 +365,34 @@ var _self;
 					content: '您确定注销该账号吗？（请慎重）',
 					success: function (res) {
 						if (res.confirm) {
-							// uni.removeStorageSync("userPhone");
-							uni.removeStorageSync("Password");
-							uni.redirectTo({
-								url: '/pages/login/login'
+							uni.request({
+								url: 'http://bdh-ranqi.qhd58.net/api/Jk/zhuxiao',  
+								data: {
+									username: _self.username,
+									password: _self.password
+								},  
+								success: (res) => {  
+									console.log(res.data);
+									if(res.data == 1) {
+										// uni.removeStorageSync("userPhone");
+										uni.removeStorageSync("Password");
+										uni.redirectTo({
+											url: '/pages/login/login'
+										})
+									}
+									else if(res.data == 0) {
+										uni.showToast({
+											title: '注销失败！',
+											icon: 'none',						
+											duration: 2000
+										});	
+									}
+								},  
+								fail: (e) => {  
+									reject(e);  
+								}  
 							})
+
 						} else if (res.cancel) {
 							console.log('用户点击取消');
 						}

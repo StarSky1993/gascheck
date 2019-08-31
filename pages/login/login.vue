@@ -28,8 +28,8 @@
 		},
 		onLoad() {
 			_self = this;
-			uni.removeStorageSync('userPhone');
-			uni.removeStorageSync('Password');
+			// uni.removeStorageSync('userPhone');
+			// uni.removeStorageSync('Password');
 			uni.setKeepScreenOn({
 				keepScreenOn: true
 			})
@@ -43,12 +43,15 @@
 		},
 		methods: {
 			login() {
-
+				var imsi = plus.device.imsi;
+				imsi = Number(imsi);
+				console.log(imsi)
 				uni.request({
 					url: 'http://bdh-ranqi.qhd58.net/api/jk/denglu',
 					data: {
 						username: this.user.username,
-						password: this.user.password
+						password: this.user.password,
+						uuid: imsi
 					},
 					header: {
 						'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
@@ -72,12 +75,12 @@
 									url: `/pages/xunjianHome/xunjianHome?username=${this.user.username}&password=${this.user.password}`
 								})
 							}
-							else if(this.userPhone != this.user.username) {
+/* 							else if(this.userPhone != this.user.username) {
 								uni.showToast({
-									title: '请使用指定账号登陆！',
+									title: '请使用指定手机登陆！',
 									icon: "none"
 								})
-							}else {
+							} */else {
 								uni.navigateTo({
 									//巡检主页
 									url: `/pages/xunjianHome/xunjianHome?username=${this.user.username}&password=${this.user.password}`
@@ -120,6 +123,11 @@
 							uni.navigateTo({
 								//维修工页面2
 								url: `/pages/Task2/currentTask2?username=${this.user.username}&password=${this.user.password}`
+							})
+						}else if(res.data === 5) {
+							uni.showToast({
+								title: '请使用指定手机登陆！',
+								icon: "none"
 							})
 						}
 						else if(res.data === 0) {

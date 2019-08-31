@@ -100,7 +100,7 @@
                 }
             }
         },
-        "usingComponents" : true
+        "usingComponents" : false
     },
     /* SDK配置 */
     "quickapp" : {},
