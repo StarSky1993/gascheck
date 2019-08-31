@@ -2,7 +2,8 @@
     <view class="currentTask">
         <view class="title">
             <text v-if="idx==1" :class="{active:idx==1}">当前任务</text>
-            <text v-else :class="{active2:idx==2}">已完成任务</text>	
+            <text v-else :class="{active2:idx==2}">已完成任务</text>
+			<text class="zhuxiao" @click="zhuxiao">注销</text>
             <text></text>
         </view>
 		<view class="tabs">
@@ -80,6 +81,24 @@ export default {
 		});	
     },
     methods: {
+		//注销
+		zhuxiao() {
+			uni.showModal({
+				title: '提示',
+				content: '您确定注销该账号吗？（请慎重）',
+				success: function (res) {
+					if (res.confirm) {
+						// uni.removeStorageSync("userPhone");
+						uni.removeStorageSync("Password");
+						uni.redirectTo({
+							url: '/pages/login/login'
+						})
+					} else if (res.cancel) {
+						console.log('用户点击取消');
+					}
+				}
+			});
+		},
 		onDetail(id) {
 			uni.navigateTo({
 				url: `/pages/maintain3/maintain3?id=${id}`
@@ -152,6 +171,7 @@ export default {
 			z-index: 9;
             background: #ff9000;
 			color: #fff;
+			position: relative;
             .goback {
                 font-size: 36upx;
             }
@@ -173,6 +193,13 @@ export default {
 				padding: 6upx 18upx;
 				margin: 10px 0;
 			}
+		}
+		.zhuxiao {
+			position: absolute;
+			right: 50rpx;
+			top: 0;
+			font-size: 35rpx;
+			color: #4CD964;
 		}
 		.list {
 			padding: 0 32upx;

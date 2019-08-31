@@ -129,7 +129,7 @@ export default {
 		call() {
 			//拨打电话
 			uni.makePhoneCall({
-				phoneNumber: '0335-8888888'
+				phoneNumber: '0335-7093716'
 			});
 		}		
     } 

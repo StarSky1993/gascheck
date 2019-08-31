@@ -28,7 +28,8 @@
 				renwuname: '',
 				username: '',
 				password: '',
-				id: ''
+				id: '',
+				renyuan: ''
 			}
 		},
 		onLoad(options) {
@@ -36,8 +37,10 @@
 			this.password = options.password;
 			this.id = options.id;
 			this.name = options.name;
+			console.log(this.name)
 			this.renwuname = options.renwuname;
 			console.log(this.renwuname)
+			this.renyuan = options.renyuan;
 			uni.showLoading({
 				title: '加载中'
 			})
@@ -78,7 +81,7 @@
 			onItem(cun) {
 				console.log(this.renwuname)
 				uni.navigateTo({
-					url: `/pages/hu/hu?cun=${cun}&username=${this.username}&password=${this.password}&name=${this.name}&renwuname=${this.renwuname}`
+					url: `/pages/hu/hu?cun=${cun}&username=${this.username}&password=${this.password}&name=${this.name}&renwuname=${this.renwuname}&renyuan=${this.renyuan}`
 				})
 			}
         } 

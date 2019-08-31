@@ -3,7 +3,7 @@
         <view class="container">
 			<text class="text0 eosfont" @click="goback">&#xe62f;</text>
             <text class="text1">安检列表</text>
-            <text class="text2">用户名：{{name}}</text>
+            <text class="text2">用户名：{{yhname}}</text>
             <view class="flx">
 				<text class="text3">部门：安检部</text>
 				<text class="cun" @click="cun">村村通</text>
@@ -29,7 +29,15 @@
                         <view>
                             <text>任务地址：</text>
                             <text class="huise" v-if="item.xiaoqu !== null">{{item.xiaoqu}}</text>
-                        </view>                
+                        </view>
+						<view>
+						    <text>未完成：</text>
+						    <text class="huise" v-if="item.wwc !== null">{{item.wwc}}</text>
+						</view>
+						<view>
+						    <text>总任务数：</text>
+						    <text class="huise" v-if="item.zongshu !== null">{{item.zongshu}}</text>
+						</view>
                     </view>  
                     <view class="tab">
                         <text @click="call">呼叫调度中心</text>
@@ -50,7 +58,8 @@ var _self;
 				xiaoqu: '',
 				username: '',
 				password: '',
-				num: 1
+				num: 1,
+				yhname: ''
 			}
 		},
 		onLoad(options) {
@@ -76,8 +85,10 @@ var _self;
 					uni.hideLoading();
 					
 					_self.securityData = res.data;
+					
 					_self.name = _self.securityData[0].name;
-					console.log(_self.name)					
+					_self.yhname = _self.securityData[0].yhname;
+					console.log(_self.securityData)					
 					
 				},
 				fail: (res) => {

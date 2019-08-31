@@ -1,7 +1,7 @@
 {
     "name" : "燃气巡检",
-    "appid" : "__UNI__474666D",
-    "description" : "",
+    "appid" : "__UNI__F450B0C",
+    "description" : "北戴河燃气公司",
     "versionName" : "1.0.0",
     "versionCode" : "100",
     "transformPx" : false,
@@ -53,7 +53,7 @@
                 ]
             },
             "ios" : {
-                "UIBackgroundModes" : "location",
+                "UIBackgroundModes" : "",
                 "idfa" : false
             },
             /* ios打包配置 */
@@ -99,7 +99,8 @@
                     "xxxhdpi" : "unpackage/res/icons/192x192.png"
                 }
             }
-        }
+        },
+        "usingComponents" : true
     },
     /* SDK配置 */
     "quickapp" : {},

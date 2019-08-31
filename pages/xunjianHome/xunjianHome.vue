@@ -36,14 +36,13 @@ var _self;
 				name: '',
 				username: '',
 				password: '',
-				lat1: '',
-				lng1: '',
-				lat2: '',
-				lng2: '',
+				lat1: 0,
+				lng1: 0,
+				lat2: 0,
+				lng2: 0,
 				time: '',
-				distance: '',
+				distance: 0,
 				coordinate2: '',
-				coordinate6: '',
 				timer: null,
 				onlinetime: null,
 				realTime: this.$realTime.wakeLock(),
@@ -58,7 +57,7 @@ var _self;
 				}]
 			}
 		},
-		onLoad(options) {
+		async onLoad(options) {
 			_self = this;
 			_self.username = options.username;
 			_self.password = options.password;
@@ -103,46 +102,6 @@ var _self;
 				}						
 			});	
 
-			uni.getLocation({
-				type: 'gcj02',
-				success: function (res) {
-					_self.realTime
-					_self.coordinate = coordinate(res.longitude,res.latitude);
-					_self.lng1 = _self.coordinate.bd_lng;
-					_self.lat1 = _self.coordinate.bd_lat;
-					_self.distance = _self.GetDistance(_self.lat1, _self.lng1, _self.lat1, _self.lng1)
-					console.log(_self.distance)	
-					uni.request({
-						url: 'http://bdh-ranqi.qhd58.net/api/Jk/zuobiao',
-						data: {
-							username: _self.username,
-							password: _self.password,
-							jing: _self.lng1,
-							wei: _self.lat1,
-							mm: _self.distance
-						},
-						success: (res) => {
-							console.log(res.data)
-							if(res.data !== 0 && res.data !== 1) {
-								uni.showToast({
-									title: '自动获取坐标失败，请重新登录！',
-									icon: "none"
-								});
-							}
-							
-							uni.hideLoading();
-
-						},
-						fail: (res) => {
-							uni.showToast({
-								title: "请检查网络状态！",
-								icon: "none",
-								duration: 2000
-							})
-						}						
-					});				
-				}
-			});		
 			uni.request({
 				url: 'http://bdh-ranqi.qhd58.net/api/jk/index',
 				method: "GET",
@@ -158,14 +117,35 @@ var _self;
 					_self.name = res.data.name;
 				}
 			});
-
-			uni.request({
-				url: 'http://bdh-ranqi.qhd58.net/api/Jk/jiange',
-				success: (res) => {
-					_self.time = parseInt(res.data)*1000;
-					clearInterval(_self.timer)
-					_self.timer = null;
-					_self.timer = setInterval(()=> {
+			
+			//间隔
+			const result = await new Promise((resolve, reject) => {  
+				uni.request({  
+					url: 'http://bdh-ranqi.qhd58.net/api/Jk/jiange',  
+					data: {
+						username: _self.username,
+						password: _self.password
+					},  
+					success: (res) => {  
+						resolve(res.data); 
+					},  
+					fail: (e) => {  
+						reject(e);  
+					}  
+				})  
+			}) 
+			 //间隔换算成毫秒
+			_self.time = parseInt(result)*1000;
+			_self.timer = setInterval(() => {
+				uni.getLocation({
+					type: 'gcj02',
+					success: function (res) {
+						_self.realTime;
+						_self.coordinate = coordinate(res.longitude,res.latitude);
+						_self.lng1 = _self.coordinate.bd_lng;
+						_self.lat1 = _self.coordinate.bd_lat;
+						console.log(_self.lng1)
+						console.log(_self.lat1)
 						uni.request({
 							url: 'http://bdh-ranqi.qhd58.net/api/jk/fandian',
 							method: "GET",
@@ -173,59 +153,93 @@ var _self;
 								username: _self.username,
 								password: _self.password
 							},
-							success: (res) => {
-								if(res.data == null) {
-									_self.lng3 = _self.lng1;
-									_self.lat3 = _self.lat1;	
+							success: (res) => {	
+								
+								_self.lng2 = res.data.jing;
+								_self.lat2 = res.data.wei;	
+								console.log(_self.lng2)
+								console.log(_self.lat2)
+								if(_self.lng2 == 0 && _self.lat2 == 0) {
+									_self.distance = _self.getDistance(_self.lat1, _self.lng1, _self.lat1, _self.lng1)
+									console.log(_self.distance)
+									
 								}else {
-									_self.lng3 = res.data.jing;
-									_self.lat3 = res.data.wei;	
+									_self.distance = _self.getDistance(_self.lat1, _self.lng1, _self.lat2, _self.lng2)
+									console.log(_self.distance)
 								}
-								uni.getLocation({
-									type: 'gcj02',
+								
+								// console.log(_self.distance)
+								uni.request({
+									url: 'http://bdh-ranqi.qhd58.net/api/Jk/zuobiao',
+									data: {
+										username: _self.username,
+										password: _self.password,
+										jing: _self.lng1,
+										wei: _self.lat1,
+										mm: _self.distance
+									},
 									success: (res) => {
-										_self.realTime
-										_self.coordinate2 = coordinate(res.longitude,res.latitude);
-										/* 这里到底是等于lat1,还有_self.coordinate.bd_lat待测试 */
-										_self.lng2 = _self.coordinate2.bd_lng;
-										_self.lat2 = _self.coordinate2.bd_lat;
-										console.log(_self.lng2);
-										console.log(_self.lat2)
-										_self.distance2 = _self.GetDistance(_self.lat2, _self.lng2, _self.lat3, _self.lng3)
-										console.log(_self.distance2)
-										uni.request({
-											url: 'http://bdh-ranqi.qhd58.net/api/Jk/zuobiao',
-											data: {
-												username: _self.username,
-												password: _self.password,
-												jing: _self.lng2,
-												wei: _self.lat2,
-												mm: _self.distance2
-											},
-											success: (res) => {
-												console.log(res.data)
-												if(res.data == 9) {
-													uni.redirectTo({
-														url: '/pages/login/login'
-													})
-												}
-											},
-											fail: (res) => {
-												uni.showToast({
-													title: "网络异常，请检查网络重新登录！",
-													icon: "none",
-													duration: 2000
-												})
-											}
-										});										
+										console.log(res.data)
+										if(res.data == 9) {
+											uni.redirectTo({
+												url: '/pages/login/login'
+											})
+										}
+									},
+									fail: (res) => {
+										uni.showToast({
+											title: "网络异常，请检查网络重新登录！",
+											icon: "none",
+											duration: 2000
+										})
 									}
-								})	
-
+								});
 							}
 						})
-					},_self.time)					
-				}
-			})										
+
+					}
+				});
+			},_self.time)
+		},
+		async onShow() {
+			//间隔
+			const result = await new Promise((resolve, reject) => {  
+				uni.request({  
+					url: 'http://bdh-ranqi.qhd58.net/api/Jk/jiange',  
+					data: {
+						username: _self.username,
+						password: _self.password
+					},  
+					success: (res) => {  
+						resolve(res.data); 
+					},  
+					fail: (e) => {  
+						reject(e);  
+					}  
+				})  
+			}) 
+			 //间隔换算成毫秒
+			_self.time = parseInt(result)*1000;	
+		},
+		async onHide() {
+			//间隔
+			const result = await new Promise((resolve, reject) => {  
+				uni.request({  
+					url: 'http://bdh-ranqi.qhd58.net/api/Jk/jiange',  
+					data: {
+						username: _self.username,
+						password: _self.password
+					},  
+					success: (res) => {  
+						resolve(res.data); 
+					},  
+					fail: (e) => {  
+						reject(e);  
+					}  
+				})  
+			}) 
+			 //间隔换算成毫秒
+			_self.time = parseInt(result)*1000;
 		},
 		onUnload(){ 
 			_self = this;				  			 
@@ -235,21 +249,29 @@ var _self;
 			_self.releaseWakeLock			 
 		},  
 		methods: {
-			Rad(d) {
-				//经纬度转三角函数
-				return d * Math.PI / 180.0; 
-			},
-			GetDistance(lat1, lng1, lat2, lng2) {
-				let radLat1 = this.Rad(lat1);
-				let radLat2 = this.Rad(lat2);
-				let a = radLat1 - radLat2;
-				let b = this.Rad(lng1) - this.Rad(lng2);
-				let s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
-				s = s * 6378.137; // 地球半径，千米;
-				// s = Math.round(s * 10000) / 10000; //输出为公里
-				s = Math.round(s * 1000) / 1; //单位修改为米,取整
-				// s=s.toFixed(4);
-				return s;
+
+			getDistance: function (lat1, lng1, lat2, lng2) {
+			
+				lat1 = lat1 || 0;
+			
+				lng1 = lng1 || 0;
+			
+				lat2 = lat2 || 0;
+			
+				lng2 = lng2 || 0;
+			
+				var rad1 = lat1 * Math.PI / 180.0;
+			
+				var rad2 = lat2 * Math.PI / 180.0;
+			
+				var a = rad1 - rad2;
+			
+				var b = lng1 * Math.PI / 180.0 - lng2 * Math.PI / 180.0;
+			
+				var r = 6378137;
+			
+				return r * 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(rad1) * Math.cos(rad2) * Math.pow(Math.sin(b / 2), 2)))
+			
 			},
 			//获取位置
 			GetLocation(e) {
@@ -257,24 +279,34 @@ var _self;
 				uni.getLocation({
 					type: 'gcj02',
 					success: (res) => {
-						_self.coordinate6 = coordinate(res.longitude,res.latitude);
+						_self.coordinate2 = coordinate(res.longitude,res.latitude);
 						/* 这里到底是等于lat1,还有_self.coordinate.bd_lat待测试 */
-						var lng6 = _self.coordinate6.bd_lng;
-						var lat6 = _self.coordinate6.bd_lat;
+						var lng3 = _self.coordinate2.bd_lng;
+						var lat3 = _self.coordinate2.bd_lat;
+						uni.showToast({
+							title: `${lat3}`,
+							icon: "none",
+							duration: 3000
+						})
 					//请求获取当前位置接口
 						uni.request({
 							url: "http://bdh-ranqi.qhd58.net/api/jk/caiji",
 							data: {
 								username: _self.username,
 								password: _self.password,
-								jing: lng6,
-								wei: lat6
+								jing: lng3,
+								wei: lat3
 							},
 							header: {
 								'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 							},
 							success: (res) => {	
 								console.log(res.data);
+								uni.showToast({
+									title: `${lng3}`,
+									icon: "none",
+									duration: 3000
+								})
 								if(res.data === 0) {
 									_self.modal3 = true;
 									this.contant = '请在指定地点采集！';

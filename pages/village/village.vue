@@ -9,7 +9,7 @@
 			<view @click="Search2">搜索</view>
 		</view>			
         <view class="container">
-            <text class="text2">用户名：{{name}}</text>
+            <text class="text2">用户名：{{renyuan}}</text>
             <view class="flx">
 				<text class="text3">部门：安检部</text>
 				<text class="cun" @click="cun">小区</text>
@@ -35,7 +35,15 @@
                         <view>
                             <text>任务地址：</text>
                             <text class="huise" v-if="item.xiaoqu !== null">{{item.cun}}</text>
-                        </view>                
+                        </view>
+						<view>
+						    <text>未完成：</text>
+						    <text class="huise" v-if="item.weiwancheng !== null">{{item.weiwancheng}}</text>
+						</view>
+						<view>
+						    <text>总任务数：</text>
+						    <text class="huise" v-if="item.zongshu !== null">{{item.zongshu}}</text>
+						</view>				
                     </view>  
                     <view class="tab">
                         <text @click="call">呼叫调度中心</text>
@@ -61,7 +69,7 @@
                         <view>
                             <text>任务地址：</text>
                             <text class="huise" v-if="item.cun !== null">{{item.cun}}</text>
-                        </view>                
+                        </view>
                     </view>  
                     <view class="tab">
                         <text @click="call">呼叫调度中心</text>
@@ -87,7 +95,8 @@ var _self;
 				resData: [],
 				isShow: true,
 				isShow2: false,
-				SearchName2: ''
+				SearchName2: '',
+				renyuan: ''
 			}
 		},
 		onLoad(options) {
@@ -116,7 +125,7 @@ var _self;
 					console.log(_self.password)
 					uni.hideLoading();					
 					_self.securityData = res.data;
-					console.log(_self.securityData)
+					_self.renyuan = _self.securityData[0].renyuan;
 				},
 				fail: (res) => {
 					uni.hideLoading();
@@ -138,7 +147,7 @@ var _self;
 			onItem(id,renwuname) {
 				console.log(renwuname)
 				uni.navigateTo({
-					url: `/pages/cun/cun?id=${id}&username=${_self.username}&password=${_self.password}&name=${_self.name}&renwuname=${renwuname}`
+					url: `/pages/cun/cun?id=${id}&username=${_self.username}&password=${_self.password}&name=${_self.name}&renwuname=${renwuname}&renyuan=${_self.securityData[0].renyuan}`
 				})
 			},
 			//小区

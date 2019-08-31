@@ -9,9 +9,31 @@
 			<text class="text3" v-if="dianhua" @click="callphone">电话：{{dianhua}}</text>
         </view>	
 		<view class="form">
-			<picker @change="bindPickerChange6" :value="index6" :range="array6" style="font-size: 50upx;">
-				<view class="uni-input">安全宣传：{{array6[index6]}}</view>					
-			</picker>
+			<view class="yzyh">
+				<text>安全宣传:</text>
+				<view>
+					<checkbox-group @change="checkboxChange53">
+						<label>
+							口头<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange54">
+						<label>
+							发放安全宣传单<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange55">
+						<label>
+							张贴安检标贴<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange56">
+						<label>
+							已告知整改建议<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+				</view>				
+			</view>
 			<view class="yzyh">
 				<text>泄漏:</text>
 				<view>
@@ -56,6 +78,73 @@
 			<view class="yzyh">
 				<text>表具:</text>
 				<view>
+					<checkbox-group @change="checkboxChange57">
+						<label>
+							皮膜表<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+						<label class="f">数量<input class="block" type="text" v-model="bj_pmbsl"></label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange58">
+						<label>
+							罗茨流量计<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+						<label class="f">数量<input class="block" type="text" v-model="bj_lclljsl"></label>
+					</checkbox-group>					
+					<checkbox-group @change="checkboxChange59">
+						<label>
+							涡轮流量计<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+						<label class="f">数量<input class="block" type="text" v-model="bj_wllljsl"></label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange60">
+						<label>
+							卡表<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+						<label class="f">数量<input class="block" type="text" v-model="bj_kbsl"></label>
+					</checkbox-group>
+					<checkbox-group>
+						<label class="f">基表数<input class="block" type="text" v-model="bj_jbs"></label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange61">
+						<label>
+							远程<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange62">
+						<label>
+							锈蚀严重<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange63">
+						<label>
+							锈蚀中、轻度<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange64">
+						<label>
+							有人值守<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange65">
+						<label>
+							无人值守<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange66">
+						<label>
+							无烟道、机械送排风<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange67">
+						<label>
+							未有效伸出室外<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange68">
+						<label>
+							可见部分有破损、密封不严<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
 					<checkbox-group @change="checkboxChange39">
 						<label>
 							表封等损坏<checkbox value="1" style="transform:scale(0.7)" />
@@ -114,6 +203,81 @@
 				</view>				
 			</view>
 			<view class="yzyh">
+				<text>管道及设施:</text>
+				<view>
+					<checkbox-group @change="checkboxChange69">
+						<label>
+							极严重锈蚀<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange70">
+						<label>
+							严重锈蚀<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange71">
+						<label>
+							一般锈蚀<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange72">
+						<label>
+							擅自安装、改装、拆除<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange73">
+						<label>
+							被踩踏<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange74">
+						<label>
+							软管无管固定卡<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange75">
+						<label>
+							软管有接口<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange76">
+						<label>
+							软管受热辐射<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange77">
+						<label>
+							受损<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange78">
+						<label>
+							预留口未封堵<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange79">
+						<label>
+							暗封暗埋<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange80">
+						<label>
+							缠绕电线及搭挂重物<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange81">
+						<label>
+							近车道燃气设施未加防撞装置<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange82">
+						<label>
+							被踩踏<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+				</view>				
+			</view>
+			<view class="yzyh">
 				<text>用气环境:</text>
 				<view>
 					<checkbox-group @change="checkboxChange49">
@@ -134,6 +298,85 @@
 					<checkbox-group @change="checkboxChange52">
 						<label>
 							私改用气环境，造成通风不良<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+				</view>
+			</view>
+			
+			<view class="yzyh">
+				<text>安全设施:</text>
+				<view>
+					<checkbox-group @change="checkboxChange87">
+						<label>
+							密闭空间、地下室、半地下室无报警器<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange88">
+						<label>
+							密闭空间、地下室、半地下室无切断装置<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange89">
+						<label>
+							密闭空间、地下室、半地下室无机械送排风<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange90">
+						<label>
+							未按规定安装报警器<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange91">
+						<label>
+							报警器未插电<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange92">
+						<label>
+							电磁阀不工作<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange93">
+						<label>
+							报警器探头未定期效验<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange94">
+						<label>
+							用气房间未设置泄露报警装置<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange95">
+						<label>
+							报警切断未联动<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+				</view>
+			</view>
+			
+			
+			
+			<view class="yzyh">
+				<text>安全管理:</text>
+				<view>
+					<checkbox-group @change="checkboxChange83">
+						<label>
+							无燃气安全管理制度<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange84">
+						<label>
+							燃气安全管理制度不完善<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange85">
+						<label>
+							无安全用气及操作技能培训<checkbox value="1" style="transform:scale(0.7)" />
+						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange86">
+						<label>
+							安全用气及操作技能培训不全面<checkbox value="1" style="transform:scale(0.7)" />
 						</label>
 					</checkbox-group>
 				</view>
@@ -400,7 +643,50 @@ var _self;
 				xx: 0,
 				yy: 0,
 				zz: 0,
-				
+				aaa: 0,
+				bj_pmbsl: '',
+				bbb: 0,
+				bj_lclljsl: '',
+				ccc: 0,
+				bj_wllljsl: '',
+				ddd: 0,
+				bj_kbsl: '',
+				bj_jbs: '',
+				eee: 0,
+				fff: 0,
+				ggg: 0,
+				hhh: 0,
+				iii: 0,
+				jjj: 0,
+				kkk: 0,
+				lll: 0,
+				mmm: 0,
+				nnn: 0,
+				ooo: 0,
+				ppp: 0,
+				qqq: 0,
+				rrr: 0,
+				sss: 0,
+				ttt: 0,
+				uuu: 0,
+				vvv: 0,
+				www: 0,
+				xxx: 0,
+				yyy: 0,
+				zzz: 0,
+				aaaa: 0,
+				bbbb: 0,
+				cccc: 0,
+				dddd: 0,
+				eeee: 0,
+				ffff: 0,
+				gggg: 0,
+				hhhh: 0,
+				iiii: 0,
+				jjjj: 0,
+				kkkk: 0,
+				llll: 0,
+				mmmm: 0,
 				dfby: 0,
 				juqian: 0,
 				jin: '',
@@ -471,10 +757,6 @@ var _self;
 			bindPickerChange5: function(e) {				
 				this.index5 = e.target.value;
 				console.log(this.index5)
-			},
-			bindPickerChange6: function(e) {
-				this.index6 = e.target.value;
-				console.log(this.index6)
 			},
 			checkboxChange: function (e) {				
 				this.a = Number(e.detail.value);
@@ -641,6 +923,135 @@ var _self;
 			},
 			checkboxChange52: function (e) {
 				this.uu = Number(e.detail.value);
+			},
+			checkboxChange53: function (e) {
+				this.vv = Number(e.detail.value);
+			},
+			checkboxChange54: function (e) {
+				this.ww = Number(e.detail.value);
+			},
+			checkboxChange55: function (e) {
+				this.xx = Number(e.detail.value);
+			},
+			checkboxChange56: function (e) {
+				this.yy = Number(e.detail.value);
+			},
+			checkboxChange57: function (e) {
+				this.aaa = Number(e.detail.value);
+			},
+			checkboxChange58: function (e) {
+				this.bbb = Number(e.detail.value);
+			},
+			checkboxChange59: function (e) {
+				this.ccc = Number(e.detail.value);
+			},
+			checkboxChange60: function (e) {
+				this.ddd = Number(e.detail.value);
+			},
+			checkboxChange61: function (e) {
+				this.eee = Number(e.detail.value);
+			},
+			checkboxChange62: function (e) {
+				this.fff = Number(e.detail.value);
+			},
+			checkboxChange63: function (e) {
+				this.ggg = Number(e.detail.value);
+			},
+			checkboxChange64: function (e) {
+				this.hhh = Number(e.detail.value);
+			},
+			checkboxChange65: function (e) {
+				this.iii = Number(e.detail.value);
+			},
+			checkboxChange66: function (e) {
+				this.jjj = Number(e.detail.value);
+			},
+			checkboxChange67: function (e) {
+				this.kkk = Number(e.detail.value);
+			},
+			checkboxChange68: function (e) {
+				this.lll = Number(e.detail.value);
+			},
+			checkboxChange69: function (e) {
+				this.mmm = Number(e.detail.value);
+			},
+			checkboxChange70: function (e) {
+				this.nnn = Number(e.detail.value);
+			},
+			checkboxChange71: function (e) {
+				this.ooo = Number(e.detail.value);
+			},
+			checkboxChange72: function (e) {
+				this.ppp = Number(e.detail.value);
+			},
+			checkboxChange73: function (e) {
+				this.qqq = Number(e.detail.value);
+			},
+			checkboxChange74: function (e) {
+				this.rrr = Number(e.detail.value);
+			},
+			checkboxChange75: function (e) {
+				this.sss = Number(e.detail.value);
+			},
+			checkboxChange76: function (e) {
+				this.ttt = Number(e.detail.value);
+			},
+			checkboxChange77: function (e) {
+				this.uuu = Number(e.detail.value);
+			},
+			checkboxChange78: function (e) {
+				this.vvv = Number(e.detail.value);
+			},
+			checkboxChange79: function (e) {
+				this.www = Number(e.detail.value);
+			},
+			checkboxChange80: function (e) {
+				this.xxx = Number(e.detail.value);
+			},
+			checkboxChange81: function (e) {
+				this.yyy = Number(e.detail.value);
+			},
+			checkboxChange82: function (e) {
+				this.zzz = Number(e.detail.value);
+			},
+			checkboxChange83: function (e) {
+				this.aaaa = Number(e.detail.value);
+			},
+			checkboxChange84: function (e) {
+				this.bbbb = Number(e.detail.value);
+			},
+			checkboxChange85: function (e) {
+				this.cccc = Number(e.detail.value);
+			},
+			checkboxChange86: function (e) {
+				this.dddd = Number(e.detail.value);
+			},
+			checkboxChange87: function (e) {
+				this.eeee = Number(e.detail.value);
+			},
+			checkboxChange88: function (e) {
+				this.ffff = Number(e.detail.value);
+			},
+			checkboxChange89: function (e) {
+				this.gggg = Number(e.detail.value);
+			},
+			checkboxChange90: function (e) {
+				this.hhhh = Number(e.detail.value);
+			},
+			checkboxChange91: function (e) {
+				this.iiii = Number(e.detail.value);
+			},
+			checkboxChange92: function (e) {
+				this.jjjj = Number(e.detail.value);
+			},
+			checkboxChange93: function (e) {
+				this.kkkk = Number(e.detail.value);
+			},
+			checkboxChange94: function (e) {
+				this.llll = Number(e.detail.value);
+			},
+			checkboxChange95: function (e) {
+				this.mmmm = Number(e.detail.value);
 			},
 			UploadImg1() {
 			_self = this;
@@ -821,8 +1232,56 @@ var _self;
 										yqzr: _self.ss,
 										yqhh: _self.tt,
 										yqsg: _self.uu,
-										aqxc2: _self.index6,
+										aqxc_kt: _self.vv,
+										aqxc_xcd: _self.ww,
+										aqxc_aj: _self.xx,
+										aqxc_jy: _self.yy,
+										bj_pmb: _self.aaa,
+										bj_pmbsl: _self.bj_pmbsl,
+										bj_lcllj: _self.bbb,
+										bj_lclljsl: _self.bj_lclljsl,
+										bj_wlllj: _self.ccc,
+										bj_wllljsl: _self.bj_wllljsl,
+										bj_kb: _self.ddd,
+										bj_kbsl: _self.bj_kbsl,
+										bj_jbs: _self.bj_jbs,
+										bj_yc: _self.eee,
+										bj_xsa: _self.fff,
+										bj_xsb: _self.ggg,
+										yqsb_yrzsa: _self.hhh,
+										yqsb_yrzsb: _self.iii,
+										yqsb_ydjxspfa: _self.jjj,
+										yqsb_ydjxspfb: _self.kkk,
+										yqsb_ydjxspfc: _self.lll,
+										gdjss_xsa: _self.mmm,
+										gdjss_xsb: _self.nnn,
+										gdjss_xsc: _self.ooo,
+										gdjss_szazgzcc: _self.ppp,
+										gdjss_bct: _self.qqq,
+										gdjss_rga: _self.rrr,
+										gdjss_rgb: _self.sss,
+										gdjss_rgc: _self.ttt,
+										gdjss_rgd: _self.uuu,
+										gdjss_ylkwfd: _self.vvv,
+										gdjss_afam: _self.www,
+										gdjss_crdxjdgzw: _self.xxx,
+										gdjss_jcdrqsswjfzzz: _self.yyy,
+										gdjss_bctb: _self.zzz,
+										aqgl_rqaqglzda: _self.aaaa,
+										aqgl_rqaqglzdb: _self.bbbb,
+										aqgl_aqyqjczjnpxa: _self.cccc,
+										aqgl_aqyqjczjnpxb: _self.dddd,
+										aqss_mbkjdxsbdxsa: _self.eeee,
+										aqss_mbkjdxsbdxsb: _self.ffff,
+										aqss_mbkjdxsbdxsc: _self.gggg,
+										aqss_wagdazbjq: _self.hhhh,
+										aqss_bjqwcd: _self.iiii,
+										aqss_dcfbgz: _self.jjjj,
+										aqss_bjqttwdqxy: _self.kkkk,
+										aqss_yqfjwszxlbjzz: _self.llll,
+										aqss_bjqdwld: _self.mmmm,
 										
+										aqxc2: _self.index6,
 										aqxcwfbr: _self.xixi,
 										rqbzdxsyx: _self.haha,
 										aqglyh: _self.hehe,
@@ -936,6 +1395,17 @@ var _self;
 	}
 </script>
 <style lang="scss" scoped>
+	.block {
+		display: block;
+		width: 60rpx;
+		text-align: center;
+		height: 20rpx;
+		border: 1rpx solid #ccc;
+		margin-left: 10rpx;
+	}
+	.f {
+		display: flex;
+	}
 	.condition {
 		width: 100%;
 		height: 100%;
@@ -962,22 +1432,22 @@ var _self;
 			.text1 {
                 margin-top: 100upx;
                 text-align: center;
-                font-size: 36upx;
+                font-size: 40upx;
                 color: #fff;
             }
             .text2 {
                 margin-top: 65upx;
-                font-size: 30upx;
+                font-size: 40upx;
                 color: #fff;
             }
             .text3 {
                 margin-top: 20upx;
-                font-size: 30upx;
+                font-size: 40upx;
                 color: #fff;
             }
             .row {
                 margin-top: 20upx;
-                font-size: 30upx;
+                font-size: 40upx;
 				color: #fff;
 				position: relative;
 				.text4 {
@@ -1001,7 +1471,7 @@ var _self;
 		}
 		.form {
 			width: 100%;
-			height: 65%;
+			height: 59%;
 			padding: 0 44upx;
 			box-sizing: border-box;
 			border-radius: 30upx 30upx 0 0;
@@ -1015,13 +1485,13 @@ var _self;
 				.uni-input {
 					height: 60upx;
 					line-height: 60upx;
-					font-size: 30upx;
+					font-size: 40upx;
 					border-bottom: 2upx solid #f6f6fb;
 					position: relative;
 				}
 				text {
 					color: #000;
-					font-size: 30upx;
+					font-size: 40upx;
 					position: absolute;
 					right: 60upx;	
 				}
@@ -1042,7 +1512,7 @@ var _self;
 				}
 			}
 			.text6 {
-				font-size: 30upx;	
+				font-size: 40upx;	
 			}
 			textarea {
 				margin-top: 15upx;
@@ -1065,7 +1535,7 @@ var _self;
 					overflow: hidden;
 					.center {
 						display: block;
-						font-size: 30upx;
+						font-size: 40upx;
 						margin-bottom: 10upx;
 						margin-top: 10upx;
 						letter-spacing:20upx;
@@ -1102,7 +1572,7 @@ var _self;
 				background: #5497f7;
 				text-align: center;
 				color: #fff;
-				font-size: 30upx;
+				font-size: 40upx;
 			}
 			.yzyh {
 				font-size: 40upx;

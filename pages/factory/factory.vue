@@ -5,7 +5,7 @@
 			<view @click="Search">搜索</view>
 		</view>
         <view class="container">
-            <text class="text2">用户名：{{name}}</text>
+            <text class="text2">用户名：{{yhname}}</text>
             <view class="flx">
 				<text class="text3">部门：安检部</text>
 				<text class="cun" @click="cun">小区</text>
@@ -31,7 +31,15 @@
                         <view>
                             <text>任务地址：</text>
                             <text class="huise">{{item.gongjianhu}}</text>
-                        </view>                
+                        </view>
+						<view>
+							<text>未完成：</text>
+							<text class="huise">{{item.weiwancheng}}</text>
+						</view>
+						<view>
+						 <text>总任务数：</text>
+						 <text class="huise">{{item.zongshu}}</text>
+						</view> 
                     </view>  
                     <view class="tab">
                         <text @click="call">呼叫调度中心</text>
@@ -57,7 +65,7 @@
                         <view>
                             <text>任务地址：</text>
                             <text class="huise">{{resData.gongjianhu}}</text>
-                        </view>                
+                        </view>
                     </view>  
                     <view class="tab">
                         <text @click="call">呼叫调度中心</text>
@@ -81,7 +89,8 @@ var _self;
 				num: 1,
 				SearchName: '',
 				isShow: true,
-				isShow2: false
+				isShow2: false,
+				yhname: ''
 			}
 		},
 		onLoad(options) {
@@ -109,6 +118,7 @@ var _self;
 					uni.hideLoading();
 					console.log(res)	
 					_self.securityData = res.data;
+					_self.yhname = _self.securityData[0].renyuan;
 					
 				},
 				fail: (res) => {

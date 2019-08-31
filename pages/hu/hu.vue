@@ -34,7 +34,8 @@
 					delta: 2,
 					type: "navigateBack",
 					text: "返回首页"
-				}]
+				}],
+				renyuan: ''
 			}
 		},
 		onLoad(options) {
@@ -44,19 +45,21 @@
 			});
 			setTimeout(function () {
 				uni.hideLoading();
-			}, 2500);
+			}, 6000);
 			this.username = options.username;
 			this.password = options.password;
 			this.cun = options.cun;
 			this.name = options.name;
+			console.log(this.name)
 			this.renwuname = options.renwuname;
 			console.log(this.renwuname)
+			this.renyuan = options.renyuan;
 			uni.request({
 				url: "http://bdh-ranqi.qhd58.net/api/jk/hu",
 				data: {
 					cun: this.cun,
 					rhhf_name: this.renwuname,
-					name: this.name
+					name: this.renyuan
 				},
 				header: {
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
@@ -80,7 +83,7 @@
 				data: {
 					cun: this.cun,
 					rhhf_name: this.renwuname,
-					name: this.name
+					name: this.renyuan
 				},
 				header: {
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
@@ -106,13 +109,13 @@
 			call() {
 				//拨打电话
 				uni.makePhoneCall({
-					phoneNumber: '0335-8888888'
+					phoneNumber: '0335-7093716'
 				});
 			},
 			onItem(id,hu,lianxiren,dianhua) {
 				console.log(lianxiren)
 				uni.navigateTo({
-					url: `/pages/condition/condition2?id=${id}&name=${this.name}&hu=${hu}&cun=${this.cun}&lianxiren=${lianxiren}&dianhua=${dianhua}`
+					url: `/pages/condition/condition2?id=${id}&name=${this.renyuan}&hu=${hu}&cun=${this.cun}&lianxiren=${lianxiren}&dianhua=${dianhua}`
 				})
 			}
         } 
