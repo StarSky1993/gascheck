@@ -23,6 +23,7 @@
 	export default {
 		data() {
 			return {
+				renyuan: '',
 				name: '',
 				xiaoquData: [],
 				xiaoqu: '',
@@ -39,9 +40,12 @@
 			}
 		},
 		onLoad(options) {
+			this.renyuan = options.renyuan;
+			console.log(this.renyuan)
 			this.username = options.username;
 			this.password = options.password;
 			this.id = options.id;
+			console.log(this.id)
 			this.name = options.name;
 			uni.showLoading({
 				title: '加载中'
@@ -109,7 +113,7 @@
 			},
 			onItem(id,gongjianhu,dizhi,lianxiren,dianhua) {
 				uni.navigateTo({
-					url: `/pages/condition/condition3?id=${id}&name=${this.name}&gongjianhu=${gongjianhu}&dizhi=${dizhi}&username=${this.username}&password=${this.password}&lianxiren=${lianxiren}&dianhua=${dianhua}`
+					url: `/pages/condition/condition3?id=${id}&name=${this.name}&gongjianhu=${gongjianhu}&dizhi=${dizhi}&username=${this.username}&password=${this.password}&lianxiren=${lianxiren}&dianhua=${dianhua}&renyuan=${this.renyuan}`
 				})
 			}
         } 

@@ -4,12 +4,12 @@
 		    <text>资料上传</text>
 		    <text></text>
 		</view>
-		<view class="dizhi">{{showData.xiaoqu}}&nbsp;&nbsp;{{showData.dong}}-{{showData.danyuan}}-{{showData.menpai}}</view>
+		<view class="dizhi">{{showData.hu}}</view>
 		<view class="time">
 			<text class="eosfont">&#xe60a;</text>
-			<text class="shijian">{{showData.end}}</text>
+			<text class="shijian">{{showData.aj_time}}</text>
 		</view>
-		<view class="content" style="font-size: 36upx;">{{showData.content}}</view>
+		<view class="content" style="font-size: 36upx;">{{showData.aj_wz}}</view>
 		<view class="wimg">问题图片</view>
 		<view class="yuan">
 			<text>远景:</text>
@@ -27,15 +27,15 @@
 		<view class="upload">
 			<view @click="UploadImg2">
 				<text class="center">远景</text>
-				<view class="uploadImg"><lazy-image  :realSrc="'http://bdh-ranqi.qhd58.net' + showData.yuan_img" :placeholdSrc="placeholderSrc"></lazy-image></view>
+				<view class="uploadImg"><image :src="yuan"></image></view>
 			</view>
 			<view @click="UploadImg1">
 				<text class="center">近景</text>
-				<view class="uploadImg"><lazy-image  :realSrc="'http://bdh-ranqi.qhd58.net' + showData.jin_img" :placeholdSrc="placeholderSrc"></lazy-image></view>
+				<view class="uploadImg"><image :src="jin"></image></view>
 			</view>			
 			<view @click="UploadImg3">
 				<text class="center">特写</text>
-				<view class="uploadImg"><lazy-image :realSrc="'http://bdh-ranqi.qhd58.net' + showData.texie_img" :placeholdSrc="placeholderSrc"></lazy-image></view>
+				<view class="uploadImg"><image :src="te"></image></view>
 			</view>		
 		</view>	
 		<view class="content5">
@@ -64,12 +64,17 @@ export default {
 			content: '',
 			placeholderSrc: '../../static/images/common/abc.png',
 			show: false,
-			loaded: false
+			loaded: false,
+			username: '',
+			password: ''
         }
     },
     onLoad(options) {
 		_self = this;
+		_self.username = options.username;
+		_self.password = options.password;
 		_self.id = options.id;
+		console.log(_self.id)
 		uni.getStorage({
 			key: 'status',
 			success: function (res) {
@@ -77,14 +82,13 @@ export default {
 			}
 		});
 		uni.request({
-			url: 'http://bdh-ranqi.qhd58.net/api/jk/find',
+			url: 'http://bdh-ranqi.qhd58.net/api/jk/find?xun=4',
 			method: 'POST',
 			data: {
-				id: _self.id,
-				xun: _self.status
+				id: _self.id
 			},
 			success: (res) => {
-				console.log(_self.status)
+				console.log(res)
 				uni.hideLoading()
 				_self.showData = res.data;
 			}
@@ -189,8 +193,10 @@ export default {
 							url: 'http://bdh-ranqi.qhd58.net/api/jk/weixiu_qk',
 							method: 'POST',
 							data: {
+								username: _self.username,
+								password: _self.password,
 								id: _self.id,
-								xun: _self.status,
+								xun: 4,
 								wei_jin: _self.jinBase64,
 								wei_yuan: _self.yuanBase64,
 								wei_te: _self.teBase64,

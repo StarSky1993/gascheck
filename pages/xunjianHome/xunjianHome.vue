@@ -7,7 +7,7 @@
             <text class="text3">部门名称：巡检部</text>
             <text class="text4">我的功能</text>
             <view class="nav">
-                <view class="nav1"></view>
+                <view class="nav1" @click="add"></view>
                 <view class="nav2" @click="GetLocation"></view>
                 <view class="nav3" @click="daily(name)"></view>
                 <view class="nav4" @click="taskNav"></view>
@@ -134,18 +134,20 @@ var _self;
 					}  
 				})  
 			}) 
+			_self.realTime;
 			 //间隔换算成毫秒
 			_self.time = parseInt(result)*1000;
 			_self.timer = setInterval(() => {
 				uni.getLocation({
 					type: 'gcj02',
 					success: function (res) {
-						_self.realTime;
+						
 						_self.coordinate = coordinate(res.longitude,res.latitude);
 						_self.lng1 = _self.coordinate.bd_lng;
 						_self.lat1 = _self.coordinate.bd_lat;
 						console.log(_self.lng1)
 						console.log(_self.lat1)
+
 						uni.request({
 							url: 'http://bdh-ranqi.qhd58.net/api/jk/fandian',
 							method: "GET",
@@ -159,11 +161,11 @@ var _self;
 								_self.lat2 = res.data.wei;	
 								console.log(_self.lng2)
 								console.log(_self.lat2)
-								if(_self.lng2 == 0 && _self.lat2 == 0) {
-									_self.distance = _self.getDistance(_self.lat1, _self.lng1, _self.lat1, _self.lng1)
-								}else {
-									_self.distance = _self.getDistance(_self.lat1, _self.lng1, _self.lat2, _self.lng2)
-								}
+								// if(_self.lng2 == 0 && _self.lat2 == 0) {
+								// 	_self.distance = _self.getDistance(_self.lat1, _self.lng1, _self.lat1, _self.lng1)
+								// }else {
+								// 	_self.distance = _self.getDistance(_self.lat1, _self.lng1, _self.lat2, _self.lng2)
+								// }
 								uni.request({
 									url: 'http://bdh-ranqi.qhd58.net/api/Jk/zuobiao',
 									data: {
@@ -171,9 +173,10 @@ var _self;
 										password: _self.password,
 										jing: _self.lng1,
 										wei: _self.lat1,
-										mm: _self.distance
+										// mm: _self.distance
 									},
 									success: (res) => {
+										let location = _self.lng1 + "," + _self.lat1;
 										console.log(res.data)
 										if(res.data == 9) {
 											uni.redirectTo({
@@ -217,6 +220,7 @@ var _self;
 			_self.time = parseInt(result)*1000;	
 		},
 		async onHide() {
+			this.realTime;
 			//间隔
 			const result = await new Promise((resolve, reject) => {  
 				uni.request({  
@@ -237,14 +241,14 @@ var _self;
 			_self.time = parseInt(result)*1000;
 		},
 		onUnload(){ 
-			_self = this;				  			 
+			_self = this;
+			_self.realTime;
 			clearInterval(_self.timer);  
 			_self.timer = null;
 			//禁止后台运行
 			_self.releaseWakeLock			 
 		},  
 		methods: {
-
 			getDistance: function (lat1, lng1, lat2, lng2) {
 			
 				lat1 = lat1 || 0;
@@ -278,12 +282,7 @@ var _self;
 						/* 这里到底是等于lat1,还有_self.coordinate.bd_lat待测试 */
 						var lng3 = _self.coordinate2.bd_lng;
 						var lat3 = _self.coordinate2.bd_lat;
-						uni.showToast({
-							title: `${lat3}`,
-							icon: "none",
-							duration: 3000
-						})
-					//请求获取当前位置接口
+						//请求获取当前位置接口
 						uni.request({
 							url: "http://bdh-ranqi.qhd58.net/api/jk/caiji",
 							data: {
@@ -297,18 +296,12 @@ var _self;
 							},
 							success: (res) => {	
 								console.log(res.data);
-								uni.showToast({
-									title: `${lng3}`,
-									icon: "none",
-									duration: 3000
-								})
 								if(res.data === 0) {
+									uni.hideLoading()
 									_self.modal3 = true;
 									this.contant = '请在指定地点采集！';
 								}
 								if(res.data === 1) {
-									console.log(lng6,lat6)
-									console.log(_self.username,_self.password)
 									uni.hideLoading()
 									_self.modal3= true;	
 									this.contant = '采集成功！';

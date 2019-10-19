@@ -1,11 +1,5 @@
 <template>
     <view class="currentTask">
-        <view class="title">
-            <text v-if="idx==1" :class="{active:idx==1}">当前任务</text>
-            <text v-else :class="{active2:idx==2}">已完成任务</text>
-			<text class="zhuxiao" @click="zhuxiao">注销</text>
-            <text></text>
-        </view>
 		<view class="tabs">
 			<text class="cun" @click="cun">村村通</text>
 			<text class="gong" @click="gong">公建户</text>
@@ -15,7 +9,8 @@
                 <view class="img"></view>
                 <view class="content">
                     <view class="title2">{{item.xiaoqu}}&nbsp;&nbsp;{{item.dong}}-{{item.danyuan}}-{{item.menpai}}</view>
-                    <view class="content2" v-if="item.aj_wz !== null">{{item.aj_wz}}</view>
+                    <view class="content2" v-if="item.aj_wz">{{item.aj_wz}}</view>
+					 <view class="content2" v-else>无</view>
                     <view class="time-box">
                         <text class="time_ico eosfont">&#xe60a;</text>
                         <text class="time">{{item.add_time}}</text>
@@ -28,7 +23,8 @@
 		        <view class="img2"></view>
 		        <view class="content">
 		            <view class="title2">{{items.xiaoqu}}&nbsp;&nbsp;{{items.dong}}-{{items.danyuan}}-{{items.menpai}}</view>
-		            <view class="content2">{{items.wx_wz}}</view>
+		            <view class="content2" v-if="items.wx_wz">{{items.wx_wz}}</view>
+					 <view class="content2" v-else>无</view>
 		            <view class="time-box">
 		                <text class="time_ico eosfont">&#xe60a;</text>
 		                <text class="time">{{items.wx_time}}</text>
@@ -39,8 +35,8 @@
 		<view class="hujiao" @click="call">呼叫调度中心</view>
 		<view class="tab">
 			<view>
-				<text class="t1" :class="{active:idx==1}" @click="idx=1">当前任务</text>
-				<text class="t2" :class="{active2:idx==2}" @click="idx=2">已完成任务</text>				
+				<text class="t1" :class="{active:idx==1}" @click="abc">当前任务</text>
+				<text class="t2" :class="{active2:idx==2}" @click="qwe">已完成任务</text>				
 			</view>
 		</view>
     </view>
@@ -80,9 +76,31 @@ export default {
 			}
 		});	
     },
-    methods: {
+	onShow() {
+		uni.showLoading({
+			title: '加载中...'
+		})
+		uni.request({
+			url: 'http://bdh-ranqi.qhd58.net/api/jk/weixiu_an',
+			method: 'POST',
+			success: (res) => {
+				uni.hideLoading()
+				this.anjianList = res.data;
+			}
+		});
+		uni.request({
+			url: 'http://bdh-ranqi.qhd58.net/api/jk/yw',
+			method: 'POST',
+			success: (res) => {
+				uni.hideLoading()
+				this.ywList = res.data;
+			}
+		});	
+	},
+	//原生顶部导航按钮事件
+	onNavigationBarButtonTap(e) {
 		//注销
-		zhuxiao() {
+		if (e.index == 0) {
 			uni.showModal({
 				title: '提示',
 				content: '您确定注销该账号吗？（请慎重）',
@@ -98,6 +116,20 @@ export default {
 					}
 				}
 			});
+		}
+	},
+    methods: {
+		abc() {
+			this.idx = 1;
+			uni.setNavigationBarTitle({
+			　　title: '当前任务'
+			})
+		},
+		qwe() {
+			this.idx = 2;
+			uni.setNavigationBarTitle({
+			　　title: '已完成任务'
+			})
 		},
 		onDetail(id) {
 			uni.navigateTo({
@@ -182,7 +214,7 @@ export default {
 			justify-content: space-around;
 			align-items: center;
 			position: absolute;
-			top: 137upx;
+			top: 0;
 			left: 0;
 			background-color: #ff9000;
 			text {
@@ -203,9 +235,8 @@ export default {
 		}
 		.list {
 			padding: 0 32upx;
-			padding-top: 200upx;
 		    background: #fbfbfb;
-			border-top: 50upx solid #000;
+			padding-top: 100rpx;
 			.item {
 				display: flex;
 				padding: 30upx 0;
@@ -227,6 +258,7 @@ export default {
 					width: 475upx;
 					display: flex;
 					flex-direction: column;
+					justify-content: space-between;
 					.title2 {
 						font-size: 36upx;
 						font-weight: bold;
@@ -240,7 +272,7 @@ export default {
 						-webkit-box-orient: vertical;
 						font-size: 36upx;
 						color: #888;
-						line-height: 30upx;
+						line-height: 42upx;
 					}
 					.time-box {
 						line-height: 20upx;

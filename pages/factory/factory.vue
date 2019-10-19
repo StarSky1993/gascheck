@@ -48,7 +48,7 @@
             </view>
 		</view>
 		<view class="form" v-show="isShow2">
-            <view class="item" @click="onItem2(resData.id,resData.gongjianhu)">
+            <view class="item" @click="onItem2(resData.id,resData.gongjianhu,resData.lianxiren,resData.dianhua)">
                 <view class="inner">
                     <view class="title">
                         <view>编号：<text>#1</text></view>
@@ -119,6 +119,7 @@ var _self;
 					console.log(res)	
 					_self.securityData = res.data;
 					_self.yhname = _self.securityData[0].renyuan;
+					console.log(_self.yhname)
 					
 				},
 				fail: (res) => {
@@ -146,7 +147,7 @@ var _self;
 			onItem(id) {
 				console.log(_self.username)
 				uni.navigateTo({
-					url: `/pages/gong/gong?id=${id}&name=${_self.name}&username=${_self.username}&password=${_self.password}`
+					url: `/pages/gong/gong?id=${id}&name=${_self.name}&username=${_self.username}&password=${_self.password}&renyuan=${_self.yhname}`
 				})				
 			},
 			//小区
@@ -166,10 +167,11 @@ var _self;
 				uni.request({
 					url: "http://bdh-ranqi.qhd58.net/api/jk/chaxun",
 					data: {
-						gongjianhu: this.SearchName
+						gongjianhu: this.SearchName,
+						renyuan: this.yhname
 					},
 					success: (res) => {	
-						console.log(this.SearchName)
+						console.log(res)
 						this.resData = res.data;
 						this.isShow = false;
 						this.isShow2 = true;
@@ -185,11 +187,11 @@ var _self;
 					this.isShow2 = false;
 				}
 			},
-			onItem2(id,gongjianhu) {
+			onItem2(id,gongjianhu,lianxiren,dianhua) {
 				console.log(_self.username)
 				console.log(_self.password)
 				uni.navigateTo({
-					url: `/pages/condition/condition3?id=${id}&name=${_self.name}&gongjianhu=${gongjianhu}&username=${_self.username}&password=${_self.password}`
+					url: `/pages/condition/condition3?id=${id}&renyuan=${_self.yhname}&gongjianhu=${gongjianhu}&username=${_self.username}&password=${_self.password}&lianxiren=${lianxiren}&dianhua=${dianhua}`
 				})				
 			}
         } 

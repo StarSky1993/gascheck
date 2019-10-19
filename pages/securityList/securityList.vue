@@ -119,7 +119,7 @@ var _self;
 					uni.hideLoading();
 					
 					_self.securityData = res.data;
-					_self.name = _self.securityData[0].name;
+					_self.name = _self.securityData[0].yhname;
 					console.log(_self.name)					
 					
 				},

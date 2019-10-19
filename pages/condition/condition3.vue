@@ -4,9 +4,10 @@
 			<text class="text0 eosfont" @click="goback">&#xe62f;</text>
             <text class="text1">安检情况</text>
             <text class="text2">用户名：{{name}}</text>
+			<text class="text3">表号：{{resData}}</text>
             <text class="text3">部门：安检部</text>
-			<text class="text3" v-if="lianxiren">联系人：{{lianxiren}}</text>
-			<text class="text3" v-if="dianhua" @click="callphone">电话：{{dianhua}}</text>
+			<text class="text3">联系人：{{lianxiren}}</text>
+			<text class="text3" @click="callphone">电话：{{dianhua}}</text>
         </view>	
 		<view class="form">
 			<view class="yzyh">
@@ -701,11 +702,13 @@ var _self;
 				renwuname: '',
 				id: '',
 				lianxiren: '',
-				dianhua: ''
+				dianhua: '',
+				resData: ''
 			}
 		},
 		onLoad(options) {
 			_self = this;
+			_self.name = options.renyuan;
 			_self.name = options.name;
 			console.log(_self.name)
 			_self.id = options.id;
@@ -715,11 +718,25 @@ var _self;
 			_self.dizhi = options.dizhi;
 			console.log(_self.dizhi)
 			_self.lianxiren = options.lianxiren;
+			console.log(_self.lianxiren)
 			_self.dianhua = options.dianhua;
+			
 			uni.getStorage({
 				key: 'ming',
 				success: function (res) {
 					_self.ming = res.data;
+				}
+			});
+			uni.request({
+				url: 'http://bdh-ranqi.qhd58.net/api/jk/gongbiao',
+				method: 'GET',
+				data: {
+					gongjianhu: _self.gongjianhu,
+					username: _self.username,
+					password: _self.password
+				},
+				success: res => {
+					this.resData = res.data;
 				}
 			});
 			
@@ -1161,6 +1178,7 @@ var _self;
 				console.log(_self.gongjianhu)
 				_self = this;
 				console.log(_self.arrayContant)
+				
 				uni.showModal({
 					title: '是否提交数据？',
 					content: '确认无误后即可提交数据',
@@ -1171,7 +1189,9 @@ var _self;
 								title: '提交中...'
 							})
 							console.log(_self.id)
+							
 							if(_self.id) {
+								
 								uni.request({
 									url: 'http://bdh-ranqi.qhd58.net/api/jk/gong_qk',
 									method: 'POST',
@@ -1295,7 +1315,7 @@ var _self;
 									},
 									success: (res) => {
 										console.log(res.data);
-										
+										console.log(_self.name)
 										uni.hideLoading()
 										if(res.data === 1) {
 											uni.showToast({
@@ -1436,7 +1456,6 @@ var _self;
                 color: #fff;
             }
             .text2 {
-                margin-top: 65upx;
                 font-size: 40upx;
                 color: #fff;
             }

@@ -166,7 +166,8 @@ var _self;
 				uni.request({
 					url: "http://bdh-ranqi.qhd58.net/api/jk/chaxun",
 					data: {
-						lianxiren: this.SearchName
+						lianxiren: this.SearchName,
+						renyuan: this.renyuan
 					},
 					method: "GET",
 					success: (res) => {	
@@ -191,7 +192,8 @@ var _self;
 				uni.request({
 					url: "http://bdh-ranqi.qhd58.net/api/jk/chaxun",
 					data: {
-						dianhua: this.SearchName2
+						dianhua: this.SearchName2,
+						renyuan: this.renyuan
 					},
 					method: "GET",
 					success: (res) => {	
@@ -215,7 +217,7 @@ var _self;
 			//搜索后详情页
 			onItem2(id,cun,hu,lianxiren,dianhua) {
 				uni.navigateTo({
-					url: `/pages/condition/condition2?id=${id}&name=${this.name}&cun=${cun}&hu=${hu}&lianxiren=${lianxiren}&dianhua=${dianhua}`
+					url: `/pages/condition/condition2?id=${id}&name=${this.renyuan}&cun=${cun}&hu=${hu}&lianxiren=${lianxiren}&dianhua=${dianhua}`
 				});
 				
 			}

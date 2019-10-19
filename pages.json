@@ -37,7 +37,25 @@
 			"path": "pages/maintain/maintain"
 		},
 		{	//维修工安检列表1
-			"path": "pages/Task2/currentTask2"
+			"path": "pages/Task2/currentTask2",
+			"style": {
+				"app-plus": {
+					"navigationBarBackgroundColor": "#ed824c",
+					"titleNView": {
+						"type": "default",
+						"titleText": "当前任务",
+						"buttons": [
+							{
+								"text": "注销",
+								"fontSize": "16px",
+								"float": "right",
+								"color": "#FF0036"
+							}
+						],
+						"autoBackButton": false
+					}
+				}
+			}
 		},
 		{
 			"path": "pages/maintain2/maintain2"
@@ -94,10 +112,47 @@
 			"path": "pages/hu/hu"
 		},
 		{
-			"path": "pages/cunweixiu/cunweixiu"
+			"path": "pages/cunweixiu/cunweixiu",
+			"style": {
+				"app-plus": {
+					"navigationBarBackgroundColor": "#ed824c",
+					"titleNView": {
+						"type": "default",
+						"titleText": "当前任务",
+						"buttons": [
+							{
+								"text": "注销",
+								"fontSize": "16px",
+								"float": "right",
+								"color": "#FF0036"
+							}
+						],
+						"autoBackButton": false
+					}
+				}
+			}
 		},
 		{
-			"path": "pages/gongweixiu/gongweixiu"
+			"path": "pages/gongweixiu/gongweixiu",
+			"style": {
+				"app-plus": {
+					"navigationBarBackgroundColor": "#ed824c",
+					"titleNView": {
+						"type": "default",
+						"titleText": "当前任务",
+						"buttons": [
+							{
+								"text": "注销",
+								"fontSize": "16px",
+								"float": "right",
+								"color": "#FF0036"
+							}
+						],
+						"autoBackButton": false
+					}
+					
+				}
+			}
 		},
 		//工厂的户
 		{

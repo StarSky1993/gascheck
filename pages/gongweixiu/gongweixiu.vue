@@ -1,13 +1,5 @@
 <template>
     <view class="currentTask">
-        <view class="title">
-            <view class="goback">
-                <text class="eosfont" @click="goback">&#xef07;退出</text>
-            </view>
-            <text v-if="idx==1" :class="{active:idx==1}">当前任务</text>
-            <text v-else :class="{active2:idx==2}">已完成任务</text>	
-            <text></text>
-        </view>
 		<view class="tabs">
 			<text class="cun" @click="back">小区</text>
 			<text class="cun" @click="cun">村村通</text>
@@ -41,8 +33,8 @@
 		<view class="hujiao" @click="call">呼叫调度中心</view>
 		<view class="tab">
 			<view>
-				<text class="t1" :class="{active:idx==1}" @click="idx=1">当前任务</text>
-				<text class="t2" :class="{active2:idx==2}" @click="idx=2">已完成任务</text>				
+				<text class="t1" :class="{active:idx==1}" @click="abc">当前任务</text>
+				<text class="t2" :class="{active2:idx==2}" @click="qwe">已完成任务</text>				
 			</view>
 		</view>
     </view>
@@ -53,6 +45,7 @@ export default {
     data() {
         return {
 			idx: 1,
+			btnStatus: true,
 			anjianList: [],
 			ywList: [],
 			username: '',
@@ -89,7 +82,81 @@ export default {
 			}
 		});	
     },
+	//原生顶部导航按钮事件
+	onNavigationBarButtonTap(e) {
+		//注销
+		if (e.index == 0) {
+			uni.showModal({
+				title: '提示',
+				content: '您确定注销该账号吗？（请慎重）',
+				success: function (res) {
+					if (res.confirm) {
+						// uni.removeStorageSync("userPhone");
+						uni.removeStorageSync("Password");
+						uni.redirectTo({
+							url: '/pages/login/login'
+						})
+					} else if (res.cancel) {
+						console.log('用户点击取消');
+					}
+				}
+			});
+		}
+	},
+	onShow() {
+		uni.showLoading({
+			title: '加载中...'
+		})
+		uni.request({
+			url: 'http://bdh-ranqi.qhd58.net/api/jk/weixiu_gong',
+			method: 'POST',
+			success: (res) => {
+				uni.hideLoading()
+				this.anjianList = res.data;
+			}
+		});
+		uni.request({
+			url: 'http://bdh-ranqi.qhd58.net/api/jk/yw?xun=5',
+			method: 'POST',
+			data: {
+				username: this.username,
+				password: this.password
+			},
+			success: (res) => {
+				uni.hideLoading()
+				this.ywList = res.data;
+				console.log(this.ywList)
+			}
+		});	
+	},
     methods: {
+		abc() {
+			this.idx = 1;
+			uni.setNavigationBarTitle({
+			　　title: '当前任务'
+			})
+		},
+		qwe() {
+			this.idx = 2;
+			uni.setNavigationBarTitle({
+			　　title: '已完成任务'
+			})
+		},
+		//切换底部选项卡
+		changeStatus(){
+			this.btnStatus = this.btnStatus ? false : true ;
+			if(this.btnStatus) {
+				this.index = 1;
+				uni.setNavigationBarTitle({
+				　　title: '当前任务'
+				})
+			}else {
+				this.index = 2;
+				uni.setNavigationBarTitle({
+				　　title: '已完成任务'
+				})
+			}
+		},
 		onDetail(id) {
 			uni.navigateTo({
 				url: `/pages/maintain4/maintain4?id=${id}&username=${this.username}&password=${this.password}`
@@ -148,35 +215,17 @@ export default {
 		bottom: 0;
 		top: 0;
 		background: #f6f6f6;
-        .title {
-            display: flex;
-            width: 100%;
-            height: 87upx;
-            line-height: 87upx;
-            justify-content: space-between;
-            padding: 0 21upx;
-            position: fixed;
-            box-sizing: border-box;
-            top: 50upx;
-            left: 0;
-			z-index: 9;
-            background: #ff9000;
-			color: #fff;
-            .goback {
-                font-size: 30upx;
-            }
-        }
 		.tabs {
 			width: 100%;
 			display: flex;
 			justify-content: space-around;
 			align-items: center;
 			position: absolute;
-			top: 137upx;
+			top: 0;
 			left: 0;
 			background-color: #ff9000;
 			text {
-				font-size: 30upx;
+				font-size: 36upx;
 				color: #fff;
 				background-color: green;
 				border-radius: 30upx;
@@ -184,11 +233,17 @@ export default {
 				margin: 10px 0;
 			}
 		}
+		.zhuxiao {
+			position: absolute;
+			right: 50rpx;
+			top: 0;
+			font-size: 35rpx;
+			color: #4CD964;
+		}
 		.list {
 			padding: 0 32upx;
-			padding-top: 200upx;
 		    background: #fbfbfb;
-			border-top: 50upx solid #000;
+			padding-top: 100rpx;
 			.item {
 				display: flex;
 				padding: 30upx 0;
@@ -210,8 +265,9 @@ export default {
 					width: 475upx;
 					display: flex;
 					flex-direction: column;
+					justify-content: space-between;
 					.title2 {
-						font-size: 30upx;
+						font-size: 36upx;
 						font-weight: bold;
 					}
 					.content2 {
@@ -221,20 +277,20 @@ export default {
 						display: -webkit-box;
 						-webkit-line-clamp: 2;
 						-webkit-box-orient: vertical;
-						font-size: 24upx;
+						font-size: 36upx;
 						color: #888;
-						line-height: 30upx;
+						line-height: 42upx;
 					}
 					.time-box {
 						line-height: 20upx;
 						.time_ico {
 							top: 4upx;
-							font-size: 20upx;
+							font-size: 36upx;
 							color: #b4b4b4;
 						}
 						.time {
 							line-height: 20upx;
-							font-size: 20upx;
+							font-size: 36upx;
 							color: #b3b3b3;
 						}
 					}
@@ -253,7 +309,7 @@ export default {
 				display: flex;
 				justify-content: space-around;
 				text {
-					font-size: 22upx;
+					font-size: 36upx;
 					padding-top: 27upx;
 				}
 				.t1 {
@@ -261,7 +317,7 @@ export default {
 				}
 				.t1::before {
 					position: absolute;
-					left: 18upx;
+					left: 44upx;
 					top: 35upx;
 					display: block;
 					width: 56upx;
@@ -276,7 +332,7 @@ export default {
 				}
 				.active::before {			
 					position: absolute;
-					left: 18upx;
+					left: 44upx;
 					top: 35upx;
 					display: block;
 					width: 56upx;
@@ -290,7 +346,7 @@ export default {
 				}
 				.t2::before {
 					position: absolute;
-					left: 25upx;
+					left: 62upx;
 					top: 23upx;
 					display: block;
 					width: 56upx;
@@ -305,7 +361,7 @@ export default {
 				}
 				.active2::before {			
 					position: absolute;
-					left: 25upx;
+					left: 62upx;
 					top: 23upx;
 					display: block;
 					width: 56upx;
@@ -323,16 +379,14 @@ export default {
 			margin-top: -50upx;
 			width: 100upx;
 			height: 100upx;
+			line-height: 100upx;
 			border-radius: 50%;
 			background: rgba(120,120,120,.5);
 			color: #fff;
-			font-size: 22upx;
-			line-height: 30upx;
+			font-size: 24upx;
 			text-align: center;
-			padding-top: 20upx;
 			box-sizing: border-box;
 			
 		}
     }
-
 </style>

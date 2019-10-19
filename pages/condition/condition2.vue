@@ -4,9 +4,12 @@
 			<text class="text0 eosfont" @click="goback">&#xe62f;</text>
             <text class="text1">安检情况</text>
             <text class="text2">用户名：{{name}}</text>
+			<text class="text3">表号：{{resData}}</text>
             <text class="text3">部门：安检部</text>
-			<text class="text3" v-if="lianxiren">联系人：{{lianxiren}}</text>
-			<text class="text3" v-if="dianhua" @click="callphone">电话：{{dianhua}}</text>
+			<text class="text3" v-if="lianxiren == undefined">联系人：无</text>
+			<text class="text3" v-else>联系人：{{lianxiren}}</text>
+			<text class="text3" v-if="dianhua == undefined" @click="callphone">电话：无</text>
+			<text class="text3" v-else>电话：{{dianhua}}</text>
         </view>	
 		<view class="form">
 			<view class="yzyh">
@@ -41,6 +44,9 @@
 						<label>
 							室外挂表<checkbox value="1" style="transform:scale(0.7)" />
 						</label>
+					</checkbox-group>
+					<checkbox-group @change="checkboxChange56">
+						<label class="f">基表数<input class="block" type="text" v-model="jbs"></label>
 					</checkbox-group>
 				</view>				
 			</view>
@@ -177,9 +183,19 @@
 						灶具熄火保护失灵<checkbox value="1" style="transform:scale(0.7)" />
 					</label>
 				</checkbox-group>
-				<checkbox-group @change="checkboxChange13">
+				<checkbox-group @change="checkboxChange57">
 					<label>
-						热水器、壁挂炉、灶具（超过使用年限）<checkbox value="1" style="transform:scale(0.7)" />
+						热水器（超过使用年限）<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange58">
+					<label>
+						壁挂炉（超过使用年限）<checkbox value="1" style="transform:scale(0.7)" />
+					</label>
+				</checkbox-group>
+				<checkbox-group @change="checkboxChange59">
+					<label>
+						灶具（超过使用年限）<checkbox value="1" style="transform:scale(0.7)" />
 					</label>
 				</checkbox-group>
 				<checkbox-group @change="checkboxChange14">
@@ -413,6 +429,9 @@ var _self;
 				xx: 0,
 				yy: 0,
 				zz: 0,
+				reshuiqi: 0,
+				bigualu: 0,
+				zaoju: 0,
 				jin: '',
 				yuan: '',
 				te: '',
@@ -424,8 +443,10 @@ var _self;
 				gaozhiBase64: '',
 				renwuname: '',
 				id: '',
+				id2: '',
 				lianxiren: '',
-				dianhua: ''
+				dianhua: '',
+				resData: ''
 			}
 		},
 		onLoad(options) {
@@ -433,6 +454,7 @@ var _self;
 			_self.renwuname = options.renwuname;
 			_self.name = options.name;
 			_self.id = options.id;
+			_self.id2 = options.id2;
 			_self.xiaoqu = options.xiaoqu;
 			_self.dong = options.dong;
 			_self.danyuan = options.danyuan;
@@ -449,6 +471,38 @@ var _self;
 					_self.ming = res.data;
 				}
 			});
+			if(_self.id) {
+				uni.request({
+					url: 'http://bdh-ranqi.qhd58.net/api/jk/cunbiao',
+					method: 'GET',
+					data: {
+						cun: _self.cun,
+						hu: _self.hu,
+						username: _self.username,
+						password: _self.password
+					},
+					success: res => {
+						this.resData = res.data;
+					}
+				});
+			}else {
+				uni.request({
+					url: 'http://bdh-ranqi.qhd58.net/api/jk/xqbiao',
+					method: 'GET',
+					data: {
+						xiaoqu: _self.xiaoqu,
+						dong: _self.dong,
+						danyuan: _self.danyuan,
+						meipai: _self.menpai,
+						username: _self.username,
+						password: _self.password
+					},
+					success: res => {
+						this.resData = res.data;
+					}
+				});
+			}
+
 			
 		},
 		methods: {
@@ -657,6 +711,15 @@ var _self;
 			checkboxChange55: function (e) {
 				this.zz = Number(e.detail.value);
 			},
+			checkboxChange57: function (e) {
+				this.reshuiqi = Number(e.detail.value);
+			},
+			checkboxChange58: function (e) {
+				this.bigualu = Number(e.detail.value);
+			},
+			checkboxChange59: function (e) {
+				this.zaoju = Number(e.detail.value);
+			},
 			UploadImg1() {
 			_self = this;
 			uni.chooseImage({
@@ -841,7 +904,11 @@ var _self;
 										jin_img: _self.jinBase64,
 										yuan_img: _self.yuanBase64,
 										texie_img: _self.teBase64,
-										hui_img: _self.gaozhiBase64 
+										hui_img: _self.gaozhiBase64 ,
+										jibiaoshu: _self.jbs,
+										reshuiqi: _self.reshuiqi,
+										bigualu: _self.bigualu,
+										zaoju: _self.zaoju
 									},
 									success: (res) => {
 										console.log(res.data);
@@ -863,13 +930,16 @@ var _self;
 										}
 									}
 								});								
-							}else {
+							}else if(_self.id2) {
+								console.log(_self.id2)
+								console.log("123")
 								uni.request({
 									url: 'http://bdh-ranqi.qhd58.net/api/jk/anjian_qk',
 									method: 'POST',
 									data: {
 										rhhf_name: _self.renwuname,
 										name: _self.name,
+										id: _self.id2,
 										xiaoqu: _self.xiaoqu,
 										dong: _self.dong,
 										danyuan: _self.danyuan,
@@ -932,7 +1002,11 @@ var _self;
 										jin_img: _self.jinBase64,
 										yuan_img: _self.yuanBase64,
 										texie_img: _self.teBase64,
-										hui_img: _self.gaozhiBase64 
+										hui_img: _self.gaozhiBase64,
+										jibiaoshu: _self.jbs,
+										reshuiqi: _self.reshuiqi,
+										bigualu: _self.bigualu,
+										zaoju: _self.zaoju
 									},
 									success: (res) => {
 										console.log(res.data);
@@ -969,6 +1043,17 @@ var _self;
 	}
 </script>
 <style lang="scss" scoped>
+	.f {
+		display: flex;
+	}
+	.block {
+		display: block;
+		width: 100rpx;
+		text-align: center;
+		height: 20rpx;
+		border: 1rpx solid #ccc;
+		margin-left: 10rpx;
+	}
 	.condition {
 		width: 100%;
 		height: 100%;
@@ -999,7 +1084,6 @@ var _self;
                 color: #fff;
             }
             .text2 {
-                margin-top: 65upx;
                 font-size: 44upx;
                 color: #fff;
             }

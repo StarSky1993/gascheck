@@ -1,7 +1,7 @@
 <template>
 	<view class="securityList" >
 		<view class="form">
-            <view class="item" v-for="(item,index) in menpaiData" :key="index" @click="onItem(item.menpai,item.lianxiren,item.dianhua)">
+            <view class="item" v-for="(item,index) in menpaiData" :key="index" @click="onItem(item.menpai,item.lianxiren,item.dianhua,item.id)">
                 <view class="inner">
                     <view class="title">
                         <view>编号：<text>#{{index+1}}</text></view>
@@ -64,7 +64,7 @@
 					'custom-header': 'application/x-www-form-urlencoded; charset=UTF-8' //自定义请求头信息
 				},
 				success: (res) => {	
-					console.log(res.data)
+					console.log(res.data.name);
 					uni.hideLoading();
 					this.menpaiData = res.data;
 				},
@@ -120,9 +120,9 @@
 					phoneNumber: '03357093716'
 				});
 			},
-			onItem(menpai,lianxiren,dianhua) {
+			onItem(menpai,lianxiren,dianhua,id) {
 				uni.navigateTo({
-					url: `/pages/condition/condition2?name=${this.name}&xiaoqu=${this.xiaoqu}&dong=${this.dong}&danyuan=${this.danyuan}&menpai=${menpai}&renwuname=${this.renwuname}&username=${this.username}&password=${this.password}&lianxiren=${lianxiren}&dianhua=${dianhua}`
+					url: `/pages/condition/condition2?name=${this.name}&xiaoqu=${this.xiaoqu}&dong=${this.dong}&danyuan=${this.danyuan}&menpai=${menpai}&renwuname=${this.renwuname}&username=${this.username}&password=${this.password}&lianxiren=${lianxiren}&dianhua=${dianhua}&id2=${id}`
 				})
 			}
         } 

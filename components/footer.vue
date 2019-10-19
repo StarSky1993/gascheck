@@ -26,7 +26,7 @@
 			//底部文本
 			copyright: {
 				type: String,
-				default: "All Rights Reserved."
+				default: ""
 			},
 			//copyright 字体颜色
 			color: {

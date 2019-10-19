@@ -40,7 +40,7 @@
                 </view>
             </view>
 		</view>
-		<tui-footer copyright="Copyright © 2019 北戴河燃气公司." :navigate="navigate" bgcolor="#fafafa"></tui-footer>
+		<tui-footer :navigate="navigate" bgcolor="#fafafa"></tui-footer>
 	</view>
 </template>
 

@@ -74,7 +74,7 @@ export default {
 		_self.id = options.id;
 		console.log(_self.id)
 		uni.request({
-			url: 'http://bdh-ranqi.qhd58.net/api/jk/find?xun=4',
+			url: 'http://bdh-ranqi.qhd58.net/api/jk/find?xun=0',
 			method: 'POST',
 			data: {
 				id: _self.id
@@ -191,6 +191,8 @@ export default {
 								url: 'http://bdh-ranqi.qhd58.net/api/jk/weixiu_qk',
 								method: 'POST',
 								data: {
+									username: _self.username,
+									password: _self.password,
 									id: _self.id,
 									wei_jin: _self.jinBase64,
 									wei_yuan: _self.yuanBase64,
@@ -218,7 +220,7 @@ export default {
 							});	
 						}else {
 							uni.request({
-								url: 'http://bdh-ranqi.qhd58.net/api/jk/weixiu_qk?xun=4',
+								url: 'http://bdh-ranqi.qhd58.net/api/jk/weixiu_qk?xun=0',
 								method: 'POST',
 								data: {
 									username: _self.username,
